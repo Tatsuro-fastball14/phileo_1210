@@ -1,0 +1,12 @@
+<div class="card">
+  <%= link_to image_tag(cook.image), prototype_path(cook.id), class: :card__img  %>
+  <div class="card__body">
+    <%= link_to cook.title,cook_path(cook.id),class: :card__title %>
+    <p class="card__summary">
+      <%= cook.store %>
+    </p>
+    <%# <%= link_to "by#{prototype.user.name}", user_path(prototype.user.id), class: :card__user %> %>
+  </div>
+</div>
+
+ 

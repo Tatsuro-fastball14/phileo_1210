@@ -1,0 +1,68 @@
+<main class="main">
+  <div class="inner">
+    <div class="prototype__wrapper">
+      <p class="prototype__hedding">
+        <%= @prototype.title%>
+      </p>
+      <%= link_to "by #{@prototype.user.name}", user_path(@prototype.user.id), class: :prototype__user %>
+      <%# プロトタイプの投稿者とログインしているユーザーが同じであれば以下を表示する %>
+        <div class="prototype__manage">
+        <% if user_signed_in? && current_user.id == @prototype.user_id %>
+          <%= link_to "編集する", edit_prototype_path(@prototype.id), class: :prototype__btn %>
+          <%= link_to "削除する", prototype_path(@prototype.id), method: :delete, class: :prototype__btn %>
+        <% end %>   
+        <%# #どの投稿を削除するのかIDを渡してあげrルカどうか %>
+        </div>
+      <%# // プロトタイプの投稿者とログインしているユーザーが同じであれば上記を表示する %>
+      <div class="prototype__image">
+        <%= image_tag(@prototype.image) %>
+      </div>
+      <div class="prototype__body">
+        <div class="prototype__detail">
+          <p class="detail__title">キャッチコピー</p>
+          <p class="detail__message">
+            <%= @prototype.catch_copy %>
+          </p>
+        </div>
+        <div class="prototype__detail">
+          <p class="detail__title">コンセプト</p>
+          <p class="detail__message">
+            <%= @prototype.concept %>
+          </p>
+        </div>
+      </div>
+      <div class="prototype__comments">
+        <%# ログインしているユーザーには以下のコメント投稿フォームを表示する %>
+         <%if user_signed_in?%>
+          <%= form_with model: [@prototype,@comment],local: true do |f| %>
+            <div class="field">
+              <%= f.label :comment, "コメント"%>
+              <%= f.text_field :text, placeholder: "comment_text" %>   
+            </div>
+            <div class="actions">
+              <%= f.submit "送信する", class: :form__btn %>
+            </div>
+          <% end %>
+          <%end%>
+        <%# // ログインしているユーザーには上記を表示する %>
+        <ul class="comments_lists">
+          <%# 投稿に紐づくコメントを一覧する処理を記述する %>
+            <li class="comments_list">
+              <%= " コメントのテキスト "%>
+              <% @comments.each do |comment| %>
+        <p>
+          
+          <%= comment.text %>
+        </p>
+          <%= link_to comment.user.name, user_path(comment.user.id), class: :comment_user %>
+      <% end %>
+             
+            </li>
+          <%# // 投稿に紐づくコメントを一覧する処理を記述する %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>
+
+

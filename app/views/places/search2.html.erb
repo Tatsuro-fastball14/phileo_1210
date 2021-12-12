@@ -1,0 +1,19 @@
+<h1>
+  検索結果
+</h1>
+<%# 検索結果の個数で条件分岐 %>
+
+  <% @results.each do |result| %>
+    <br>
+    <li>
+      <%= result.name %>
+      <%= result.size %>
+      <%= result.status %>
+      <%= result.price %>
+      <%= result.category.name %>
+    </li>
+  <% end %>
+<% else %>
+  該当する商品はありません
+<% end %>
+<%= link_to 'トップページへ戻る', root_path %>

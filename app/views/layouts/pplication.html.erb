@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProtoSpace</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,700,900&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <header class="header">
+    <% if user_signed_in? %>
+        <div class="user_nav grid-6">
+          <span><%= current_user.name %>
+            <ul class="user__info">
+              <li>
+                <%= link_to "マイページ", "/users/#{current_user.id}" %>
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+              </li>
+            </ul>
+          </span>
+          <%= link_to "投稿する", new_tweet_path, class: "post" %>
+        </div>
+      <% else %>
+      <div class="inner">
+        <div class="nav">
+          <div class="nav__left">
+            <%= link_to image_tag("logo.png", class: :logo), root_path %>
+          </div>
+            <div class="nav__right">
+              <%= link_to "ログイン", root_path, class: :nav__btn %>
+              <%= link_to "新規登録", root_path, class: :nav__btn %>
+            </div>
+          <%# // ログインしていないときは上記を表示するようにしましょう %>
+        </div>
+      </div>
+    </header>
+     <% end %>
+    <%= yield %>
+    <footer class="footer">
+      <p class="copyright">Copyright © PROTO SPACE All rights reserved.</p>
+    </footer>
+  </body>
+</html>

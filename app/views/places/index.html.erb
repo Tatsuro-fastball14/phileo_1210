@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  PHILEO
+  <p>
+    ”絶対にハズさない美味しいお店を検索できる'
+  </p>
+</head>
+<h1>
+
+</h1>
+
+<style>
+  #top-search {
+    width: 100%;
+    height: 480px;
+    margin-bottom: 100px;
+    background: url('https://imgsv.nikon-image.com/products/mirrorless/lineup/z_50/img/sample/pic_01_l.jpg') no-repeat 50%;
+    background-size: cover;
+  }
+</style>
+
+<div id="top-search">
+  <%= search_form_for @p, url: places_search_path do |f| %>
+    <%= f.label :place_name_eq, '沖縄県' %>
+    <%= f.collection_select :name_eq, @places, :name, :name, include_blank: '指定なし' %>
+    <br>
+    <%= f.submit '検 索' %>
+  <% end %>
+
+  <%= form_with url: new_cook_path, local: true do |f| %>
+    <%= f.submit "DBの登録", class: "sel-btn" %>
+
+  <% end %>
+</div>
+
+<%# 商品一覧 %>
+<% @places.each do |place| %>
+  <br>
+  <li>
+    <%= place.name %>
+
+  </li>
+<% end %>

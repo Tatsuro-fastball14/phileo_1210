@@ -1,0 +1,109 @@
+<h2>Google map</h2>
+
+<input id="address" type="textbox" value="">
+<input type="button" value="地図を検索" onclick="codeAddress()">
+<div id="display">緯度経度が表示されるよ！</div>
+
+<div id='map'></div>
+
+<style>
+    #map {
+        height: 400px;
+        width: 400px;
+    }
+</style>
+
+<script>
+    let map
+
+    const display = document.getElementById('display')
+
+    // mapの表示関数 
+    function initMap() {
+        geocoder = new google.maps.Geocoder()
+
+        // mapの初期位置, 縮尺を定義
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: 35.6458437,
+                lng: 139.7046171
+            },
+            zoom: 12,
+        });
+
+        // mapsテーブルにあるそれぞれのレコードをmap上に表示 
+        <% @maps.each do |m| %>
+            (function(){
+            var contentString = "住所：<%= m.address %>"; 
+
+            // マーカーを立てる
+            var marker = new google.maps.Marker({
+                position:{lat: <%= m.latitude %>, lng: <%= m.longitude %>},
+                map: map,
+                title: contentString
+            });
+
+            // 情報ウィンドウ(吹き出し)の定義
+            // 投稿の詳細ページへのリンクも
+            var infowindow = new google.maps.InfoWindow({
+            position: {lat: <%= m.latitude %>, lng: <%= m.longitude %>},
+            content: "<a href='<%= map_url(m.id) %>' target='_blank'><%= m.address %></a>"
+            });
+
+            // クリックしたときに情報ウィンドウを表示
+            marker.addListener('click', function() {
+            infowindow.open(map, marker);
+            });
+
+            })();
+        <% end %>
+    }
+
+    let geocoder
+
+    // 地図検索関数
+    function codeAddress() {
+        let inputAddress = document.getElementById('address').value;
+
+        geocoder.geocode({
+            'address': inputAddress
+        }, function (results, status) {
+            if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+
+            display.textContent = "検索結果：" + results[ 0 ].geometry.location
+            } else {
+                alert('該当する結果がありませんでした：' + status);
+            }
+        });
+    }
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=<%="AIzaSyAc8ucfbF9aY5Jn9VehhJZ852fopENuQTc" %>&callback=initMap"  
+    async defer>
+</script>
+
+<h3>場所投稿フォーム</h3>
+<%= form_for(@map, :url => { controller:'maps', action:'create'})do |f| %>
+
+    <p>
+    <%= f.label :address %>
+    <%= f.text_field :address, size: "50x1" %>
+    </p>
+
+    <%= f.submit "送信"%>
+<% end %>
+
+<h3>場所一覧</h3>
+<% @maps.each do |t| %>
+    <p>住所 : <%= t.address %></p>
+    <p>緯度 : <%= t.latitude %></p>
+    <p>経度 : <%= t.longitude %></p>
+    <p><%= link_to "削除する", map_path(t.id), method: :delete %></p>
+    <hr>
+<% end %>

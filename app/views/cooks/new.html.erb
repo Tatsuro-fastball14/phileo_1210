@@ -1,0 +1,27 @@
+
+        <%= render partial: "form",locals: { cook: @cook } %>
+    </div>
+  </div>
+</div>
+
+
+ <%= form_with model:@cook,local: true do |f| %>
+ <%= f.file_field :image, id:"cook-image" %>
+  <div class="new-items">
+      <div class="weight-bold-text">
+        商品名
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.text_area :title, class:"items-text", id:"phileo-name", placeholder:"商品名（必須 40文字まで)", maxlength:"40" %>
+      <div class="items-explain">
+        <div class="weight-bold-text">
+          商品の説明
+          <span class="indispensable">必須</span>
+        </div>
+        <%= f.text_area :store, class:"items-text", id:"item-info", placeholder:"商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。" ,rows:"7" ,maxlength:"1000" %>
+      </div>
+      </div>
+        <%= f.text_area :cooksentence, class:"items-text", id:"item-info", placeholder:"商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。" ,rows:"7" ,maxlength:"1000" %>
+    </div>
+   <%= f.submit "登録する" ,class:"sell-btn" %>
+     <% end %>

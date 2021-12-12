@@ -1,0 +1,22 @@
+<main class="main">
+  <div class="inner">
+    <%# ログインしているときは以下を表示する %>
+    <% if user_signed_in? %>
+      <div class="greeting">
+        こんにちは、
+        <%# <%= link_to "#{current_user}さん", user_path(current_user), class: :greeting__link%> %>
+         </div> 
+      <% end %>  
+
+    <%# // ログインしているときは上記を表示する %>
+    
+    <%# <div class="card__wrapper">
+  <%= render partial: 'cook', collection: @cooks %>
+<%# </div> %> 
+    </div>
+  </div>
+</main>
+
+
+
+ 

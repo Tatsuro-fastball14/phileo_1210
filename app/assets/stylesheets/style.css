@@ -1,0 +1,42 @@
+.item-info {
+ 
+  /* display: flex; */
+  flex-wrap: wrap;
+} 
+.phileo-info{
+  color: red;
+
+}
+
+.item {
+  display: flex;
+  margin: 30px 0 30px;
+}
+
+
+.item-img {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.item-img img {
+  zoom: 140%;
+}
+
+.item-name {
+  font-size: 40px;
+}
+
+.item-name {
+  font-size: 40px;
+}
+
+.item-store {
+  font-size: 70px;
+}
+
+.side-bar{
+  width: 500px;
+  float: right;
+}
