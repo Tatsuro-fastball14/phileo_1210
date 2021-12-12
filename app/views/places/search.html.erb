@@ -69,8 +69,8 @@
 <div class="wrapper">
   <div class="side-bar">
   
-  <%= search_form_for @q, do |f| %>
-    <%= f.label :name, 'Keyword' %>
+  <%= search_form_for @p, url: places_search_path do |f| %>
+    <%= f.label :name, 'keyword' %>
     <%= f.search_field :name_cont %>
     <br>
     <%= f.submit '検 索' %>
