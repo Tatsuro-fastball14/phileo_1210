@@ -69,7 +69,7 @@
 <div class="wrapper">
   <div class="side-bar">
   
-  <%= search_form_for @q, do |f| %>
+  <%= search_form_for @p, url: places_search_path do |f| %>
     <%= f.label :name, 'Keyword' %>
     <%= f.search_field :name_cont %>
     <br>
@@ -89,15 +89,19 @@
   </div>
   <div class="cooks">
     <div id="map"></div>
+    <h1>
+  	お店一覧
+    </h1>
+
     <% @cooks.each do |cook| %>
       <div class='item'>
         <div class='item-img'>
-          <img src="https://tandems.co.jp/images/member_osaka.png" alt="">
-           <%# <%= image_tag cook.image, id:"shopimage", class:"star-icon" %>  
+          <%# <img src="https://tandems.co.jp/images/member_osaka.png" alt=""> %>
+           <%= image_tag cook.image, id:"shopimage", class:"star-icon" %>
         </div>
         <div class='item-price'>
           <div class="avatar">
-            <img src="https://tandems.co.jp/images/member_osaka.png" alt="">
+            <img src="/assets/IMG_9834.JPG" alt="">
             
           </div>
           <h3 class='item-name'>
@@ -160,18 +164,6 @@
   </script>
 </body>
 
-<h1>
-  検索結果
-</h1>
 
-<% @places.each do |place| %>
-  <br>
-  <li>
-    <%= place.name %>
-
-  </li>
-<% end %>
-
-該当する商品はありません
 
 <%= link_to 'トップページへ戻る', root_path %>
