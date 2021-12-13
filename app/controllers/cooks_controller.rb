@@ -30,14 +30,14 @@ class CooksController < ApplicationController
   end
 
   def search_cook
-    @p = cook.ransack(params[:q])
+    @p = Cook.ransack(params[:q])
+  end
+  private
+
+def basic_auth
+  authenticate_or_request_with_http_basic do |username, password|
+    username == 'admin' && password == '2222'
   end
 end
+end
 
-private
-
-  def basic_auth
-    authenticate_or_request_with_http_basic do |username, password|
-      username == 'admin' && password == '2222'
-    end
-  end
