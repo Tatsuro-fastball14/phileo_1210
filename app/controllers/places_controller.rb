@@ -28,6 +28,6 @@ class PlacesController < ApplicationController
   private
 
   def search_place
-    @p = Cook.ransack(params[:q])
+    @p = Place.ransack(params[:q])
   end
 end

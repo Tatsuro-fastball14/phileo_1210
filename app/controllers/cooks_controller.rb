@@ -21,6 +21,7 @@ class CooksController < ApplicationController
 
   def search
     @results = @p.result.includes(:category)
+    
   end
 
   private
