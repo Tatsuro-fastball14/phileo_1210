@@ -20,7 +20,9 @@ class CooksController < ApplicationController
   end
 
   def search
-    @results = @p.result.includes(:category)
+    @p = Cook.ransack(params[:q])
+    @cooks = @p.result
+    
     
   end
 

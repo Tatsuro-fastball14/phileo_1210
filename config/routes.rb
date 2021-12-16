@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
   get 'places/index'
-  get 'places/search'
   get 'cooks/search'
   
   
   
-  post 'cooks/new'
+ 
       
   devise_for :users
   root to: "places#index"
