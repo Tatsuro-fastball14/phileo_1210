@@ -1,5 +1,5 @@
 class CooksController < ApplicationController
-  before_action :search_product, only: [:index, :search]
+  before_action :search_cook, only: [:index, :search]
   before_action :basic_auth, only: [:new]
 
   def index

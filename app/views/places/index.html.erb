@@ -22,7 +22,7 @@
 </style>
 
 <div id="top-search">
-  <%= search_form_for @p, url: places_search_path do |f| %>
+  <%= search_form_for @p, url: cooks_search_path do |f| %>
     <%= f.label :place_name_eq, '沖縄県' %>
     <%= f.collection_select :name_eq, @places, :name, :name, include_blank: '指定なし' %>
     <br>
