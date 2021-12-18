@@ -95,6 +95,8 @@
 
     <% @cooks.each do |cook| %>
       <div class='item'>
+
+      <%= link_to '詳細', cook_path(@cooks), method: :get %>
         <div class='item-img'>
           <%# <img src="https://tandems.co.jp/images/member_osaka.png" alt=""> %>
            <%= image_tag cook.image, id:"shopimage", class:"star-icon" %>
@@ -164,6 +166,8 @@
   </script>
 </body>
 
+
+<%= link_to '詳細', cook_path(@cooks), method: :get %>
 
 
 <%= link_to 'トップページへ戻る', root_path %>

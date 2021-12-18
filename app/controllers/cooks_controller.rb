@@ -18,7 +18,10 @@ class CooksController < ApplicationController
       render :new
     end
   end
-  
+
+  def show
+    @cook = Cook.find(params[:id])
+  end
 
   def search
     @p = Cook.ransack(params[:q])
