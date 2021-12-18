@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'places/index'
   get 'cooks/search'
+  post 'cooks/new'
   
   
   
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :cooks do
     collection do
+
      
     
       

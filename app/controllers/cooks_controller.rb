@@ -18,6 +18,7 @@ class CooksController < ApplicationController
       render :new
     end
   end
+  
 
   def search
     @p = Cook.ransack(params[:q])
