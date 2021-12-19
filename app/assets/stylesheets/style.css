@@ -42,7 +42,7 @@
 }
 
 
-c
+
 
 
 .wrapper {
@@ -96,7 +96,9 @@ img {
 }
 
 .side-bar2 {
+  
   width: 200px;
   padding: 20px;
   background: #f5f5f5;
   border-radius: 10px;
+  }

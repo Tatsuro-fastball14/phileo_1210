@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'places/index'
   get 'cooks/search'
   get 'cooks/new'
+  post 'cooks/new'
   
   
   devise_for :users
