@@ -87,21 +87,6 @@ img {
 
 .cook_image{
   display: flex;
-  flex: 11 auto;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  height: 50%;
-  margin: auto;
-  padding: 0;
-  border: 0;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 80%;
-  vertical-align: baseline;
-  width: 50%;
-  min-width: 320px;
 }
 
 
