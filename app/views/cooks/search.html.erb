@@ -37,7 +37,7 @@
         <div class='item'>
            <%= link_to '詳細', cook_path(cook.id), method: :get %>
            <div class='item-img'>
-             <%= image_tag cook.images, id:"shopimage", class:"star-icon" %>
+             <%= image_tag cook.images[0], id:"shopimage", class:"star-icon" %>
            </div>
            <div class='item-price'>
             <div class="avatar">
