@@ -20,7 +20,7 @@ class PlacesController < ApplicationController
   end
 
   def search
-    @results = @p.result.includes(:category)
+    @cooks = @p.result.includes(:category)
     @places = Place.all
     @cooks = Cook.all
   end
