@@ -6,8 +6,13 @@
 
 
  <%= form_with model:@cook,local: true do |f| %>
+<<<<<<< Updated upstream
  <%= f.file_field :image, id:"cook-image" %>
   <div class="new-items">
+=======
+  <%= f.file_field :images,multiple: true  %>
+    <div class="new-items">
+>>>>>>> Stashed changes
       <div class="weight-bold-text">
         商品名
         <span class="indispensable">必須</span>

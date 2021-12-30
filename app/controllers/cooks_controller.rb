@@ -26,7 +26,11 @@ class CooksController < ApplicationController
   private
 
   def cooks_params
+<<<<<<< Updated upstream
     params.require(:cook).permit(:image, :title, :store, :cooksentence)
+=======
+    params.require(:cook).permit(:title, :store, :cooksentence,images: [])
+>>>>>>> Stashed changes
   end
 
   def search_cook
