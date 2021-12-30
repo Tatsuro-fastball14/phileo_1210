@@ -33,12 +33,6 @@ ActiveRecord::Schema.define(version: 2021_09_12_121907) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "cooks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title", null: false
     t.string "store", null: false
@@ -48,20 +42,10 @@ ActiveRecord::Schema.define(version: 2021_09_12_121907) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "maps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "address"
-    t.float "latitude"
-    t.float "longitude"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "places", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "category_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_places_on_category_id"
   end
 
   create_table "purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -84,6 +68,5 @@ ActiveRecord::Schema.define(version: 2021_09_12_121907) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "places", "categories"
   add_foreign_key "purchases", "users"
 end

@@ -26,27 +26,21 @@ class CooksController < ApplicationController
   def search
     @p = Cook.ransack(params[:q])
     @cooks = @p.result
-    
-    
   end
 
   private
 
   def cooks_params
-    params.require(:cook).permit(:images, :title, :store, :cooksentence)
+    params.require(:cook).permit(images: [],:title, :store, :cooksentence)
   end
 
   def search_cook
     @p = Cook.ransack(params[:q])
   end
-  private
 
   def basic_auth
     authenticate_or_request_with_http_basic do |username, password|
-    username == 'admin' && password == '2222'
+      username == 'admin' && password == '2222'
     end
-
   end
-      
 end
-
