@@ -1,5 +1,5 @@
 class CooksController < ApplicationController
-  before_action :search_product, only: [:index, :search]
+  before_action :search_cook, only: [:index, :search]
   before_action :basic_auth, only: [:new]
 
   def index
@@ -19,29 +19,28 @@ class CooksController < ApplicationController
     end
   end
 
+  def show
+    @cook = Cook.find(params[:id])
+  end
+
   def search
-    @results = @p.result.includes(:category)
+    @p = Cook.ransack(params[:q])
+    @cooks = @p.result
   end
 
   private
 
   def cooks_params
-<<<<<<< Updated upstream
-    params.require(:cook).permit(:image, :title, :store, :cooksentence)
-=======
     params.require(:cook).permit(:title, :store, :cooksentence,images: [])
->>>>>>> Stashed changes
   end
 
   def search_cook
-    @p = cook.ransack(params[:q])
+    @p = Cook.ransack(params[:q])
   end
-end
-
-private
 
   def basic_auth
     authenticate_or_request_with_http_basic do |username, password|
       username == 'admin' && password == '2222'
     end
   end
+end
