@@ -5,11 +5,10 @@
       </p>
      
       <div class="cook_image">
-        <%=@cook.images.each do |image| %>
-          <%= image_tag "unazyu.jpg", class:"cook_image" %>
-          <%= image_tag "test_image.png", class:"cook_image" %>
+        <%@cook.images.each do |image| %>
+          <%= image_tag image, class: "cook_image" %> 
         <% end %>
-        
+  
       </div>
 
       <div class="avatar">
