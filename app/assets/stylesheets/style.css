@@ -87,6 +87,12 @@ img {
 
 .cook_image{
   display: flex;
+  flex: 11 auto;
+  align-items: center;
+  justify-content: center;
+  display: block;
+  max-width: 800px
+ 
 }
 
 
