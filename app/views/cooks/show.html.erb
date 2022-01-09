@@ -4,9 +4,11 @@
       <p class="cook__hedding">
       </p>
      
-      <div class="cook_image">
+      <div class="cook_images">
         <%@cook.images.each do |image| %>
-          <%= image_tag image, class: "cook_image" %> 
+        <div class="cook_image">
+          <%= image_tag image %> 
+        </div>
         <% end %>
   
       </div>

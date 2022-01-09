@@ -85,17 +85,14 @@ img {
   border: 1px solid #ccc;
 }
 
-.cook_image{
+.cook_images{
   display: flex;
-  flex: 11 auto;
-  align-items: center;
-  justify-content: center;
-  max-width: 800px
-  
- 
 }
-
-
+.cook_image{
+  width: 33.3%;
+  height: 500px;
+  object-fit: cover;
+}
 .side-bar2 {
   width: 300px;
   padding: 20px;
