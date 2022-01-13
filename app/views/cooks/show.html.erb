@@ -4,12 +4,15 @@
       <p class="cook__hedding">
       </p>
      
-      <div class="cook_image">
-        <%=@cook.images.each do |image| %>
-          <%= image_tag "unazyu.jpg", class:"cook_image" %>
-          <%= image_tag "test_image.png", class:"cook_image" %>
+      <div class="cook_images">
+        <%@cook.images.each do |image| %>
+        <div class="cook_hoge">
+        <div class="cook_image">
+          <%= image_tag image %> 
+        </div>
+        </div>
         <% end %>
-        
+  
       </div>
 
       <div class="avatar">
@@ -34,6 +37,7 @@
     </div>
     
   </div>
+    <%= @cook.cooksentence %>
 </main>
       
   
