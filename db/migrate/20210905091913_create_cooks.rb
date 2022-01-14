@@ -10,7 +10,7 @@ class CreateCooks < ActiveRecord::Migration[6.0]
       t.string :phone_number, null:false
       t.string :open_day, null:false
       t.string :holiday_day, null:false
-      t.string :Regular_holiday, null:false
+      t.string :regular_holiday, null:false
       
 
 

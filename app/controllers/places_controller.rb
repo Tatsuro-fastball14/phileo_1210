@@ -3,7 +3,7 @@ class PlacesController < ApplicationController
   before_action :basic_auth, only:[:new]
 
   def index
-    @places = Place.all
+    @places = Cook.all
   end
 
   def new
@@ -28,6 +28,6 @@ class PlacesController < ApplicationController
   private
 
   def search_place
-    @p = Place.ransack(params[:q])
+    @p = Cook.ransack(params[:q])
   end
 end
