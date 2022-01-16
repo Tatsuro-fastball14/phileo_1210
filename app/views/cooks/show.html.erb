@@ -6,11 +6,11 @@
      
       <div class="cook_images">
         <%@cook.images.each do |image| %>
-        <div class="cook_hoge">
-        <div class="cook_image">
-          <%= image_tag image %> 
-        </div>
-        </div>
+          <div class="cook_hoge">
+          <div class="cook_image">
+            <%= image_tag image %> 
+          </div>
+          </div>
         <% end %>
   
       </div>
@@ -38,6 +38,22 @@
     
   </div>
     <%= @cook.cooksentence %>
+     <p>
+    <%= @cook.address %>
+     </p>
+    <p>
+    <%= @cook.phone_number %>
+    </p>
+    <p>
+    <%= @cook.open_day %>
+    </p>
+     <p>
+    <%= @cook.holiday_day %>
+    </p>
+    <p> 
+    <%= @cook.regular_holiday %>
+    </p>
+
 </main>
       
   

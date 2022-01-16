@@ -31,7 +31,7 @@ class CooksController < ApplicationController
   private
 
   def cooks_params
-    params.require(:cook).permit(:title, :store, :cooksentence,images: [])
+    params.require(:cook).permit(:title, :store, :cooksentence,:address,:phone_number,:open_day,:holiday_day,:regular_holiday,images: [])
   end
 
   def search_cook
