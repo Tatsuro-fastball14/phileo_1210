@@ -124,3 +124,12 @@ img {
     width: 100%;
     height: 100%;
 }
+
+.side-bar_store {
+  width: 100%;
+  padding: 20px;
+  float: right;
+  line-height: 1.8em;
+  
+ 
+}
