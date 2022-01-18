@@ -42,7 +42,21 @@
 
 .wrapper {
   display: flex;
+  width: 1060px;
+  margin: 0 auto;
+  padding: 20px;
 }
+.main{
+  width: 670px;
+  margin-right: 50px
+}
+.side-bar_store {
+  margin-bottom: 7%;
+  clear: both;
+  position: relative;
+}
+
+
 .side-bar {
   width: 200px;
   padding: 20px;
@@ -126,10 +140,7 @@ img {
 }
 
 .side-bar_store {
-  width: 100%;
-  padding: 20px;
-  float: right;
-  line-height: 1.8em;
-  
- 
+  margin-bottom: 7%;
+  clear: both;
+  position: relative;
 }
