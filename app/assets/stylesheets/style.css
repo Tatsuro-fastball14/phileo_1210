@@ -46,18 +46,38 @@
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
-  
-  
+  max-width: 100vw;
+  flex-wrap: wrap;
+  justify-content: space-between;
   
 }
 .main{
-  width: 100%;
-  margin-right: 50px
+  width: 670px;
+  margin-right: 50px;
+  max-width: 65%;
+  margin: 0.5% 100px 0;
+  box-sizing: border-box;
+  display: block;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 100%;
+  color: #000;
+
 }
 .side-bar_store {
   margin-bottom: 7%;
   clear: both;
   position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 100%;
+  box-sizing: border-box;
+  display: block;
+  color: #000;
+
 }
 
 

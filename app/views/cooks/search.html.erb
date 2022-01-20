@@ -35,7 +35,7 @@
 
     <% @cooks.each do |cook| %>
         <div class='item'>
-           <%= link_to '詳細', cook_path(cook.id), method: :get %>
+           <%# <%= link_to '詳細', cook_path(cook.id), method: :get %> 
            <div class='item-img'>
              <%= image_tag cook.images[0], id:"shopimage", class:"star-icon" %>
            </div>
@@ -101,5 +101,4 @@
       infoWindow.open(map, marker); // 吹き出しの表示    
     });
   </script>
-<%= link_to '詳細', cook_path(@cooks), method: :get %>
 <%= link_to 'トップページへ戻る', root_path %>
