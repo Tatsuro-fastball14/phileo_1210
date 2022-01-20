@@ -45,6 +45,10 @@
   width: 1060px;
   margin: 0 auto;
   padding: 20px;
+  box-sizing: border-box;
+  
+  
+  
 }
 .main{
   width: 100%;
