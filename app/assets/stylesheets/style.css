@@ -50,8 +50,11 @@
   flex-wrap: wrap;
   justify-content: space-between;
   
+  
+ 
+  
 }
-.main{
+.store_main{
   width: 670px;
   margin-right: 50px;
   max-width: 65%;
@@ -62,7 +65,15 @@
   font-weight: 300;
   font-size: 100%;
   color: #000;
+  color: green;
+}
 
+.title_main{
+  color: red 
+}
+
+.cooksentence_main{
+  color: aqua; 
 }
 .side-bar_store {
   margin-bottom: 7%;
@@ -77,8 +88,10 @@
   box-sizing: border-box;
   display: block;
   color: #000;
-
+  
 }
+
+
 
 
 .side-bar {
