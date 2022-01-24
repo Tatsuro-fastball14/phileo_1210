@@ -32,18 +32,22 @@
   <div class="wrapper">
     <div class="store_main">
       <p><%= @cook.store %></p>
-    <div class="title_main">
-      <p><%= @cook.title %></p>
-    <div class="cooksentence_main">
-      <p><%= @cook.cooksentence %></p>
-    </div>
 
+      <div class="title_main">
+        <p><%= @cook.title %></p>
+      </div>  <!--  /.title_main-->
+
+      <div class="cooksentence_main">
+        <p><%= @cook.cooksentence %></p>
+      </div>  <!--  /.cooksentence_main-->
+    </div>  <!--  /.store_main-->
+    
     <div class="side-bar_store">
       <p><%= @cook.address %></p>
       <p><%= @cook.phone_number %></p>
       <p><%= @cook.open_day %></p>
       <p><%= @cook.holiday_day %></p>
       <p><%= @cook.regular_holiday %></p>
-    </div>
-  </div>   
+    </div> <!--  /.side-bar_store-->
+  </div>   <!--  /.wrapper-->
 </main>

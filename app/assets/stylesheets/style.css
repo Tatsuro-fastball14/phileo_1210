@@ -47,7 +47,6 @@
   padding: 20px;
   box-sizing: border-box;
   max-width: 100vw;
-  flex-wrap: wrap;
   justify-content: space-between;
   
   
@@ -63,17 +62,19 @@
   display: block;
   font-style: normal;
   font-weight: 300;
-  font-size: 100%;
+  font-size: 30px;
   color: #000;
   color: green;
 }
 
 .title_main{
-  color: red 
+  color: red; 
+  font-size: 20px;
 }
 
 .cooksentence_main{
-  color: aqua; 
+  color: aqua;
+  font-size: 20px 
 }
 .side-bar_store {
   margin-bottom: 7%;
@@ -84,7 +85,7 @@
   border: 0;
   font-style: normal;
   font-weight: 300;
-  font-size: 100%;
+  font-size: 20px;
   box-sizing: border-box;
   display: block;
   color: #000;
