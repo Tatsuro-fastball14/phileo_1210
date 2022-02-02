@@ -1,16 +1,18 @@
 <main class="main">
   <div class="inner">
     <div class="cook__wrapper">
-      <p class="cook__hedding"> </p>
+      <p class="cook__hedding">
+      </p>
      
       <div class="cook_images">
         <%@cook.images.each do |image| %>
-            <div class="cook_hoge">
-            <div class="cook_image">
-               <%= image_tag image %> 
-          </div>
-          </div>
+        <div class="cook_hoge">
+        <div class="cook_image">
+          <%= image_tag image %> 
+        </div>
+        </div>
         <% end %>
+  
       </div>
 
       <div class="avatar">
@@ -19,16 +21,21 @@
 
       <div class="cook__body">
         <div class="cook__detail">
-          <p class="detail__title"> </p>
-          <p class="detail__message"></p>
+          <p class="detail__title">
+          </p>
+          <p class="detail__message">
+            <%= @cook.store %>
+          </p>
         </div>
       </div>
       <div class="prototype__detail">
         <p class="detail__title"></p>
-        <p class="detail__message"></p>
+        <p class="detail__message">
+          <%= @cook.title %>
+        </p>
       </div>
     </div>
-
+    
   <div class="wrapper">
     <div class="store_main">
       <p><%= @cook.store %></p>
@@ -50,46 +57,15 @@
       <p><%= @cook.regular_holiday %></p>
     </div> <!--  /.side-bar_store-->
   </div>   <!--  /.wrapper-->
+  </div>
+
+
+
+
+  
 </main>
+      
+  
 
-
-
-import axios from 'axios'
-
-  async function getdata(url,list){
-       //送信処理
-       await axios.get(
-          url,
-          {
-            headers:{
-              'content-type':'application/json'
-            },
-            responseType:'json'
-
-          //送信成功時処理
-          }).then(responce =>{
-             list.push(responce["data"]);
-             console.log(list)
-          //送信失敗時処理
-          }).catch(e=>{
-             alert(e);
-        });
-      }
-
-export { getdata }
-
-
-//地図範囲取得
-var latlngBounds = this.map.getBounds();
-var swLatlng = latlngBounds.getSouthWest();
-var swlat = String(swLatlng.lat());
-var swlng = String(swLatlng.lng());
-
-var neLatlng = latlngBounds.getNorthEast();
-var nelat = String(neLatlng.lat());
-var nelng = String(neLatlng.lng());
-
-//情報取得
-var exifdata=[];
-var url='【APIのURL】/?minlat='+swlat+'&minlng='+swlng+'&maxlat='+nelat+'&maxlng='+nelng;
-await getdata(url,exifdata);
+  
+    
