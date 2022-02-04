@@ -42,7 +42,59 @@
 
 .wrapper {
   display: flex;
+  width: 1060px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  max-width: 100vw;
+  justify-content: space-between;
+  
+  
+ 
+  
 }
+.store_main{
+  width: 670px;
+  margin-right: 50px;
+  max-width: 65%;
+  margin: 0.5% 100px 0;
+  box-sizing: border-box;
+  display: block;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 30px;
+  color: #000;
+  color: green;
+}
+
+.title_main{
+  color: red; 
+  font-size: 20px;
+}
+
+.cooksentence_main{
+  color: aqua;
+  font-size: 20px 
+}
+.side-bar_store {
+  margin-bottom: 7%;
+  clear: both;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  box-sizing: border-box;
+  display: block;
+  color: #000;
+  
+}
+
+
+
+
 .side-bar {
   width: 200px;
   padding: 20px;
@@ -79,10 +131,15 @@ img {
 .avatar {
   width: 50px;
   height: 50px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+
 }
 .avatar img {
   border-radius: 50%;
   border: 1px solid #ccc;
+  
 }
 
 /* .cook_images{
@@ -123,4 +180,5 @@ img {
     transform: translate(-50%,-50%);
     width: 100%;
     height: 100%;
+
 }
