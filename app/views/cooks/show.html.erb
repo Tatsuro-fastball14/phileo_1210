@@ -58,60 +58,6 @@
     </div> <!--  /.side-bar_store-->
   </div>   <!--  /.wrapper-->
   </div>
-
-
-
-
-  
 </main>
-<<<<<<< Updated upstream
-      
-  
-
-  
-    
-=======
 
 
-
-
-
-import axios from 'axios'
-
-  async function getdata(url,list){
-       //送信処理
-       await axios.get(
-          url,
-          {
-            headers:{
-              'content-type':'application/json'
-            },
-            responseType:'json'
-
-          //送信成功時処理
-          }).then(responce =>{
-             list.push(responce["data"]);
-             console.log(list)
-          //送信失敗時処理
-          }).catch(e=>{
-             alert(e);
-        });
-      }
-
-export { getdata }
-
-//地図範囲取得
-var latlngBounds = this.map.getBounds();
-var swLatlng = latlngBounds.getSouthWest();
-var swlat = String(swLatlng.lat());
-var swlng = String(swLatlng.lng());
-
-var neLatlng = latlngBounds.getNorthEast();
-var nelat = String(neLatlng.lat());
-var nelng = String(neLatlng.lng());
-
-//情報取得
-var exifdata=[];
-var url='【APIのURL】/?minlat='+swlat+'&minlng='+swlng+'&maxlat='+nelat+'&maxlng='+nelng;
-await getdata(url,exifdata);
->>>>>>> Stashed changes
