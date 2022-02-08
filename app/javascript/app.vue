@@ -1,6 +1,10 @@
 <template>
-  <div id="app">
+  <div id="app"
     <p>{{ message }}</p>
+    <p>{{ cooks }}</p>
+
+    <p>hogehogeho</p>
+
   </div>
 </template>
 
@@ -8,7 +12,10 @@
 export default {
   data: function () {
     return {
-      message: "Hello Vue!"
+      message: "Hello Vue!",
+      cooks: [{store: "awamori", lat: 26.2155658, lng: 127.6691134},
+      {store: "awamori", lat: 1222.2222, lng: 3737},
+      {store: "awamori", lat: 1222.2222, lng: 3737}]
     }
   }
 }
