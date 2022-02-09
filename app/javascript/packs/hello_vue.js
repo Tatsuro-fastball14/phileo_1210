@@ -32,15 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-  const app = new Vue({
-    el: '#hello',
-    data: {
-      message: "Can you say hello?"
-    },
-    components: { App }
-  })
-})
+
 
 // If the project is using turbolinks, install 'vue-turbolinks':
 //
