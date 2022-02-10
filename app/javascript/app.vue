@@ -1,9 +1,9 @@
 //vuetest.js
 // import Vue from "Vue"
 
-const exp = new "Vue"({
-  el: '#test',
-  data:{
+  const exp = new "Vue"({
+      el: '#test',
+      data:{
         cook:[
           "title"
           "store"
@@ -14,12 +14,23 @@ const exp = new "Vue"({
           "holiday_day"
           "regular_hoilday"
         ]
-   }
-})
+      }
+  })
+
+
+    <div id="test">
+        <ul>
+            <li v-for="cooks in cook">
+              @{{cooks}}
+            </li>
+        </ul>
+    </div>
+    <script src="{{asset('js/vuetest.js')}}"></script>
+
 
   //vuetest.js
   const exp =new Vue({
-        el: "#text",
+        el: "#test",
         date:{
           cook:[
             {information: "title"},
@@ -50,36 +61,3 @@ const exp = new "Vue"({
 
 
 
-// <template>
-  // <div id="app">
-  //   <p>{{ message }}</p>
-  //   <p>{{ cooks }}</p>
-  //   <ul>
-        // <li v-for ="cook in cooks">{{ cook }}</li>
-  //   </ul>
-
-
-//   </div>
-// </template>
-
-// <script>
-// export default {
-//   data: function () {
-
-//     return {    
-//       message: "Hello Vue!",
-//       cooks: [{store: "awamori", lat: 26.2155658, lng: 127.6691134}],
-//       {store: "awamori", lat: 1222.2222, lng: 3737},
-//       {store: "awamori", lat: 1222.2222, lng: 3737}]
-
-//     }
-//   }
-// }
-// </script>
-
-// <style scoped>
-// p {
-//   font-size: 2em;
-//   text-align: center;
-// }
-// </style>
