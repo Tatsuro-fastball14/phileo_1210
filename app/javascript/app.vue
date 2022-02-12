@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <p>{{ message }}</p>
-    <p>@{{ cooks }}</p>
+    <p>@{{ cook.id }}</p>
     <ul>
-        <li v-for ="cook in cooks">@{{ cooks }}</li>
+        <li v-for ="cook in cooks">@{{ cook.id }}</li>
     </ul>
 
 
