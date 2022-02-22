@@ -26,6 +26,3 @@ export default {
 }
 </script>
 
-aaaaa
-
-appear-active-class=""
