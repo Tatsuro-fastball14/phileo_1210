@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <p>@{{ cook.id }}</p>
+    <p>{{ cook.id }}</p>
     <ul>
-        <li v-for ="cook in cooks">@{{ cook.id }}</li>
+        <li v-for ="cook in cooks">{{ cook.id }}</li>
     </ul>
 
 
@@ -24,5 +24,5 @@ export default {
 
 
 }
+</script>
 
-aaaaaaa
