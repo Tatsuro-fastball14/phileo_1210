@@ -1,13 +1,3 @@
-<template>
-  <div id="app2">
-     <p>@{{ cook.id }}</p>
-    <ul>
-        <li v-for ="cook in cooks">@{{ cook.id }}</li>
-    </ul>
-  </div>
-</template>
-
-
 <script>
   export default{
     props: {
