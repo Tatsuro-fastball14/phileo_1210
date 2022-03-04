@@ -29,3 +29,9 @@ export default {
 }
 </script>
 
+
+<template>
+      <div>
+      <google-map :myLatLng="{lat: 26.2125, lng:127.68111}" :zoom="15" />
+     </div>
+    </template>
