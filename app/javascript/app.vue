@@ -16,7 +16,16 @@ export default {
       ]
     }
   },
+  methods() {
+    fetchCooks() {
+      return this.$axios.get('/cooks/').then(res => {
+        this.data.cooks = res.data;
+      })
+    }
+  },
   mounted() {
+    this.fetchCooks();
+
     if (!window.mapLoadStarted) {
       window.mapLoadStarted = true;
       let script = document.createElement('script');
