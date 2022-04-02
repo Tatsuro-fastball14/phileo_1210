@@ -1,4 +1,5 @@
-<div class="side-bar">
+<%=  javascript_pack_tag 'hello_vue' %>
+<div class="side-bar"></div>
 </div>
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyAc8ucfbF9aY5Jn9VehhJZ852fopENuQTc"></script>
 
@@ -26,6 +27,7 @@
       <li>hogehoge</li>
       <li>hogehoge</li>
     </ul>
+
   </div>
   <div class="cooks">
     <div id="map"></div>
@@ -37,7 +39,7 @@
         <div class='item'>
            <%# <%= link_to '詳細', cook_path(cook.id), method: :get %> 
            <div class='item-img'>
-             <%= image_tag cook.images[0], id:"shopimage", class:"star-icon" %>
+             <%# <%= image_tag cook.images[0], id:"shopimage", class:"star-icon" %> %>
            </div>
            <div class='item-price'>
             <div class="avatar">
@@ -54,6 +56,7 @@
     <% end %>
   </div>
 </div>
+<<<<<<< Updated upstream
 
 <div class='item-info'>
   <script>
@@ -102,3 +105,8 @@
     });
   </script>
 <%= link_to 'トップページへ戻る', root_path %>
+=======
+<%= link_to 'トップページへ戻る', root_path %>
+
+sss
+>>>>>>> Stashed changes
