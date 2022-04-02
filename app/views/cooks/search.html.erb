@@ -56,57 +56,54 @@
     <% end %>
   </div>
 </div>
-<<<<<<< Updated upstream
+
 
 <div class='item-info'>
   <script>
     const cooks = <%== Cook.all.to_json %>;
     console.log(cooks);
 
-    var MyLatLng = new google.maps.LatLng(26.2125, 127.68111);
-    var Options = {
-      icon: { url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixta.jp%2Fillustration%2F12767983&psig=AOvVaw0JcQTIocWdS2K6xFdU8EYV&ust=1638779689532000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJjvx5ygzPQCFQAAAAAdAAAAABAO' },
-      zoom: 15,      //地図の縮尺値
-      center: MyLatLng,    //地図の中心座標
-      mapTypeId: 'roadmap'   //地図の種類
-    };
-    var map = new google.maps.Map(document.getElementById('map'), Options);
-    var marker = new google.maps.Marker({
-      map: map,
-      position: { lat: 26.2125, lng: 127.68111 },
-    });
-    var MyLatLng = new google.maps.LatLng(26.2123, 127.68113);
-    var Options = {
-      zoom: 15,      //地図の縮尺値
-      center: MyLatLng,    //地図の中心座標
-      mapTypeId: 'roadmap'   //地図の種類
-    };
-    var map = new google.maps.Map(document.getElementById('map'), Options);
-    var marker = new google.maps.Marker({
-      map: map,
-      position: { lat: 26.214803, lng: 127.676176 },
-    });
+    // var MyLatLng = new google.maps.LatLng(26.2125, 127.68111);
+    // var Options = {
+    //   icon: { url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixta.jp%2Fillustration%2F12767983&psig=AOvVaw0JcQTIocWdS2K6xFdU8EYV&ust=1638779689532000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJjvx5ygzPQCFQAAAAAdAAAAABAO' },
+    //   zoom: 15,      //地図の縮尺値
+    //   center: MyLatLng,    //地図の中心座標
+    //   mapTypeId: 'roadmap'   //地図の種類
+    // };
+    // var map = new google.maps.Map(document.getElementById('map'), Options);
+    // var marker = new google.maps.Marker({
+    //   map: map,
+    //   position: { lat: 26.2125, lng: 127.68111 },
+    // });
+    // var MyLatLng = new google.maps.LatLng(26.2123, 127.68113);
+    // var Options = {
+    //   zoom: 15,      //地図の縮尺値
+    //   center: MyLatLng,    //地図の中心座標
+    //   mapTypeId: 'roadmap'   //地図の種類
+    // };
+    // var map = new google.maps.Map(document.getElementById('map'), Options);
+    // var marker = new google.maps.Marker({
+    //   map: map,
+    //   position: { lat: 26.214803, lng: 127.676176 },
+    // });
 
-    var marker = new google.maps.Marker({
-      map: map,
-      position: { lat: 26.2155658, lng: 127.6691134 },
-    });
-    var marker = new google.maps.Marker({
-      map: map,
-      position: { lat: 26.214098, lng: 127.677487 },
-    });
+    // var marker = new google.maps.Marker({
+    //   map: map,
+    //   position: { lat: 26.2155658, lng: 127.6691134 },
+    // });
+    // var marker = new google.maps.Marker({
+    //   map: map,
+    //   position: { lat: 26.214098, lng: 127.677487 },
+    // });
 
-    infoWindow = new google.maps.InfoWindow({ // 吹き出しの追加
-      content: '<div class="mapSample">泡盛倉庫</div>' +
-        '<img src="https://tandems.co.jp/images/member_osaka.png" alt="" width="40">'
-    });
-    marker.addListener('click', function() { // マーカーをクリックしたとき
-      infoWindow.open(map, marker); // 吹き出しの表示    
-    });
+    // infoWindow = new google.maps.InfoWindow({ // 吹き出しの追加
+    //   content: '<div class="mapSample">泡盛倉庫</div>' +
+    //     '<img src="https://tandems.co.jp/images/member_osaka.png" alt="" width="40">'
+    // });
+    // marker.addListener('click', function() { // マーカーをクリックしたとき
+    //   infoWindow.open(map, marker); // 吹き出しの表示    
+    // });
   </script>
 <%= link_to 'トップページへ戻る', root_path %>
-=======
-<%= link_to 'トップページへ戻る', root_path %>
 
-sss
->>>>>>> Stashed changes
+
