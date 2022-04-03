@@ -15,7 +15,18 @@ export default {
         {store: "awamori", lat: 26.18668612463146, lng: 127.66806564613702}
       ]
     }
-    },
+
+  
+
+  },
+  methods() {
+    fetchCooks() {
+      return this.$axios.get('/cooks/').then(res => {
+        this.data.cooks = res.data;
+      }),
+    }
+  },
+
   mounted() {
     if (!window.mapLoadStarted) {
       window.mapLoadStarted = true;
