@@ -16,8 +16,8 @@ export default {
       ]
     }
   },
-<<<<<<< Updated upstream
-  methods() {
+
+  methods: {
     fetchCooks() {
       return this.$axios.get('/cooks/').then(res => {
         this.data.cooks = res.data;
@@ -33,16 +33,11 @@ export default {
       script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAc8ucfbF9aY5Jn9VehhJZ852fopENuQTc&callback=initMap';
       script.async = true;
       document.head.appendChild(script);
-=======
-  methods: {
+  methods:{
     fetchCooks() { 
       return this.$axios.get('http://localhost:3000/cooks/9').then(res => { 
         this.data.cooks =res.data;
-      })  
->>>>>>> Stashed changes
-    }
-  },
-  mounted(...args: []) {
+  mounted(...args []) {
 if (!window.mapLoadStarted) {
 window.mapLoadStarted = true;
 let script = document.createElement('script');
@@ -61,14 +56,14 @@ clearInterval(timer);
 const map = new window.google.maps.Map(this.$refs.map, {
 center: { lat: this.cooks[0].lat, lng: this.cooks[0].lng },
 zoom: 15,
-});
+};
 this.cooks.forEach(cook => {
 new window.google.maps.Marker({ position: { lat: cook.lat, lng: cook.lng }, map });
 });
 }
 }, 500);
-},
-};
+}
+}
 
  
 
@@ -121,6 +116,5 @@ $(function () {
 });
 
 </script>
-aaaaaa
 
-jkjk
+
