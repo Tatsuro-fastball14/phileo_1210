@@ -33,22 +33,10 @@ export default {
       script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAc8ucfbF9aY5Jn9VehhJZ852fopENuQTc&callback=initMap';
       script.async = true;
       document.head.appendChild(script);
+      window.initMap = () => {
+      window.mapLoaded = true;
+      }
     }
-  },
-  
-  mounted(...args []) {
-    
-    if (!window.mapLoadStarted) {
-    window.mapLoadStarted = true;
-    let script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAc8ucfbF9aY5Jn9VehhJZ852fopENuQTc&callback=initMap';
-    script.async = true;
-    document.head.appendChild(script);
-    }
-    window.initMap = () => {
-    window.mapLoaded = true;
-    };
-    },
   }
 
   let timer = setInterval(() => {
