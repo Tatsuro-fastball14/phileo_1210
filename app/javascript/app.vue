@@ -19,8 +19,8 @@ export default {
 
   methods: {
     fetchCooks() {
-      return this.$axios.get('/cooks/').then(res => {
-        this.data.cooks = res.data;
+      return this.$axios.get('/cooks/9').then(res => {
+        this.data.cooks = res.data;    
       })
     }
   },
@@ -33,10 +33,7 @@ export default {
       script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAc8ucfbF9aY5Jn9VehhJZ852fopENuQTc&callback=initMap';
       script.async = true;
       document.head.appendChild(script);
-  methods:{
-    fetchCooks() { 
-      return this.$axios.get('http://localhost:3000/cooks/9').then(res => { 
-        this.data.cooks =res.data;
+  
   mounted(...args []) {
 if (!window.mapLoadStarted) {
 window.mapLoadStarted = true;
