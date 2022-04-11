@@ -41,9 +41,9 @@ export default {
       if (window.mapLoaded) {
         clearInterval(timer);
         const map = new window.google.maps.Map(this.$refs.map, {
-        center: { lat: this.cooks[0].lat, lng: this.cooks[0].lng },
-        zoom: 15,
-        },
+          center: { lat: this.cooks[0].lat, lng: this.cooks[0].lng },
+          zoom: 15,
+        })
       }
   
     this.cooks.forEach(cook => {
