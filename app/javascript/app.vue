@@ -41,16 +41,17 @@ export default {
       if (window.mapLoaded) {
         clearInterval(timer);
         const map = new window.google.maps.Map(this.$refs.map, {
-          center: { lat: this.cooks[0].lat, lng: this.cooks[0].lng },
+          center: {lat: this.cooks[0].lat, lng: this.cooks[0].lng },
           zoom: 15,
-        })
-      }
+        });
+      
   
     this.cooks.forEach(cook => {
-    new window.google.maps.Marker({ position: { lat: cook.lat, lng: cook.lng }, map });
-    });
-    }, 500);
+      new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
+        });
+      }, 500);
   },
+};
 
   // $(function () {
   //     var markers = [];
