@@ -25,7 +25,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchCooks();
+    this.fetchCooks()
 
     if (!window.mapLoadStarted) {
       window.mapLoadStarted = true;
@@ -44,14 +44,15 @@ export default {
           center: {lat: this.cooks[0].lat, lng: this.cooks[0].lng },
           zoom: 15,
         });
-      
-  
-    this.cooks.forEach(cook => {
-      new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
-        });
-      }, 500);
+  this.cooks.forEach(cook => {
+    new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
+  })
+  }
+  }, 500);
   },
-};
+  };
+</script>
+
 
   // $(function () {
   //     var markers = [];
@@ -101,7 +102,6 @@ export default {
   //         }
   //       });
   // });
-}
-</script>
+
 
 
