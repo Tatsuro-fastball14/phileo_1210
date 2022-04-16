@@ -19,12 +19,13 @@ export default {
 
   methods: {
     fetchCooks() {
-      return this.$axios.get('/cooks/9').then(res => {
+      return this.$axios.get('http://localhost:3000/cooks/6').then(res => {
         this.data.cooks = res.data;    
       })
     }
   },
   mounted() {
+    this.$axios = path
     this.fetchCooks()
 
     if (!window.mapLoadStarted) {
