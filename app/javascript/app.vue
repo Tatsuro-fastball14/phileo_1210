@@ -24,15 +24,14 @@ export default {
 
   methods: {
     fetchCooks() {
-       created() 
-    axios
-      return this.$axios.get('http://localhost:3000/cooks/6').then(res => {
-        this.data.cooks = res.data;    
+      return $axios.get('http://localhost:3000/cooks/6').then(res => {
+        console.log(res.data)
+        this.cooks = res.data;    
       })
     }
   },
   mounted() {
-    this.$axios = path
+   
     this.fetchCooks()
 
     if (!window.mapLoadStarted) {
