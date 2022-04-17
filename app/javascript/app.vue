@@ -1,8 +1,11 @@
 <template>
+
   <div>
     <h1>Google Map</h1>
     <div ref="map" style="height: 500px; width: 800px"></div>
+    
   </div>
+  
 </template>
 
 <script>
@@ -54,6 +57,15 @@ export default {
   };
 </script>
 
+<script>
+import axios from 'axios'
+export default axios;
+</script>
+
+<script>
+import VueAxios from 'vue-axios' 
+export default VueAxios;
+</script>
 
   // $(function () {
   //     var markers = [];
