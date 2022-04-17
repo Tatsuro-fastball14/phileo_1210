@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data: function () {
     return {
@@ -18,10 +19,13 @@ export default {
         {store: "awamori", lat: 26.18668612463146, lng: 127.66806564613702},
       ]
     }
+  
   },
 
   methods: {
     fetchCooks() {
+       created() 
+    axios
       return this.$axios.get('http://localhost:3000/cooks/6').then(res => {
         this.data.cooks = res.data;    
       })
@@ -41,6 +45,7 @@ export default {
       window.mapLoaded = true;
       }
     }
+  
     let timer = setInterval(() => {
       if (window.mapLoaded) {
         clearInterval(timer);
@@ -55,17 +60,10 @@ export default {
   }, 500);
   },
   };
+  
 </script>
 
-<script>
-import axios from 'axios'
-export default axios;
-</script>
 
-<script>
-import VueAxios from 'vue-axios' 
-export default VueAxios;
-</script>
 
   // $(function () {
   //     var markers = [];
