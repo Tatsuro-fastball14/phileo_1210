@@ -24,7 +24,7 @@ export default {
 
   methods: {
     fetchCooks() {
-      return $axios.get('http://localhost:3000/cooks/6').then(res => {
+      return axios.get('http://localhost:3000/cooks/6').then(res => {
         console.log(res.data)
         this.cooks = res.data;    
       })
@@ -53,6 +53,7 @@ export default {
           zoom: 15,
         });
   this.cooks.forEach(cook => {
+    docRef.get()
     new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
   })
   }
