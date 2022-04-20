@@ -52,14 +52,13 @@ export default {
           center: {lat: this.cooks[0].lat, lng: this.cooks[0].lng },
           zoom: 15,
         });
-  this.cooks.forEach(cook => {
-    docRef.get()
-    new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
-  })
-  }
-  }, 500);
-  },
-  };
+    this.cooks.forEach(cook => {
+      new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
+    })
+      }
+      }, 500);
+      },
+};
   
 </script>
 

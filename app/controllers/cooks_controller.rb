@@ -4,6 +4,7 @@ class CooksController < ApplicationController
 
   def index
     @cooks = Cook.all
+    render json:@cooks
   end
 
   def new
