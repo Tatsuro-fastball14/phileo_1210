@@ -4,7 +4,6 @@ class CooksController < ApplicationController
 
   def index
     @cooks = Cook.all
-    render json:@cooks
   end
 
   def new
@@ -22,6 +21,7 @@ class CooksController < ApplicationController
 
   def show
     @cook = Cook.find(params[:id])
+    render json:@cooks
   end
 
   def search
