@@ -21,7 +21,7 @@ class CooksController < ApplicationController
 
   def show
     @cook = Cook.find(params[:id])
-    render json:@cooks
+    render json:@cook.title
   end
 
   def search
