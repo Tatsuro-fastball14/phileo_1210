@@ -24,7 +24,7 @@ export default {
 
   methods: {
     fetchCooks() {
-      return axios.get('http://localhost:3000/cooks/6').then(res => {
+      return axios.get('http://localhost:3000/cooks').then(res => {
         console.log(res.data)
         this.cooks = res.data;    
       })
