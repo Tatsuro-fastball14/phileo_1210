@@ -4,6 +4,7 @@ class CooksController < ApplicationController
 
   def index
     @cooks = Cook.all
+    render jason:@cooks
   end
 
   def new
@@ -36,6 +37,9 @@ class CooksController < ApplicationController
 
   def search_cook
     @p = Cook.ransack(params[:q])
+  end
+
+  def cook
   end
 
   def basic_auth
