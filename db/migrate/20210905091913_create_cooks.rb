@@ -11,6 +11,8 @@ class CreateCooks < ActiveRecord::Migration[6.0]
       t.string :open_day, null:false
       t.string :holiday_day, null:false
       t.string :regular_holiday, null:false
+      t.double(9,6) :lat,null:false
+      t.double(9,6) :lng,null:false
       
 
 
