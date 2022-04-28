@@ -1,3 +1,4 @@
+Vue.config.devtools = true;
 import { createApp } from 'vue';
 import App from './App.vue';
 import GoogleMap from './plugins/GoogleMap';

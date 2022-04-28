@@ -1,3 +1,4 @@
+
 <template>
   <h1>Google Map</h1>
   <div ref="map" style="height: 500px; width: 800px"></div>
