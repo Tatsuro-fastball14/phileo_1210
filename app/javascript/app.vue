@@ -59,7 +59,39 @@ export default {
     }, 500);
   },
 };
+
+ 
+var markers = [];
+var infoWindows = [];
+var infoWindowOption1 = {
+    content: "東京駅"
+    }
+    infoWindows[0] = new google.maps.InfoWindow(infoWindowOption1);
+    infoWindows[0].open(map, markers[0]);
   
+var infoWindowOption2 = {
+      position: latlng2,
+       content: "有楽町駅",
+    };
+    infoWindows[1] = new google.maps.InfoWindow(infoWindowOption2);
+    infoWindows[1].open(map);
+ 
+("#method11").click(function () {
+    var content;
+    var latlng;
+        content = infoWindows[1].getContent()
+        if (content === "有楽町駅") {
+            latlng = new google.maps.LatLng(35.682413, 139.77391899999998); // 日本橋駅
+            infoWindows[1].setPosition(latlng);
+            infoWindows[1].setContent("日本橋駅");
+        } else {
+            latlng = new google.maps.LatLng(35.675069, 139.763328);   // 有楽町駅
+            infoWindows[1].setPosition(latlng);
+            infoWindows[1].setContent("有楽町駅");
+        }
+  });
+
+
 </script>
 
 
