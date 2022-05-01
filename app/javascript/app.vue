@@ -59,7 +59,7 @@ export default {
   });
            var infowindow = new google.maps.InfoWindow({
                   content: '関西空港',
-                  position: latlng
+                  position: {lat:cook.lat,lng:cook.lng}
                   });
                 infowindow.open(map);
               
