@@ -53,17 +53,25 @@ export default {
           zoom: 15,
         });
         this.cooks.forEach(cook => {
-           new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
-              content: cook.name,
-
-  marker.addListener("click", () => {
-    infowindow.open(googleMap, marker);
+          
+          const infowindow = new google.maps.InfoWindow();
+            new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
+              const marker = new google.maps.Marker({
+                        
   });
-
+           var infowindow = new google.maps.InfoWindow({
+                  content: '関西空港',
+                  position: latlng
+                  });
+                infowindow.open(map);
+              } 
+  
         })
+        
       }
     }, 500);
   },
+  
   
 };
 
