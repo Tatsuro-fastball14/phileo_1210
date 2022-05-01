@@ -53,8 +53,6 @@ export default {
           zoom: 15,
         });
         this.cooks.forEach(cook => {
-          
-          const infowindow = new google.maps.InfoWindow();
             new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
               const marker = new google.maps.Marker({
                         
@@ -64,7 +62,7 @@ export default {
                   position: latlng
                   });
                 infowindow.open(map);
-              } 
+              
   
         })
         
