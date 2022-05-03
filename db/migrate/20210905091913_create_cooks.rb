@@ -12,7 +12,7 @@ class CreateCooks < ActiveRecord::Migration[6.0]
       t.string :holiday_day, null:false
       t.string :regular_holiday, null:false
       t.decimal :lat,  precision: 8, scale: 6
-      t.decimal :lng,   precision: 9, scale: 6
+      t.decimal :lng,  precision: 9, scale: 6
 
       
     end
