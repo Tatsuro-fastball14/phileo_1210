@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data: function () {
     return {
@@ -24,6 +25,7 @@ export default {
         this.cooks = res.data;    
       })
     }
+  },
  
   mounted() {
     this.fetchCooks()
