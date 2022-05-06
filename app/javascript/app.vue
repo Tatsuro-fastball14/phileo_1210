@@ -16,9 +16,18 @@ export default {
       ]
     }
   },
+
+  methods: {
+    fetchCooks() {
+      return axios.get('http://localhost:3000/cooks').then(res => {
+        console.log(res.data)
+        this.cooks = res.data;    
+      })
+    }
  
   mounted() {
-
+    this.fetchCooks()
+    
     if (!window.mapLoadStarted) {
       window.mapLoadStarted = true;
       let script = document.createElement('script');
@@ -34,7 +43,7 @@ export default {
     let timer = setInterval(() => {
       if (window.mapLoaded) {
         clearInterval(timer);
-        console.log{parseFloat(this.cooks[0].lat)}
+        console.log(parseFloat(this.cooks[0].lat))
         const map = new window.google.maps.Map(this.$refs.map, {
           center: {lat: this.cooks[0].lat, lng: this.cooks[0].lng},
           zoom: 15,
