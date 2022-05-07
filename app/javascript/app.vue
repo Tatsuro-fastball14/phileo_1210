@@ -47,15 +47,17 @@ export default {
         clearInterval(timer);
         console.log(parseFloat(this.cooks[0].lat))
         const map = new window.google.maps.Map(this.$refs.map, {
-          center: {lat: this.cooks[0].lat, lng: this.cooks[0].lng},
+          center: { lat: parseFloat( this.cooks[0].lat), lng: parseFloat(this.cooks[0].lng) },
           zoom: 15,
         });
         this.cooks.forEach(cook => {
-            new window.google.maps.Marker({position: {lat: cook.lat, lng: cook.lng}, map});
+          let lat =  parseFloat(cook.lat)
+          let lng =  parseFloat(cook.lng)
+            new window.google.maps.Marker({position: {lat:  lat, lng:  lng}, map});
             const marker = new google.maps.Marker({});
             var infowindow = new google.maps.InfoWindow({
               content: '関西空港',
-              position: {lat:cook.lat,lng:cook.lng}
+              position: { lat: lat, lng: lng  }
             });
             infowindow.open(map);
         })
