@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(version: 2022_01_16_025201) do
     t.string "open_day", null: false
     t.string "holiday_day", null: false
     t.string "regular_holiday", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.decimal "lat", precision: 8, scale: 6
+    t.decimal "lng", precision: 9, scale: 6
   end
 
   create_table "places", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
