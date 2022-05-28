@@ -1,4 +1,4 @@
-class Category < ActiveRecord
+class Category < ApplicationRecord
   # self.data = [
   #   {id: 1, name: '---' },     
   #   {id: 2, name: '沖縄'},
