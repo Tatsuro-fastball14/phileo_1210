@@ -57,6 +57,7 @@ export default {
             const marker = new google.maps.Marker({});
             var infowindow = new google.maps.InfoWindow({
               content: '関西空港',
+               {markerData[i]['title']} 
               position: { lat: lat, lng: lng  }
             });
             infowindow.open(map);
