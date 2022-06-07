@@ -3,6 +3,7 @@
     <div class="form__wrapper">
       <h2 class="page-heading">phileo編集</h2>
       <%# 部分テンプレートでフォームを表示する %>
+      <%= form_with model:@cook,local: true do |f| %>
        <%= render partial: "form",locals: { cook: @cook } %>
     </div>
   </div>
@@ -21,6 +22,7 @@
           </p>
      </div>
   </div>
+  
 <%= f.text_area :title, class:"items-text", id:"phileo-name", placeholder:"商品名（必須 40文字まで)", maxlength:"40" %>
   <%= @cook.title %>
   <div class="wrapper">
