@@ -8,40 +8,34 @@
   </div>
 </div>
 
-    <div class="new-items">
-      <div class="weight-bold-text">
-      <div class="avatar">
-        <%= image_tag "avatar.JPG", class:"avatar" %>
-      </div>
-
-      <div class="cook__body">
-        <div class="cook__detail">
-          <p class="detail__title">
-          </p>
+<div class="new-items">
+  <div class="weight-bold-text">
+  <div class="avatar">
+    <%= image_tag "avatar.JPG", class:"avatar" %>
+</div>
+  <div class="cook__body">
+    <div class="cook__detail">
+        <p class="detail__title"> </p>
           <p class="detail__message">
-            <%= @cook.store %>
+             <%= @cook.store %>
           </p>
-        </div>
-      </div>
-     <%= f.text_area :title, class:"items-text", id:"phileo-name", placeholder:"商品名（必須 40文字まで)", maxlength:"40" %>
-          <%= @cook.title %>
-        </p>
-      </div>
-    </div>
-    
+     </div>
+  </div>
+<%= f.text_area :title, class:"items-text", id:"phileo-name", placeholder:"商品名（必須 40文字まで)", maxlength:"40" %>
+  <%= @cook.title %>
   <div class="wrapper">
     <div class="store_main">
       <p><%= @cook.store %></p>
-
-      <div class="title_main">
-        <p><%= @cook.title %></p>
-      </div>  <!--  /.title_main-->
-
-      <div class="cooksentence_main">
-        <p><%= @cook.cooksentence %></p>
-      </div>  <!--  /.cooksentence_main-->
     </div>  <!--  /.store_main-->
-    
+
+    <div class="title_main">
+      <p><%= @cook.title %></p>
+    </div>  <!--  /.title_main-->
+
+    <div class="cooksentence_main">
+      <p><%= @cook.cooksentence %></p>
+    </div>  <!--  /.cooksentence_main-->
+       
     <div class="side-bar_store">
       <p><%= @cook.address %></p>
       <p><%= @cook.phone_number %></p>
