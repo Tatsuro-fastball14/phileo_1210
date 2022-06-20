@@ -21,16 +21,16 @@
           </div>
           
             <div class="nav__right">
-              <ul>
+              <ul class="test">
                <% if user_signed_in? %>
                 <li><%= link_to "ログアウト",  destroy_user_session_path, method: :delete, class: :nav__btn  %></li>
                 <li><%= link_to current_user.email, "#", class: "user-nickname"%> </li> 
                 <li><%= link_to '',destroy_user_session_path, method: :delete, class: "logout" %></li>
-              <% else %> 
+                <% else %> 
                 <li><%= link_to 'ログイン', new_user_session_path, class: "login" %></li>
                 <li><%= link_to '新規登録', new_user_registration_path, class: "sign-up" %></li>  
-                </ul>
-              <% end %>
+              </ul>
+            <% end %>
                   
 
             </div> 

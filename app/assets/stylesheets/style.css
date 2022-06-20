@@ -57,9 +57,14 @@
 
 .nav__right {
   display: flex;
-  justify-content: flex-end
+  justify-content: flex-end;
+  
 }
 
+ul.test{
+  display: flex;
+  margin-right: 10px
+}
 .nav__left {
   display: flex;
   justify-content: center;
