@@ -61,6 +61,13 @@
   
 }
 
+.concept{
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+ 
+}
+
 ul.test{
   display: flex;
   
