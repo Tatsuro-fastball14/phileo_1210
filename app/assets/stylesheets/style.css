@@ -63,7 +63,11 @@
 
 ul.test{
   display: flex;
-  margin-right: 10px
+  
+}
+
+ul.test li{
+  margin-right: 40px
 }
 .nav__left {
   display: flex;
