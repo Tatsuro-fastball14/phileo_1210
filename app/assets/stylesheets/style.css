@@ -93,6 +93,9 @@ ul.test li{
   margin-bottom: 100px;
   background: url('https://imgsv.nikon-image.com/products/mirrorless/lineup/z_50/img/sample/pic_01_l.jpg') no-repeat 50%;
   background-size: cover;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
 }
 
 

@@ -6,10 +6,6 @@
     <p>”絶対にハズさない'</p>
     <p>'美味しいお店を検索できる </p>
  
- 
-
-  
-
 </head>
 <h1>
 
@@ -22,14 +18,16 @@
     margin-bottom: 100px;
     background: url('https://imgsv.nikon-image.com/products/mirrorless/lineup/z_50/img/sample/pic_01_l.jpg') no-repeat 50%;
     background-size: cover;
-    display: flex;
-    justify-content: center;
-    font-size: 80px;
+    font-size: 30px;
+    text-align:center;
+    padding-top:40px;
 
   }
 </style>
 
 <div id="top-search">
+  <p>”絶対にハズさない'</p>
+  <p>'美味しいお店を検索できる </p>
   <%= search_form_for @p, url: cooks_search_path do |f| %>
     <%= f.label :place_name_eq, '沖縄県' %>
     <%= f.collection_select :name_eq, @places, :name, :name, include_blank: '那覇市' %>
