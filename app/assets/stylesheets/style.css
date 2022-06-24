@@ -96,8 +96,13 @@ ul.test li{
   font-size: 40px;
   display: flex;
   justify-content: center;
+    
+  
 }
+p.hoge {
+  letter-spacing: -3px;
 
+}
 
   
 
