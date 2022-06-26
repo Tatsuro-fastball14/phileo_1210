@@ -104,6 +104,15 @@ p.hoge {
 
 }
 
+.prefecture {
+  letter-spacing: 50px;
+  font-size: 40px;
+  
+}
+
+.search {
+  color: red;
+}
   
 
 .store_main{
