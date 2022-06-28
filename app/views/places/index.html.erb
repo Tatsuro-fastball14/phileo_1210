@@ -27,7 +27,7 @@
   <%= search_form_for @p, url: cooks_search_path do |f| %>
   <div class="prefecture">
     <%= f.label :place_name_eq, '沖縄県' %>
-    <%= f.collection_select :name_eq, @places, :name, :name, include_blank: '那覇市' %>
+    <%= f.collection_select :name_eq, @places, :name, :name, include_blank: '那覇市', class:"test2" %>
   </div>
   <div class="search">
     <%= f.submit '検 索' %>
