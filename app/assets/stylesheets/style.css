@@ -43,6 +43,7 @@
 .side-bar{
   width: 500px;
   float: right;
+  margin-right: 90px;
 }
 
 .wrapper {

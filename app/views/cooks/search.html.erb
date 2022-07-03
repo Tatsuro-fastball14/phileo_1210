@@ -3,8 +3,8 @@
 <%# //4行目は何処に記述すればよいかわからないため、headなので、1番上だと思い記述を行なった。 
 <%# <script type="text/javascript" src="js/infowindow.js"></script> %>
 </div>
-
 <div class='phileo-info'>
+
   <h1>
     PHILEOグルメ 
   </h1>
@@ -12,7 +12,6 @@
   <%# <div id="infoopts">
     <input type="button" id="method11" value="吹き出しを変更"/>
 </div> %>
-
 <div class="wrapper">
   <div class="side-bar">
     <%= search_form_for @p, url: cooks_search_path do |f| %>
@@ -32,9 +31,10 @@
       <li>hogehoge</li>
     </ul>
   </div>
+
   <div class="cooks">
-    <div id="map"></div>
-    <h1 id="hoge">
+    <div id="test3"></div>
+    <h1 >
       お店一覧
     </h1>
 
@@ -59,5 +59,9 @@
     <% end %>
   </div>
 </div>
+
+  
+    <div id="map"></div>
+
 
 <%# <%= link_to 'トップページへ戻る', root_path %> 
