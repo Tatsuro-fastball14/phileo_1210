@@ -32,7 +32,7 @@
       <div class="prototype__detail">
         <p class="detail__title"></p>
         <p class="detail__message">
-          <%= @cook.title %>
+         
         </p>
       </div>
     </div>
@@ -42,19 +42,25 @@
       <p><%= @cook.store %></p>
 
       <div class="title_main">
-        <p><%= @cook.title %></p>
+        <p><%= @cook.holiday_day  %></p>
       </div>  <!--  /.title_main-->
 
       <div class="cooksentence_main">
         <p><%= @cook.cooksentence %></p>
       </div>  <!--  /.cooksentence_main-->
     </div>  <!--  /.store_main-->
+     <h1>
+    店舗情報 
+    </h1>
+     <div id="test3"></div>
+    
+      <p><%= @cook.address %></p>
+      <p><%= @cook.regular_holiday %></p>
     
     <div class="side-bar_store">
       <p><%= @cook.address %></p>
       <p><%= @cook.phone_number %></p>
       <p><%= @cook.open_day %></p>
-      <p><%= @cook.holiday_day %></p>
       <p><%= @cook.regular_holiday %></p>
     </div> <!--  /.side-bar_store-->
   </div>   <!--  /.wrapper-->
