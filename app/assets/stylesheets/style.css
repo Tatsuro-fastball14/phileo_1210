@@ -8,9 +8,7 @@
 .phileo-info{
   color: black;
   display: flex;
-  flex-wrap: wrap;
  
-
 }
 
 .item {
@@ -158,6 +156,12 @@ p.hoge {
   display: block;
   color: #000;
   
+}
+
+
+.regular_holiday {
+ 
+
 }
 
 

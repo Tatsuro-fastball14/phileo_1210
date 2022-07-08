@@ -36,11 +36,7 @@
         </p>
       </div>
     </div>
-    
-  <div class="wrapper">
-    <div class="store_main">
-      <p><%= @cook.store %></p>
-
+   
       <div class="title_main">
         <p><%= @cook.holiday_day  %></p>
       </div>  <!--  /.title_main-->
@@ -51,17 +47,26 @@
     </div>  <!--  /.store_main-->
      <h1>
     店舗情報 
-    </h1>
-     <div id="test3"></div>
+   </h1>
+     <div class="title_main">
+        <p><%= @cook.holiday_day  %></p>
+      </div>  <!--  /.title_main-->
+
+      
+   <div id="test3"></div>
+  <div class="wrapper">
+    <div class="store_main">
+      <p><%= @cook.store %></p>
+  
     
-      <p><%= @cook.address %></p>
+      <div class="regular_holiday">
       <p><%= @cook.regular_holiday %></p>
     
     <div class="side-bar_store">
       <p><%= @cook.address %></p>
       <p><%= @cook.phone_number %></p>
       <p><%= @cook.open_day %></p>
-      <p><%= @cook.regular_holiday %></p>
+    
     </div> <!--  /.side-bar_store-->
   </div>   <!--  /.wrapper-->
   </div>
