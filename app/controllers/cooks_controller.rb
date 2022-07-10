@@ -1,4 +1,5 @@
 class CooksController < ApplicationController
+  before_action :authenticate_user!, except: [:index,:show]
   before_action :search_cook, only: [:index, :search]
   before_action :basic_auth, only: [:new]
   before_action :set_cook, only: [:edit, :show,:update,:destroy]

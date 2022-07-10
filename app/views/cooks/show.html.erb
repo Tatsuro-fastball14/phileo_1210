@@ -31,34 +31,46 @@
       </div>
       <div class="prototype__detail">
         <p class="detail__title"></p>
-        <p class="detail__message">
-          <%= @cook.title %>
-        </p>
+        <p class="detail__message"> </p>
       </div>
-    </div>
-    
-  <div class="wrapper">
-    <div class="store_main">
-      <p><%= @cook.store %></p>
-
+   
+   
       <div class="title_main">
-        <p><%= @cook.title %></p>
-      </div>  <!--  /.title_main-->
+        <p><%= @cook.holiday_day %></p>
+      </div>  
 
       <div class="cooksentence_main">
         <p><%= @cook.cooksentence %></p>
-      </div>  <!--  /.cooksentence_main-->
-    </div>  <!--  /.store_main-->
+      </div>  
+    </div>  
+     <h1>
+    店舗情報 
+     </h1>
+     <div class="title_main">
+       <p><%= @cook.holiday_day %></p>
+      </div>  
+
+      
+   <div id="test3"></div>
+    <p><%= @cook.regular_holiday %></p>
+    <div class="wrapper">
+      <div class="store_main">
+       <p><%= @cook.store %></p>
+ 
+   
+      
     
-    <div class="side-bar_store">
+      <div class="side-bar_store">
       <p><%= @cook.address %></p>
       <p><%= @cook.phone_number %></p>
+       <a href="tel:090-1234-5678">090-1234-5678</a>
       <p><%= @cook.open_day %></p>
-      <p><%= @cook.holiday_day %></p>
-      <p><%= @cook.regular_holiday %></p>
-    </div> <!--  /.side-bar_store-->
-  </div>   <!--  /.wrapper-->
+    
+     </div> 
+    </div>   
   </div>
-  <%= link_to "商品の編集",   edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
+  <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
+  <%= link_to "削除", cook_path(@cook.id), method: :delete,class:"cook-destroy"%>
+  
 </main>
 
