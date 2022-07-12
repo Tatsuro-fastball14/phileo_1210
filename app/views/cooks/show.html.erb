@@ -62,8 +62,9 @@
     
       <div class="side-bar_store">
       <p><%= @cook.address %></p>
-        <div>電話番号:<%= @cook.phone_number %></div>
-       <a href="tel:090-1234-5678">090-1234-5678</a>
+        <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
+       
+      
       <p><%= @cook.open_day %></p>
     
      </div> 
