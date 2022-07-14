@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'cooks/search'
   get 'cooks/new'
   post 'cooks/new'
+  get 'members/new'
   
   
   devise_for :users
