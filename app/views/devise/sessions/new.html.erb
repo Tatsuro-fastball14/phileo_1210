@@ -1,6 +1,13 @@
-<h2>Log in</h2>
+<h2>有料サービスの購読</h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+有料プランは月額と年間、いずれかの有料登録になります
+  <p>月額プラン 400円(1ヶ月)</p>
+  <p> or</P>
+  <p>年間プラン3600円(1年)</p>
+  
+
+-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>

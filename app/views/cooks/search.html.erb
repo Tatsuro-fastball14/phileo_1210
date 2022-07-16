@@ -44,7 +44,7 @@
         </div>
         <div class='item-price'>
           <div class="avatar">
-            <%= link_to image_tag("avatar.JPG"), cook_path(cook.id), method: :get %>
+            <%= link_to image_tag("avatar.JPG"),  members_new_path(cook.id), method: :get %>
           </div>
           <h3 class='item-name'>
             <%= cook.title %>
@@ -63,3 +63,4 @@
 
 
 <%# <%= link_to 'トップページへ戻る', root_path %> 
+  <%# <%= link_to image_tag("avatar.JPG"), cook_path(cook.id), method: :get %> 

@@ -158,11 +158,29 @@ p.hoge {
   
 }
 
-
-.regular_holiday {
- 
-
+.yuuryou {
+  font-size: 20px;
+  
 }
+.getugaku {
+  color: blue;
+  border: solid;
+  text-align: center;
+  }
+  
+
+
+.nennkann {
+  color: red;
+  border: solid;
+  text-align: center;
+  }
+
+  .or {
+   text-align: center;
+ }
+  
+
 
 
 
