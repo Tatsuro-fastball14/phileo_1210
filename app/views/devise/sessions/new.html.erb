@@ -1,33 +1,43 @@
-<h2>有料サービスの購読</h2>
+<div class='mikaiinn'>
+  <h2>まだ会員登録されていない方</h2>
+</div>
+
+<div class='susumu'>
+  会員登録にすすむ
+  <%= link_to '新規登録に遷移したい', new_user_registration_path%>
+
+</div>
 
 
-有料プランは月額と年間、いずれかの有料登録になります
-  <p>月額プラン 400円(1ヶ月)</p>
-  <p> or</P>
-  <p>年間プラン3600円(1年)</p>
+
+
+<div class='sumi'>
+  <h3>会員登録済みの方</h3>
   
 
--<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %><br />
+      <%= f.password_field :password, autocomplete: "current-password" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="field">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit "ログイン" %>
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
+</div>
 
 
