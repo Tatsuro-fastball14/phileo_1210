@@ -5,14 +5,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  def new
-   user_path(resource)
-  end
-
-
-  def show
-   user_path(resource)
-  end
+ def after_sign_up_path_for(resource)
+     cook_path(7) 
+    end
   # POST /resource
   # def create
   #   super
