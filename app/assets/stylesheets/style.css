@@ -288,9 +288,14 @@ img {
 
 .sumi {
   color: red;
-  border: solid;
   text-align: center;
+}
 
+.email {
+ text-align: center;
+}
 
-
+.login {
+  text-align: center;
+  border: solid;
 }
