@@ -4,19 +4,19 @@
 
 <div class='susumu'>
    <%= link_to "会員登録にすすむ",new_user_registration_path%> 
-
 </div>
 
 <div class='sumi'>
- <p> <h3>会員登録済みの方</h3></P>
-  </div>
+   <p> <h3>会員登録済みの方</h3></P>
+ </div>
   
-<div class='email'>
+
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div class="field">
+   <div class='email'>
       <%= f.label :email %><br />
       <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
     </div>
+
 
     <div class="field">
       <%= f.label :password %><br />
@@ -29,11 +29,11 @@
         <%= f.label :remember_me %>
       </div>
     <% end %>
-    </div>
+  
     <div class="login">
        <%= f.submit 'ログイン' %>
     </div>
- <%end%>
+  <%end%>
  </div>
 
 

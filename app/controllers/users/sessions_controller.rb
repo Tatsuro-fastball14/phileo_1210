@@ -19,7 +19,7 @@ class Users::SessionsController < Devise::SessionsController
   #   super
   # end
 
-  protected
+  
   def after_sign_in_path_for(resource)
     cook_path(7)
   end
