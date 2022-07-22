@@ -1,22 +1,19 @@
 <div class='mikaiinn'>
-  <h2>まだ会員登録されていない方</h2>
+   <h2>まだ会員登録されていない方</h2>
 </div>
 
 <div class='susumu'>
-   <%= link_to "会員登録にすすむ",new_user_registration_path%> 
+  <%= link_to "会員登録にすすむ",new_user_registration_path%> 
 </div>
 
 <div class='sumi'>
-   <p> <h3>会員登録済みの方</h3></P>
- </div>
-  
+  <p><h3>会員登録済みの方</h3></P>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-   <div class='email'>
+    <div class='email'>
       <%= f.label :email %><br />
       <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
     </div>
-
 
     <div class="field">
       <%= f.label :password %><br />
@@ -31,10 +28,10 @@
     <% end %>
   
     <div class="login">
-       <%= f.submit 'ログイン' %>
+     <%= f.submit 'ログイン' %>
     </div>
   <%end%>
- </div>
+</div>
 
 
 
