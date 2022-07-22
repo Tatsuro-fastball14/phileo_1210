@@ -172,7 +172,7 @@ p.hoge {
 
 .nennkann {
   color: red;
-  border: solid;
+  border: none;
   text-align: center;
   }
 
@@ -271,4 +271,31 @@ img {
     width: 100%;
     height: 100%;
 
+}
+
+.mikaiinn {
+  color: aqua;
+  text-align: center;
+
+}
+
+.susumu {
+  color: yellow;
+  border: solid;
+  text-align: center;
+
+}
+
+.sumi {
+  color: red;
+  text-align: center;
+}
+
+.email {
+ text-align: center;
+}
+
+.login {
+  text-align: center;
+  border: solid;
 }
