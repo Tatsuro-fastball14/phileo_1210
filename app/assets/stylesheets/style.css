@@ -283,12 +283,20 @@ img {
   color: yellow;
   border: solid;
   text-align: center;
-
+  background-color: orange;
+  color:honeydew
 }
 
 .sumi {
   color: red;
   text-align: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+    border: 1px solid #333;
+    background: #f2f2f2;
+  
+  
+  
 }
 
 .email {
@@ -298,4 +306,33 @@ img {
 .login {
   text-align: center;
   border: solid;
+  
+}
+
+.card-form {
+  width: 500px;
+}
+
+.form-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.exp_month {
+  resize: none;
+}
+
+.exp_year {
+  resize: none;
+}
+
+.input-expiration-date-wrap {
+  display: flex;
+}
+
+
+.button {
+  margin-top: 30px;
+  height: 30px;
+  width: 100px;
 }
