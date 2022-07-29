@@ -43,6 +43,7 @@ class CooksController < ApplicationController
   end
 
   def show
+    redirect_to members_new_path unless user_signed_in?
     @cook = Cook.find(params[:id])
   end
 
