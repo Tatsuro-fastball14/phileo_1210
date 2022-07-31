@@ -6,7 +6,12 @@ class ApplicationController < ActionController::Base
 
   private
   def storable_location?
-      request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+      if request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+            cook_path(cook.id)
+      else
+             members_new_path
+      end
+
   end
 
   def store_user_location!
