@@ -26,7 +26,8 @@ class Users::SessionsController < Devise::SessionsController
 
   
   def after_sign_in_path_for(resource)
-      stored_location_for(resource_or_scope) || super
+      stored_location_for(resource)
+     
   end
 
   # If you have extra params to permit, append them to the sanitizer.
