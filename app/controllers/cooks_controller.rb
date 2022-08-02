@@ -1,5 +1,5 @@
 class CooksController < ApplicationController
-  before_action :authenticate_user!, except: [:index,:search,]
+  before_action :authenticate_user!, except: [:index,:search,:show]
   before_action :search_cook, only: [:index, :search]
   before_action :basic_auth, only: [:new]
   before_action :set_cook, only: [:edit, :show,:update,:destroy]
@@ -43,6 +43,7 @@ class CooksController < ApplicationController
   end
 
   def show
+    redirect_to members_new_path unless user_signed_in?
     @cook = Cook.find(params[:id])
   end
 
