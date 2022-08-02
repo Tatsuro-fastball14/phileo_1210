@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   private
   def storable_location?
+       binding.pry
        request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
             
     
