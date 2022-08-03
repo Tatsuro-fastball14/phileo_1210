@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     
       
 
-  end
+ 
 
   def store_user_location!
      
