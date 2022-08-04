@@ -9,6 +9,11 @@ class Users::SessionsController < Devise::SessionsController
     super
   end
 
+  
+  
+
+
+ 
   # POST /resource/sign_in
   # def create
   #   super
@@ -21,7 +26,9 @@ class Users::SessionsController < Devise::SessionsController
 
   
   def after_sign_in_path_for(resource)
-    cook_path(7)
+     
+      stored_location_for(resource)
+     
   end
 
   # If you have extra params to permit, append them to the sanitizer.
