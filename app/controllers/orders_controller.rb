@@ -1,12 +1,24 @@
 class OrdersController < ApplicationController
- require 'payjp'
 
-  def purchase
-    Payjp.api_key = "秘密鍵"
-    Payjp::Charge.create(
-      amount: 809, # 決済する値段
-      card: params['payjp-token'], # フォームを送信すると作成・送信されてくるトークン
-      currency: 'jpy'
-    )
+  def index
+     @order = Order.new
   end
-  aaa
+
+  def create
+     @order = Order.new(order_params)
+    if @order.valid?
+      @order.save
+      return redirect_to root_path
+    else
+      render 'index'
+    end
+  end
+
+  private
+
+  def order_params
+    params.require(:order).permit(:price)
+  end
+ 
+end
+  
