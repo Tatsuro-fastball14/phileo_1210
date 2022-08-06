@@ -1,7 +1,9 @@
 class CreateOrders < ActiveRecord::Migration[6.0]
   def change
-    create_table :orders do |t|
-      t.integer :price ,null: false
+    create_table :cards do |t|
+      t.references :user, foreign_key: true, null: false
+      t.string :customer_id, null: false
+      t.string :card_id, null: false
       t.timestamps
     end
   end
