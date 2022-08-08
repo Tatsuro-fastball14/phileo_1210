@@ -5,7 +5,8 @@ class OrdersController < ApplicationController
   end
 
   def new
-    @order = Order.new(order_params)
+   binding.pry
+  @order = Order.new(order_params)
    
   end
   def create
