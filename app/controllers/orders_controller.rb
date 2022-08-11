@@ -1,10 +1,12 @@
 class OrdersController < ApplicationController
 
   def index
+   
      @order = Order.new
   end
 
   def new
+ 
  
   @order = Order.new
    
@@ -22,11 +24,13 @@ class OrdersController < ApplicationController
    require 'payjp'
 
   def order
+    
     Payjp.api_key = "sk_test_387e29ac1993016a509c7ae9"
     Payjp::Charge.create(
       amount: 400, # 決済する値段
       card: params['payjp-token'], # フォームを送信すると作成・送信されてくるトークン
       currency: 'jpy'
+      
     )
   end
 

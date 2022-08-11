@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'cooks/new'
   post 'cooks/new'
   get 'members/new'
+  post 'orders/imdex'
   
   
   devise_for :users, :controllers => {
