@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
 
   def index
    
+  
      @order = Order.new
   end
 
@@ -12,7 +13,9 @@ class OrdersController < ApplicationController
    
   end
   def create
+     binding.pry
      @order = Order.new(order_params)
+     
     if @order.valid?
       @order.save
       return redirect_to root_path
@@ -24,6 +27,7 @@ class OrdersController < ApplicationController
    require 'payjp'
 
   def order
+    binding.pry
     
     Payjp.api_key = "sk_test_387e29ac1993016a509c7ae9"
     Payjp::Charge.create(

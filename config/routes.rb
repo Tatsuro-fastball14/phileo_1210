@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'cooks/new'
   post 'cooks/new'
   get 'members/new'
-  post 'orders/imdex'
+  post 'orders/index'
   
   
   devise_for :users, :controllers => {
@@ -19,7 +19,11 @@ Rails.application.routes.draw do
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :cooks
-  resources :orders
+  resources :orders,only: [:show, :create,:index] do
+    collection do 
+      get 'order'
+    end
+  end
  
 
 end
