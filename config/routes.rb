@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :cooks
   resources :orders,only: [:show, :create,:index] do
     collection do 
-      get 'order'
+      post 'order'
     end
   end
  
