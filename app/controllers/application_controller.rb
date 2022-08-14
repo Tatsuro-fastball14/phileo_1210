@@ -1,7 +1,17 @@
 class ApplicationController < ActionController::Base
+   before_action :redirect_root, if: proc { user_signed_in? && current_user.id == 1 } 
    before_action :store_user_location!, if: :storable_location?
    
   
+
+ private
+
+def redirect_root
+  redirect_to root_path unless user_signed_in?
+end
+
+
+
 
 
   private
@@ -11,7 +21,7 @@ class ApplicationController < ActionController::Base
     
       
 
- 
+  
 
   def store_user_location!
      
