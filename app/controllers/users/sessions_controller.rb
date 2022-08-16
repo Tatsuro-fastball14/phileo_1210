@@ -26,8 +26,16 @@ class Users::SessionsController < Devise::SessionsController
 
   
   def after_sign_in_path_for(resource)
-     
+      if  controller_name != 'orders'
+          redirect_to orders_path 
+
+      else
+          redirect_to login_url
+          
+      end
+         
       stored_location_for(resource)
+      
      
   end
 

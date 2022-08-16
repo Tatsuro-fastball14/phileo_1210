@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-   before_action :redirect_root, if: proc { user_signed_in? && current_user } 
+   before_action :redirect_root, if: proc { user_signed_in? && current_user  } 
    before_action :store_user_location!, if: :storable_location?
    
   
@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
  private
 
 def redirect_root
-  binding.pry
+ 
   redirect_to orders_path unless user_signed_in?
 end
 
