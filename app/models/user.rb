@@ -10,4 +10,5 @@ class User < ApplicationRecord
 
   def subscriber?
     false
+  end
 end
