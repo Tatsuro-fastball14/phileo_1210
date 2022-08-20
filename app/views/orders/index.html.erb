@@ -3,7 +3,7 @@
  <div class='yuuryou' 有料プランは月額と年間、いずれかの有料登録になります></div>
 
  <div class='getugaku'>
-   <p><%= link_to "月額プラン400円(1ヶ月)",order_orders_path %></p>
+   <p><%= link_to "月額プラン400円(1ヶ月)", pay_orders_path %></p>
    <%= form_with url: order_orders_path, local: true do |f| %>
      <script type="text/javascript" src="https://checkout.pay.jp" class="payjp-button" data-key="pk_test_bb4b5fedd69d40ae4f265794"></script>
    <% end %>

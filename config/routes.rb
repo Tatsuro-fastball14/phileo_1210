@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :orders, only: [:show, :create, :index] do
     collection do 
       post 'order'
+      post 'pay'
     end
   end
  
