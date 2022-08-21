@@ -38,7 +38,9 @@ class OrdersController < ApplicationController
       card: params['payjp-token'], # フォームを送信すると作成・送信されてくるトークン
       currency: 'jpy'
     )
+    redirect_to root_path, notice: '登録が完了しました'
   end
+  
 
   private
 
