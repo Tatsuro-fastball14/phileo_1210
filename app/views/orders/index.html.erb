@@ -5,7 +5,7 @@
  <div class='getugaku'>
    <p>月額プラン400円(1ヶ月)</p>
    <%= form_with url: order_orders_path, local: true do |f| %>
-     <script type="text/javascript" src="https://checkout.pay.jp" class="payjp-button" data-key="pk_test_bb4b5fedd69d40ae4f265794"></script>
+     <script type="text/javascript" src="https://js.pay.jp/v2/pay.js" class="payjp-button" data-key="pk_test_bb4b5fedd69d40ae4f265794"></script>
    <% end %>
  </div>
 
@@ -14,7 +14,7 @@
  </div>
  <div class='nennkann'><p>年額プラン3600円(1年)</p>
     <%= form_with url: order_orders_path, local: true do |f| %>
-      <script type="text/javascript" src="https://checkout.pay.jp" class="payjp-button" data-key="pk_test_bb4b5fedd69d40ae4f265794"></script>
+      <script type="text/javascript" src="https://checkout.pay.jp/v2" class="payjp-button" data-key="pk_test_bb4b5fedd69d40ae4f265794"></script>
     <% end %>
  </div>
   
