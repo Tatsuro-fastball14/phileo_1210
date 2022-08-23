@@ -29,6 +29,15 @@ class OrdersController < ApplicationController
       currency: 'jpy'
     )
     redirect_to root_path, notice: '登録が完了しました'
+
+    Payjp.api_key = "sk_test_387e29ac1993016a509c7ae9"
+    Payjp::Charge.create(
+      amount: 3000, # 決済する値段
+      card: params['payjp-token'], # フォームを送信すると作成・送信されてくるトークン
+      currency: 'jpy'
+    )
+    redirect_to root_path, notice: '登録が完了しました'
+  
   end
 
   def pay
