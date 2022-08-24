@@ -1,5 +1,5 @@
 <script src="https://js.pay.jp/v2/pay.js"></script>
-<style>
+<style></style>
 /* 必要に応じてフォームの外側のデザインを用意します */
 div.payjs-outer {
   border: thin solid #198fcc;

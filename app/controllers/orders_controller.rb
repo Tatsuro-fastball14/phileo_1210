@@ -37,6 +37,9 @@ class OrdersController < ApplicationController
       currency: 'jpy'
     )
     redirect_to root_path, notice: '登録が完了しました'
+
+
+    
   
   end
 
