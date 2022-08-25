@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
     )
     redirect_to root_path, notice: '登録が完了しました'
 
-    Payjp.api_key = "sk_test_387e29ac1993016a509c7ae9"
+    var payjp = Payjp('pk_test_0383a1b8f91e8a6e3ea0e2a9')
     Payjp::Charge.create(
       amount: 3000, # 決済する値段
       card: params['payjp-token'], # フォームを送信すると作成・送信されてくるトークン
