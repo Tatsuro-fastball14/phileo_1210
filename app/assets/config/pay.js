@@ -21,3 +21,5 @@ function onSubmit2(event) {
   })
 }
 </script>
+
+var payjp = Payjp('pk_test_0383a1b8f91e8a6e3ea0e2a9')
