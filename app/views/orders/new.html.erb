@@ -1,6 +1,8 @@
-<%= form_with  model: @order, id: 'charge-form', class: 'card-form',local: true do |f| %>
-  <div class='form-wrap'>
-    <%= f.text_field :price, class:"price", placeholder:"月額400円" %>
-  </div>
-  <%= f.submit "購入", class:"button", id: "button" %>
+<p id="number-form" class="payjs-outer></p>
+<p id="expiry-form" class="payjs-outer"></p>
+<p id="cvc-form" class="payjs-outer></p>
+
+<%= form_with url: pay_cards_path, method: :post, id: "card_form" do |f| %>
+  <div id="card_token"></div>
+  <%= f.submit "登録する", class:"btn", id: "info_submit" %>
 <% end %>

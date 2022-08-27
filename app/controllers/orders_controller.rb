@@ -6,6 +6,7 @@ class OrdersController < ApplicationController
 
   def new
   @order = Order.new
+  card = Card.where(user_id: current_user.id)
   end
 
   def create
