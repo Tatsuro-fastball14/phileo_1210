@@ -48,3 +48,43 @@ function onSubmit(event) {
   })
 }
 </script>
+(function () {
+  
+  if (document.URL.match(/cards/)){
+  
+     payjp = Payjp('pk_test_0383a1b8f91e8a6e3ea0e2a9');
+   
+     elements = payjp.elements();
+     numberElement = elements.create('cardNumber');
+     expiryElement = elements.create('cardExpiry');
+     cvcElement = elements.create('cardCvc');
+
+      numberElement.mount('#number-form');
+      expiryElement.mount('#expiry-form');
+      cvcElement.mount('#cvc-form');
+
+      submit_btn = $("#info_submit");
+      submit_btn.on('click', function (e) {
+      e.preventDefault();
+      payjp.createToken(numberElement).then(function (response) {
+
+      if (response.error) {  
+        alert(response.error.message)
+        regist_card.prop('disabled', false)
+        } else {
+          ("#card_token").append(
+            `<input type="hidden" name="payjp_token" value=${response.id}>
+            <input type="hidden" name="card_token" value=${response.card.id}>`
+          );
+          $('#card_form')[0].submit();
+
+          $("#card_number").removeAttr("name");
+          $("#cvc-from").removeAttr("name");
+          $("#exp_month").removeAttr("name");
+          $("#exp_year").removeAttr("name");
+        };
+      });
+    }); 
+  }
+  
+});

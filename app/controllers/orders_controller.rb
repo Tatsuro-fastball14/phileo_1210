@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
 
   def index
     @order = Order.new
+     
   end
 
   def new
@@ -22,6 +23,8 @@ class OrdersController < ApplicationController
 
    require 'payjp'
 
+
+   
   def order
    var payjp = Payjp('pk_test_0383a1b8f91e8a6e3ea0e2a9')
     Payjp::Charge.create(
