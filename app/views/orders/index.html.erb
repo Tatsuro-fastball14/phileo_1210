@@ -1,101 +1,57 @@
 有料サービスの購読
+<p id="number-form" class="payjs-outer"></p>
+ <p id="expiry-form" class="payjs-outer"></p>
+ <p id="cvc-form" class="payjs-outer"></p>
 
- <div class='yuuryou' 有料プランは月額と年間、いずれかの有料登録になります></div>
-
- <div class='getugaku'>
-   <p>月額プラン400円(1ヶ月)</p>
-   <%= form_with url: order_orders_path, local: true do |f| %>
-     <script type="text/javascript" src="https://js.pay.jp/v2/pay.js" class="payjp-button" data-key="pk_test_bb4b5fedd69d40ae4f265794"></script>
-   <% end %>
- </div>
-
- <div class='or'>
-   <p>or</p>
- </div>
- <div class='nennkann'><p>年額プラン3600円(1年)</p>
-    <%= form_with url: order_orders_path, local: true do |f| %>
-      <script type="text/javascript" src="https://js.pay.jp/v2/pay.js">class="payjp-button" data-key="pk_test_bb4b5fedd69d40ae4f265794"></script>
-    <% end %>
- </div>
-  
-<script src="https://js.pay.jp/v2/pay.js"></script>
-<style>
-/* 必要に応じてフォームの外側のデザインを用意します */
-div.payjs-outer {
-  border: thin solid #198fcc;
-}
-</style>
-<div id="v2-demo" class="payjs-outer"><!-- ここにフォームが生成されます --></div>
-<button onclick="onSubmit(event)">トークン作成</button>
-<span id="token"></span>
-<script>
-// 公開鍵を登録し、起点となるオブジェクトを取得します
-var payjp = Payjp('pk_test_0383a1b8f91e8a6e3ea0e2a9')
-
-// elementsを取得します。ページ内に複数フォーム用意する場合は複数取得ください
-var elements = payjp.elements()
-
-// element(入力フォームの単位)を生成します
-var cardElement = elements.create('card')
-
-// elementをDOM上に配置します
-cardElement.mount('#v2-demo')
-
-// ボタンが押されたらtokenを生成する関数を用意します
-function onSubmit(event) {
-  payjp.createToken(cardElement).then(function(r) {
-    document.querySelector('#token').innerText = r.error ? r.error.message : r.id
-  })
-}
-</script>
-
-<p id="number-form" class="payjs-outer></p>
-<p id="expiry-form" class="payjs-outer"></p>
-<p id="cvc-form" class="payjs-outer></p>
-
-<%= form_with url: pay_cards_path, method: :post, id: "card_form" do |f| %>
-  <div id="card_token"></div>
-  <%= f.submit "登録する", class:"btn", id: "info_submit" %>
+<%= form_with url: order_orders_path, method: :post, id: "card_form" do |f| %>
+   <div id="card_token"></div>
+   <%= f.submit "登録する", class: "btn", id: "info_submit" %>
 <% end %>
 
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+ <script type="text/javascript" charset="utf-8">
+   $(function() {
+     //URLにcardsが含まれている際に発火します。
+     if (document.URL.match(/orders/)) {
 
-(function () {
+  //公開鍵を記述
+       var payjp = Payjp('pk_test_bb4b5fedd69d40ae4f265794');
+       //Elements インスタンスを生成します。
+       var elements = payjp.elements();
+       var numberElement = elements.create('cardNumber');
+       var expiryElement = elements.create('cardExpiry');
+       var cvcElement = elements.create('cardCvc');
   
-  if (document.URL.match(/cards/)){
-  
-     payjp = Payjp('pk_test_0383a1b8f91e8a6e3ea0e2a9');
-   
-     elements = payjp.elements();
-     numberElement = elements.create('cardNumber');
-     expiryElement = elements.create('cardExpiry');
-     cvcElement = elements.create('cardCvc');
-
       numberElement.mount('#number-form');
       expiryElement.mount('#expiry-form');
       cvcElement.mount('#cvc-form');
 
-      submit_btn = $("#info_submit");
-      submit_btn.on('click', function (e) {
-      e.preventDefault();
-      payjp.createToken(numberElement).then(function (response) {
+       var submit_btn = $("#info_submit");
+       submit_btn.on('click', function(e) {
+         e.preventDefault();
+         payjp.createToken(numberElement).then(function(response) {
 
-      if (response.error) {  
-        alert(response.error.message)
-        regist_card.prop('disabled', false)
-        } else {
-          ("#card_token").append(
-            `<input type="hidden" name="payjp_token" value=${response.id}>
-            <input type="hidden" name="card_token" value=${response.card.id}>`
-          );
-          $('#card_form')[0].submit();
+           if (response.error) {  //  通信に失敗したとき
+             alert(response.error.message)
+             regist_card.prop('disabled', false)
+           } else {
+             $("#card_token").append(
+               `<input type="hidden" name="payjp_token" value=${response.id}>
+               <input type="hidden" name="card_token" value=${response.card.id}>`
+             );
+             $('#card_form')[0].submit();
 
-          $("#card_number").removeAttr("name");
-          $("#cvc-from").removeAttr("name");
-          $("#exp_month").removeAttr("name");
-          $("#exp_year").removeAttr("name");
-        };
-      });
-    }); 
-  }
-  
-});
+            $("#card_number").removeAttr("name");
+             $("#cvc-from").removeAttr("name");
+             $("#exp_month").removeAttr("name");
+             $("#exp_year").removeAttr("name");
+           }
+           ;
+         });
+       });
+     }
+   });
+
+
+
+
