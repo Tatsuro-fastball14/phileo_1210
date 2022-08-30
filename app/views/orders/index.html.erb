@@ -22,12 +22,12 @@
        var expiryElement = elements.create('cardExpiry');
        var cvcElement = elements.create('cardCvc');
   
-      numberElement.mount('#number-form');
-      expiryElement.mount('#expiry-form');
-      cvcElement.mount('#cvc-form');
+        numberElement.mount('#number-form');
+        expiryElement.mount('#expiry-form');
+        cvcElement.mount('#cvc-form');
 
        var submit_btn = $("#info_submit");
-       submit_btn.on('click', function(e) {
+          submit_btn.on('click', function(e) {
          e.preventDefault();
          payjp.createToken(numberElement).then(function(response) {
 
@@ -41,7 +41,7 @@
              );
              $('#card_form')[0].submit();
 
-            $("#card_number").removeAttr("name");
+             $("#card_number").removeAttr("name");
              $("#cvc-from").removeAttr("name");
              $("#exp_month").removeAttr("name");
              $("#exp_year").removeAttr("name");
@@ -51,7 +51,7 @@
        });
      }
    });
-
+  </script>
 
 
 
