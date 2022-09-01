@@ -23,7 +23,8 @@ class OrdersController < ApplicationController
   require 'payjp'
  
   def order
-    payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    hoge =10
+    pay.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       amount: 400, # 決済する値段
       card: params['payjp-token'], # フォームを送信すると作成・送信されてくるトークン
