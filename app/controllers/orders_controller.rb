@@ -21,6 +21,13 @@ class OrdersController < ApplicationController
   end
 
   require 'payjp'
+  
+  customer = Payjp::Customer.create(
+    description: '登録テスト',
+    email: current_user.email,
+    card: params['payjp_token'],
+    metadata: {user_id: current_user.id}
+  )
  
   def order
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
