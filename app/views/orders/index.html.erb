@@ -3,7 +3,7 @@
  <p id="expiry-form" class="payjs-outer"></p>
  <p id="cvc-form" class="payjs-outer"></p>
 
-<%= form_with url: order_orders_path, method: :post, id: "card_form" do |f| %>
+<%= form_with url: orders_path, method: :post, id: "card_form" do |f| %>
    <div id="card_token"></div>
    <%= f.submit "登録する", class: "btn", id: "info_submit" %>
 <% end %>

@@ -11,6 +11,17 @@ class OrdersController < ApplicationController
   end
   def create
         @order = Order.new(order_params)
+          require 'payjp'
+          Payjp.api_key = 'sk_test_c62fade9d045b54cd76d7036'
+          Payjp::Customer.create(
+          description: 'test'
+        )
+        require 'payjp'
+          Payjp.api_key = 'sk_test_c62fade9d045b54cd76d7036'
+          Payjp::Subscription.create(
+          plan: 'pln_9589006d14aad86aafeceac06b60',
+          customer: 'cus_4df4b5ed720933f4fb9e28857517'
+        )
      
     if @order.valid?
       @order.save
@@ -19,27 +30,10 @@ class OrdersController < ApplicationController
       render 'index'
     end
   end
-
-  require 'payjp'
   
-  customer = Payjp::Customer.create(
-    description: '登録テスト',
-    email: current_user.email,
-    card: params['payjp_token'],
-    metadata: {user_id: current_user.id}
-  )
- 
-  def order
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-    Payjp::Charge.create(
-     
-      amount: 400, # 決済する値段
-      card: params['payjp_token'], # フォームを送信すると作成・送信されてくるトークン
-      currency: 'jpy'
-    )
     
-    redirect_to root_path, notice: '登録が完了しました'
-  end
+    
+    
 
   def pay 
   end
