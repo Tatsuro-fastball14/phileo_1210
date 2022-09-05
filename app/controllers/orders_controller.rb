@@ -30,9 +30,8 @@ class OrdersController < ApplicationController
   end
   
     
-  def order(order_params)
-      Payjp::Charge.create(
-      price: 400, # 決済する値段       
+  def order
+   
   end
    
   def pay 
