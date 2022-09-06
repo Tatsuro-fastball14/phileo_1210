@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post 'cooks/new'
   get 'members/new'
   post 'orders/index'
+  post 'orders/pay'
   
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
