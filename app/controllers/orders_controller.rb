@@ -31,15 +31,11 @@ class OrdersController < ApplicationController
    
   def pay 
       require 'payjp'
-     
-Payjp.api_key = 'sk_test_387e29ac1993016a509c7ae9720933f4fb9e28857517'
-customer.subscriptions.retrieve('sub_567a1e44562932ec1a7682d746e0')
-
-
-
-
-
-       
+        Payjp.api_key = 'sk_test_387e29ac1993016a509c7ae9'
+        Payjp::Subscription.create(
+        plan: 'pln_9589006d14aad86aafeceac06b60',
+        ustomer: 'cus_4df4b5ed720933f4fb9e28857517'
+      )   
   end
   
  private
