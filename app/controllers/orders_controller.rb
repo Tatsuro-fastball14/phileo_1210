@@ -11,14 +11,27 @@ class OrdersController < ApplicationController
   end
 
   def create
+      binding.pry
      Payjp.api_key = 'sk_test_387e29ac1993016a509c7ae9'
       customer = Payjp::Customer.create(
-      card: params['payjp-token']
-    )
+        description: '登録テスト',
+        
+        card: params['payjp_token'],
+        metadata: {user_id: current_user.id}
+      )
+
+        
+  if @card.save
+    redirect_to action: "show"
+  else
+    redirect_to action: "pay"
+  end
+
     Payjp::Subscription.create(
       plan: 'getugaku400',
       customer: customer.id
     ) 
+
  
 
 
