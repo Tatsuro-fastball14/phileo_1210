@@ -11,7 +11,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-      binding.pry
      Payjp.api_key = 'sk_test_387e29ac1993016a509c7ae9'
       customer = Payjp::Customer.create(
         description: '登録テスト',
@@ -20,7 +19,11 @@ class OrdersController < ApplicationController
         metadata: {user_id: current_user.id}
       )
 
-        
+      @card = Card.new(
+        user_id: current_user.id,
+        customer_id: customer.id,
+        card_id: customer.default_card
+      )       
   if @card.save
     redirect_to action: "show"
   else
