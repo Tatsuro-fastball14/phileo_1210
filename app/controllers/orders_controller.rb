@@ -13,17 +13,14 @@ class OrdersController < ApplicationController
   def create
      Payjp.api_key = 'sk_test_387e29ac1993016a509c7ae9'
       customer = Payjp::Customer.create(
-        description: '登録テスト',
-        
+         binding.pry    
+        description: '登録テスト',        
         card: params['payjp_token'],
         metadata: {user_id: current_user.id}
       )
+  end
 
-      @card = Card.new(
-        user_id: current_user.id,
-        customer_id: customer.id,
-        card_id: customer.default_card
-      )       
+     
   if @card.save
     redirect_to action: "show"
   else
@@ -40,20 +37,19 @@ class OrdersController < ApplicationController
 
 
 
-   return redirect_to root_path
+   
     # TODO: payjpで作成したcustomer.idをアプリのDBに保存しておく必要がある。
     # そうすることで、userとpayjp側のcustomerを判定できるようになる
     # 判定できるようになると、Payjp::Customer.retrieve('カスタマーID')でpayjpの顧客情報を取得できるようになる
 
-    return redirect_to root_path
+    
 
 
 
 
 
 
-
-  end
+  
   private
 
   def order_params
