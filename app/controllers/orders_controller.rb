@@ -17,9 +17,10 @@ class OrdersController < ApplicationController
         description: '登録テスト',        
         card: params['payjp_token'],
         metadata: {user_id: current_user.id}
-          
+        customer_id: {customer.id}
+        
       )
-      binding.pry    
+    
     
   end
 
