@@ -17,13 +17,16 @@ class OrdersController < ApplicationController
         description: '登録テスト',        
         card: params['payjp_token'],
         metadata: {user_id: current_user.id}
-        customer_id: {customer.id}
+        customer: customer.id
         
       )
     
     
   end
 
+  def update
+     customer: customer.id
+  end
      
   if @card.save
     redirect_to action: "show"
