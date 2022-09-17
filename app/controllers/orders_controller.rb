@@ -18,16 +18,16 @@ class OrdersController < ApplicationController
         card: params['payjp_token'],
         metadata: {user_id: current_user.id}
         customer: customer.id
+        #createアクションの中に、userテーブルのcustomer_idに保存できるようにする。
+        
+        
         
       )
     
     
   end
 
-  def update
-     customer: customer.id
-  end
-     
+ 
   if @card.save
     redirect_to action: "show"
   else
