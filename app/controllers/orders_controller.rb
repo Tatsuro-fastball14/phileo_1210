@@ -16,10 +16,10 @@ class OrdersController < ApplicationController
         metadata: {user_id: current_user.id}
       )
       current_user.update(customer_id: customer.id)
-        Payjp::Subscription.create(
-          plan: 'getugaku400',
-          customer: customer.id     
-        )
+      Payjp::Subscription.create(
+      plan: 'getugaku400',
+      customer: customer.id     
+      )
         redirect_to orders_path
   end
 
