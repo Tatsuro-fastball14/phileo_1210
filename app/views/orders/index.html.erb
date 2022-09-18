@@ -1,7 +1,61 @@
-<%= form_with  model: @order, id: 'charge-form', class: 'card-form',local: true do |f| %>
-  <div class='form-wrap'>
-    <%= f.label :price, "金額" %>
-    <%= f.text_field :price, class:"price", placeholder:"例)2000" %>
-  </div>
-  <%= f.submit "購入", class:"button", id: "button" %>
+有料サービスの購読
+<p id="number-form" class="payjs-outer"></p>
+<p id="expiry-form" class="payjs-outer"></p>
+<p id="cvc-form" class="payjs-outer"></p>
+
+<%= form_with url: orders_path, method: :post, id: "card_form" do |f| %>
+   <div id="card_token"></div>
+   <%= f.submit "登録する", class: "btn", id: "info_submit" %>
 <% end %>
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    //URLにcardsが含まれている際に発火します。
+    if (document.URL.match(/orders/)) {
+
+      //公開鍵を記述
+      var payjp = Payjp('pk_test_bb4b5fedd69d40ae4f265794');
+      //Elements インスタンスを生成します。
+      var elements = payjp.elements();
+      var numberElement = elements.create('cardNumber');
+      var expiryElement = elements.create('cardExpiry');
+      var cvcElement = elements.create('cardCvc');
+
+      numberElement.mount('#number-form');
+      expiryElement.mount('#expiry-form');
+      cvcElement.mount('#cvc-form');
+      
+
+      var submit_btn = $("#info_submit");
+      submit_btn.on('click', function(e) {
+        e.preventDefault();
+        payjp.createToken(numberElement).then(function(response) {
+
+          if (response.error) {  //  通信に失敗したとき
+            alert(response.error.message)
+            regist_card.prop('disabled', false)
+          } else {
+       
+
+            $("#card_token").append(
+              `<input type="hidden" name="payjp_token" value=${response.id}>
+               <input type="hidden" name="card_token" value=${response.card.id}>`
+            );
+            $('#card_form')[0].submit();
+
+            $("#card_number").removeAttr("name");
+            $("#cvc-from").removeAttr("name");
+            $("#exp_month").removeAttr("name");
+            $("#exp_year").removeAttr("name");
+          }
+          ;
+        });
+      });
+    }
+  });
+</script>
+
+
+
+

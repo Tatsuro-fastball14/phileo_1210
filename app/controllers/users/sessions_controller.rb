@@ -9,11 +9,6 @@ class Users::SessionsController < Devise::SessionsController
     super
   end
 
-  
-  
-
-
- 
   # POST /resource/sign_in
   # def create
   #   super
@@ -24,11 +19,14 @@ class Users::SessionsController < Devise::SessionsController
   #   super
   # end
 
-  
   def after_sign_in_path_for(resource)
-     
-      stored_location_for(resource)
-     
+      if  resource.subscriber?
+
+          stored_location_for(resource)
+      else
+          
+        orders_url       
+      end  
   end
 
   # If you have extra params to permit, append them to the sanitizer.

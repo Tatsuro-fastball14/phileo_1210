@@ -1,13 +1,12 @@
 class CooksController < ApplicationController
-  before_action :authenticate_user!, except: [:index,:search,:show]
+  before_action :authenticate_user!, except: [:index,:search]
   before_action :search_cook, only: [:index, :search]
   before_action :basic_auth, only: [:new]
   before_action :set_cook, only: [:edit, :show,:update,:destroy]
 
-
   def index
     @cooks = Cook.all
-    render json:@cooks
+    render json: @cooks
   end
 
   def new
@@ -24,12 +23,11 @@ class CooksController < ApplicationController
   end
 
   def edit
-  
   end
 
   def update
     
-    if@cook.update(cooks_params)
+    if @cook.update(cooks_params)
         redirect_to cook_path
     else
       render :edit
@@ -39,11 +37,11 @@ class CooksController < ApplicationController
   def destroy
   
     @cook.destroy
-    redirect_to  root_path
+    redirect_to root_path
   end
 
   def show
-    redirect_to members_new_path unless user_signed_in?
+    redirect_to orders_path unless current_user.subscriber?
     @cook = Cook.find(params[:id])
   end
 
@@ -55,7 +53,7 @@ class CooksController < ApplicationController
   private
 
   def cooks_params
-    params.require(:cook).permit(:title, :store, :cooksentence,:address,:phone_number,:open_day,:holiday_day,:regular_holiday,:lat,:lng,images: [])
+    params.require(:cook).permit(:title, :store, :cooksentence, :address, :phone_number,:open_day,:holiday_day,:regular_holiday,:lat,:lng,images: [])
   end
 
   def search_cook
