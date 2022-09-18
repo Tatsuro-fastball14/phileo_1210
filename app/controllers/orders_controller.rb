@@ -13,38 +13,17 @@ class OrdersController < ApplicationController
       customer = Payjp::Customer.create( 
         description: '登録テスト',        
         card: params['payjp_token'],
-        metadata: {user_id: current_user.id},
+        metadata: {user_id: current_user.id}
+      )
         current_user.update:(customer_id: customer.id)
-         Payjp::Subscription.create(
-          plan: 'getugaku400',
-          customer: customer.id     
-        )
-          redirect_to action: "show"
-      end
-       
-     
-        #引数ではないため、ここに記述した（）の中ではないない  
+          Payjp::Subscription.create(
+            plan: 'getugaku400',
+            customer: customer.id     
+          )
+            redirect_to action: "show"    
   end
 
  
-  
- 
-
-
-
-
-   
-    # TODO: payjpで作成したcustomer.idをアプリのDBに保存しておく必要がある。
-    # そうすることで、userとpayjp側のcustomerを判定できるようになる
-    # 判定できるようになると、Payjp::Customer.retrieve('カスタマーID')でpayjpの顧客情報を取得できるようになる
-
-    
-
-
-
-
-
-
   
   private
 
