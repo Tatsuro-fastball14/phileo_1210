@@ -6,7 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
  def after_sign_up_path_for(resource)
-   cook_path(6) 
+    
  end
   # POST /resource
   # def create
