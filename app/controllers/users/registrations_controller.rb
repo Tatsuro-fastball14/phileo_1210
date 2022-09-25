@@ -6,6 +6,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
  def after_sign_up_path_for(resource)
+    if  resource.subscriber?
+      
+        stored_location_for(resource)
+    else
+          
+        orders_url       
+    end  
     
  end
   # POST /resource
