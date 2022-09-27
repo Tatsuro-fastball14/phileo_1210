@@ -9,6 +9,6 @@ class User < ApplicationRecord
   has_many :Others
 
   def subscriber?
-    true
+    self.customer_id.present?
   end
 end
