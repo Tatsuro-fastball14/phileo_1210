@@ -13,15 +13,15 @@ class OrdersController < ApplicationController
     customer = Payjp::Customer.create(
       description: '登録テスト',
       card: params['payjp_token'],
-      metadata: { user_id: current_user.id }
+      metadata: {user_id: current_user.id}
     )
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
       plan: 'getugaku400',
       customer: customer.id
-    )
+     )
 
-    redirect_to stored_location_for(current_user)
+     redirect_to stored_location_for(current_user)
   end
 
   private
