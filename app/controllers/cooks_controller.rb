@@ -41,7 +41,6 @@ class CooksController < ApplicationController
   end
 
   def show
-   binding.pry
     redirect_to orders_path unless current_user.subscriber?
     @cook = Cook.find(params[:id])
   end

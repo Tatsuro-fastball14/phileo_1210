@@ -70,8 +70,13 @@
      </div> 
     </div>   
   </div>
-  <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
-  <%= link_to "削除", cook_path(@cook.id), method: :delete,class:"cook-destroy"%>
+  
+  #ユーザー（開発者側）のみ表示させたい。
+  #開発者側専用の管理画面を作成した方が良いか、別のページに遷移（記載）させた方が良いか。
+  <% if  user_signed_in? %>
+    <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
+    <%= link_to "削除", cook_path(@cook.id), method: :delete,class:"cook-destroy"%>
+  <% end %> 
   
 </main>
 
