@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :admins
   get 'places/index'
   get 'cooks/search'
   get 'cooks/new'
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
   
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
-    :sessions => 'users/sessions'   
+    
   } 
 
   root to: "places#index"

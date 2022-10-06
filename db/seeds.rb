@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Category.create(name:'沖縄')
-Place.create(name:'那覇市',category_id:'1')
-Place.create(name:'浦添市',category_id:'2')
-Place.create(name:'宜野湾市',category_id:'3')
+Admin.create!(
+   email: 'admin@admin',
+   password: 'testtest'
+)
