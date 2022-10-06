@@ -1,5 +1,4 @@
 class CardController < ApplicationController
-  class CardsController < ApplicationController
   require "payjp"
   before_action :set_card
 
