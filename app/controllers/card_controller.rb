@@ -10,13 +10,13 @@ class CardController < ApplicationController
 def new
   card = Card.where(user_id: current_user.id)
   redirect_to action: "show" if card.exists?
-end
-
- @card = Card.new(
+  @card = Card.new(
         user_id: current_user.id,
         customer_id: customer.id,
         card_id: customer.default_card
-    )
+  )
+end
+
 def show
   card = Card.find_by(user_id: current_user.id)
   if card.blank?
@@ -45,13 +45,14 @@ end
         card: params['payjp-token'], # 直前のnewアクションで発行され、送られてくるトークンをここで顧客に紐付けて永久保存します。
         metadata: {user_id: current_user.id} # 無くてもOK。
       )
+    end
       @card = Card.new(user_id: current_user.id, customer_id: customer.id, card_id: customer.default_card)
       if @card.save
         redirect_to action: "index"
       else
         redirect_to action: "create"
       end
-    end
+    
   end
 
   private
@@ -59,5 +60,4 @@ end
   def set_card
     @card = Card.where(user_id: current_user.id).first if Card.where(user_id: current_user.id).present?
   end
-end
 end
