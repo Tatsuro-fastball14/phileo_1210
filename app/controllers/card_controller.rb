@@ -46,12 +46,12 @@ end
         metadata: {user_id: current_user.id} # 無くてもOK。
       )
     end
-      @card = Card.new(user_id: current_user.id, customer_id: customer.id, card_id: customer.default_card)
-      if @card.save
-        redirect_to action: "index"
-      else
+
+    if @card.save
+      redirect_to action: "index"
+    else
         redirect_to action: "create"
-      end
+    end
     
   end
 
