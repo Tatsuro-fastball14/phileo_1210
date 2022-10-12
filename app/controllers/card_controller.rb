@@ -23,7 +23,37 @@ def show
   end
 end
 
+def edit
+    @title = "カード情報変更"
+    @btn ="変更"
+    @card = Card.find(params[:id])
+    redirect_to "/"
+end
 
+def update
+    @card = Card.find(params[:id])
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
+    customer = Payjp::Customer.retrieve(@card.customer_id)
+    # 既存のカード情報を削除
+    card = customer.cards.retrieve(@card.card_id)
+    card.delete
+    # カードを新しく登録
+    customer.cards.create(
+      card: params['payjp_token']
+    )
+    @card.update(card_id: params['card_token'])
+    redirect_to "/"
+  end
+end
+
+def destroy
+    @card = Card.find_by(user_id: current_user.id)
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
+    customer = Payjp::Customer.retrieve(@card.customer_id)
+    customer.delete
+    @card.destroy
+    redirect_back(fallback_location: root_path)
+end
 
  # indexアクションはここでは省略
 
