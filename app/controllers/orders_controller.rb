@@ -24,6 +24,15 @@ class OrdersController < ApplicationController
      redirect_to stored_location_for(current_user)
   end
 
+  def delete
+      require 'payjp'
+      Payjp.api_key = 'sk_test_c62fade9d045b54cd76d7036'
+      subscription = Payjp::Subscription.retrieve('sub_567a1e44562932ec1a7682d746e0')
+      subscription.delete
+  end
+
+
+
   private
 
   def order_params
