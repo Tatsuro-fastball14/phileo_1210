@@ -25,11 +25,11 @@ class OrdersController < ApplicationController
   end
 
   def delete
-    card = current_user.cards.first
-    if card.present?
+    order = current_user.orders.first
+    if order.present?
+      binding.pry
       customer = Payjp::Customer.retrieve(card.customer_id)
-      customer.delete
-      card.delete
+      order.delete
     end
       redirect_to action: "index", id: current_user.id
   end
