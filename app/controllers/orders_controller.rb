@@ -25,11 +25,15 @@ class OrdersController < ApplicationController
   end
 
   def delete
-      require 'payjp'
-      Payjp.api_key = 'sk_test_c62fade9d045b54cd76d7036'
-      subscription = Payjp::Subscription.retrieve('sub_567a1e44562932ec1a7682d746e0')
-      subscription.delete
+    card = current_user.cards.first
+    if card.present?
+      customer = Payjp::Customer.retrieve(card.customer_id)
+      customer.delete
+      card.delete
+    end
+      redirect_to action: "index", id: current_user.id
   end
+
 
 
 
