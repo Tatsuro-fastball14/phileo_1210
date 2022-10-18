@@ -14,9 +14,6 @@ class OrdersController < ApplicationController
       description: '登録テスト',
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
-      subscription = Payjp::Subscription.retrieve('sk_test_387e29ac1993016a509c7ae9')
-      #sk_test_387e29ac1993016a509c7ae9は、環境変数にしたい。また固定IDではなく、current_user.idにしたい。
-      subscription.pause
     )
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
@@ -27,6 +24,12 @@ class OrdersController < ApplicationController
      redirect_to stored_location_for(current_user)
   end
 
+  def destroy
+    
+      subscription = Payjp::Subscription.retrieve('sk_test_387e29ac1993016a509c7ae9')
+      #sk_test_387e29ac1993016a509c7ae9は、環境変数にしたい。また固定IDではなく、current_user.idにしたい。
+      subscription.pause
+  end
   
 
 
