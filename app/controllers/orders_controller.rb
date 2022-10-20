@@ -9,9 +9,8 @@ class OrdersController < ApplicationController
   end
 
   def create
-     binding.pry
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-    customer = Payjp::Customer.create(
+      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+      customer = Payjp::Customer.create(
       description: '登録テスト',
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
@@ -26,9 +25,11 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-      subscription = Payjp::Subscription.retrieve(current_user.customer_id)
-      #sk_test_387e29ac1993016a509c7ae9は、環境変数にしたい。また固定IDではなく、current_user.idにしたい。
+    binding.pry
+      current_user.destroy(customer_id: customer.id)
+      Payjp::Subscription.destroy(
       subscription.pause
+     )
   end
   
 
