@@ -15,8 +15,8 @@ class OrdersController < ApplicationController
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
     )
-    current_user.update(customer_id: customer.id)
-    Payjp::Subscription.create(
+      current_user.update(customer_id: customer.id)
+      Payjp::Subscription.create(
       plan: 'getugaku400',
       customer: customer.id
      )
@@ -25,11 +25,10 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    binding.pry
-      current_user.destroy(customer_id: customer.id)
-      Payjp::Subscription.destroy(
+      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+      customer = Payjp::Customer.retrieve(current_user.customer_id)
+      subscription = customer.subscriptions.last # lastが使えるかは不明
       subscription.pause
-     )
   end
   
 
