@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
   def destroy
     binding.pry
     
-      subscription = Payjp::Subscription.retrieve('sk_test_387e29ac1993016a509c7ae9')
+      subscription = Payjp::Subscription.retrieve(current_user.customer_id)
       #sk_test_387e29ac1993016a509c7ae9は、環境変数にしたい。また固定IDではなく、current_user.idにしたい。
       subscription.pause
   end
