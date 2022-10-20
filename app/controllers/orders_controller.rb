@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
 
   def create
      binding.pry
-    Payjp.api_key = ENV["PAYJP_PUBLIC_KEY"]
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     customer = Payjp::Customer.create(
       description: '登録テスト',
       card: params['payjp_token'],
