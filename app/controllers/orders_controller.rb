@@ -9,7 +9,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-      Payjp.api_key = ENV["pk_test_88af8d177c18cc44cefcc4fe"]
       customer = Payjp::Customer.create(
       description: '登録テスト',
       card: params['payjp_token'],
