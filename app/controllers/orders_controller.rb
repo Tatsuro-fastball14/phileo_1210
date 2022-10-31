@@ -9,6 +9,7 @@ class OrdersController < ApplicationController
   end
 
   def create
+      Payjp.api_key = ENV["SECRET_KEY_ENV"]
       customer = Payjp::Customer.create(
       description: '登録テスト',
       card: params['payjp_token'],
@@ -24,7 +25,7 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-      Payjp.api_key = ENV["SECRET_KEY"]
+      Payjp.api_key = ENV["SECRET_KEY_ENV"]
       customer = Payjp::Customer.retrieve(current_user.customer_id)
       subscription = customer.subscriptions.last # lastが使えるかは不明
       subscription.pause
