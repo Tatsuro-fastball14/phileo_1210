@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post 'orders/index'
   post 'orders/pay'
   post  'orders/destroy'
+  post  'orders/kiyaku'
   
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
