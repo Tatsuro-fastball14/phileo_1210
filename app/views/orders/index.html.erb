@@ -6,6 +6,7 @@
 <%= form_with url: orders_path, method: :post, id: "card_form" do |f| %>
    <div id="card_token"></div>
    <%= f.submit "登録する", class: "btn", id: "info_submit" %>
+     <%= link_to "削除",   orders_destroy_path, method: :delete,class:"orders-destroy"%>
 <% end %>
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
