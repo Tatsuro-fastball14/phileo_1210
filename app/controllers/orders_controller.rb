@@ -31,6 +31,9 @@ class OrdersController < ApplicationController
       subscription.pause
   end
   
+  def kiyaku
+  
+  end
 
 
 
