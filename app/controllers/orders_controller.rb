@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
   end
   
   def kiyaku
-    binding.pry
+    
    
   
   end
