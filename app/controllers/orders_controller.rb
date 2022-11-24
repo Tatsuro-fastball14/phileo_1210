@@ -33,6 +33,7 @@ class OrdersController < ApplicationController
   
   def kiyaku
     
+    
    
   
   end
