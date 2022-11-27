@@ -16,8 +16,9 @@
     if (document.URL.match(/orders/)) {
 
       //公開鍵を記述
-      <% Payjp= ENV=["PUBLIC_KEY_ENV"]%>;
-      var payjp =<%= Payjp %> ;
+       <% ENV ="PUBLIC_KEY_ENV "%>
+       payjp = Payjp('ENV');
+       
      
      
       //Elements インスタンスを生成します。
