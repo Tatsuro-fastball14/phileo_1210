@@ -16,8 +16,9 @@
     if (document.URL.match(/orders/)) {
 
       //公開鍵を記述
-      var payjp = Payjp('pk_test_bb4b5fedd69d40ae4f265794');
-       Payjp.api_key = ENV["PUBLIC_KEY_ENV"]
+      <% Payjp= ENV=["PUBLIC_KEY_ENV"]%>;
+      var payjp =<%= Payjp %> ;
+     
      
       //Elements インスタンスを生成します。
       var elements = payjp.elements();
