@@ -25,18 +25,13 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-      Payjp.api_key = ENV["SECRET_KEY_ENV"]
-      
+      var payjp = Payjp("<%= ENV["PUBLIC_KEY_ENV"] %>");
       customer = Payjp::Customer.retrieve(current_user.customer_id)
       subscription = customer.subscriptions.last # lastが使えるかは不明
       subscription.pause
   end
   
-  def kiyaku
-    
-    
-   
-  
+  def kiyaku 
   end
 
 
