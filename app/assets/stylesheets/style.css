@@ -57,6 +57,13 @@
 .nav__right {
   display: flex;
   justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 100%;
+  vertical-align: baseline;
   
 }
 
@@ -306,6 +313,16 @@ img {
 .login {
   text-align: center;
   border: solid;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 100%;
+  vertical-align: baseline;
+  position: relative;
+  height: 60vh;
+  bottom: 0;
   
 }
 
@@ -336,3 +353,32 @@ img {
   height: 30px;
   width: 100px;
 }
+
+.orders-kiyaku {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-style: normal;
+  font-weight: 300;
+  font-size:100%;
+  vertical-align: baseline;
+  position: relative;
+  height: 60vh;
+  bottom: 0;
+}
+
+.sign-up {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 100%;
+  vertical-align: baseline;
+  position: relative;
+  height: 60vh;
+  bottom: 0;
+}
+
