@@ -20,8 +20,13 @@ class OrdersController < ApplicationController
       plan: 'getugaku400',
       customer: customer.id
      )
+     if redirect_to stored_location_for(current_user)!nil
+    
+     else
+      redirect_to places_index_path
 
-     redirect_to stored_location_for(current_user)
+     end
+
   end
 
   def destroy
