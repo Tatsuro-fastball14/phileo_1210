@@ -16,7 +16,7 @@
     if (document.URL.match(/orders/)) {
 
       //公開鍵を記述
-       payjp = Payjp(PUBLIC_KEY_ENV);
+      var payjp = Payjp("<%= ENV["PUBLIC_KEY_ENV"] %>");
        
      
      
