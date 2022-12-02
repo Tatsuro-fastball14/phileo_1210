@@ -20,8 +20,13 @@ class OrdersController < ApplicationController
       plan: 'getugaku400',
       customer: customer.id
      )
-
-     redirect_to stored_location_for(current_user)
+     
+     if stored_location_for(current_user).nil?
+        redirect_to places_index_path
+     else
+        redirect_to stored_location_for(current_user)
+     end
+      
   end
 
   def destroy
@@ -31,6 +36,8 @@ class OrdersController < ApplicationController
       subscription.pause
   end
   
+  def kiyaku 
+  end
 
 
 

@@ -16,7 +16,10 @@
     if (document.URL.match(/orders/)) {
 
       //公開鍵を記述
-      var payjp = Payjp('pk_test_bb4b5fedd69d40ae4f265794');
+      var payjp = Payjp("<%= ENV["PUBLIC_KEY_ENV"] %>");
+       
+     
+     
       //Elements インスタンスを生成します。
       var elements = payjp.elements();
       var numberElement = elements.create('cardNumber');
