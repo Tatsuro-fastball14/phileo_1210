@@ -11,45 +11,30 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,700,900&display=swap" rel="stylesheet">
   </head>
-
   <body>
-  
     <header class="header">
       <div class="inner">
         <div class="nav">
           <div class="nav__left">
            phileo
           </div>
-          
-            <div class="nav__right">
-              <ul class="test">
-               <% if user_signed_in? %>
-                <li><%= link_to "ログアウト",  destroy_user_session_path, method: :delete, class: :nav__btn  %></li>
-                <li><%= link_to current_user.email, "#", class: "user-nickname"%> </li> 
-                <li><%= link_to '',destroy_user_session_path, method: :delete, class: "logout" %></li>
-                <% else %> 
-                <li><%= link_to 'ログイン', new_user_session_path, class: "login" %></li>
-                <li><%= link_to '新規登録', new_user_registration_path, class: "sign-up" %></li>  
-              </ul>
-            <% end %>
-            
-
-
-                  
-
+            <div class="nav__right">          
             </div> 
         </div>
       </div>   
     </header>
     <%= yield %>
+
+    <ul class="test">
+       <% if user_signed_in? %>
+        <li><%= link_to "ログアウト",  destroy_user_session_path, method: :delete, class=:nav__btn  %></li>
+        <li><%= link_to current_user.email, "#", class: "user-nickname"%> </li> 
+        <li><%= link_to '',destroy_user_session_path, method: :delete, class="logout" %></li>
+        <% else %> 
+        <li><%= link_to 'ログイン', new_user_session_path, class="login" %></li>
+        <li><%= link_to '新規登録', new_user_registration_path, class="sign-up" %></li>  
+        <li class="kiyaku"> <%= link_to "利用規約",   orders_kiyaku_path ,class="orders-kiyaku"%> </li>
+    </ul>
+        <% end %>
     </body>
     </html>
-
-
-<li kiyaku>
-   <%= link_to "利用規約",   orders_kiyaku_path ,class:"orders-kiyaku"%>
-   
-</li>
-   
-
-   
