@@ -18,7 +18,7 @@
           <div class="nav__left">
            phileo
           </div>
-            <div class="nav__right">          
+            <div class="nav__right">
             </div> 
         </div>
       </div>   
@@ -27,13 +27,13 @@
 
     <ul class="test">
        <% if user_signed_in? %>
-        <li><%= link_to "ログアウト",  destroy_user_session_path, method: :delete, class=:nav__btn  %></li>
+        <li><%= link_to "ログアウト",  destroy_user_session_path, method: :delete, class:nav__btn  %></li>
         <li><%= link_to current_user.email, "#", class: "user-nickname"%> </li> 
-        <li><%= link_to '',destroy_user_session_path, method: :delete, class="logout" %></li>
+        <li><%= link_to '',destroy_user_session_path, method: :delete, class:"logout" %></li>
         <% else %> 
-        <li><%= link_to 'ログイン', new_user_session_path, class="login" %></li>
-        <li><%= link_to '新規登録', new_user_registration_path, class="sign-up" %></li>  
-        <li class="kiyaku"> <%= link_to "利用規約",   orders_kiyaku_path ,class="orders-kiyaku"%> </li>
+        <li><%= link_to 'ログイン', new_user_session_path, class:"login" %></li>
+        <li><%= link_to '新規登録', new_user_registration_path, class:"sign-up" %></li>  
+        <li class="kiyaku"> <%= link_to "利用規約",   orders_kiyaku_path ,class:"orders-kiyaku"%> </li>
     </ul>
         <% end %>
     </body>
