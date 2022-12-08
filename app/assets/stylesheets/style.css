@@ -39,7 +39,7 @@
 }
 
 .side-bar{
-  width: 500px;
+  width: 200px;
   float: right;
   margin-right: 90px;
 }
@@ -195,7 +195,6 @@ p.hoge {
 .side-bar {
   width: 200px;
   padding: 20px;
-  background: #f5f5f5;
   border-radius: 10px;
 }
 /*テンポ一覧*/
@@ -239,14 +238,6 @@ img {
   
 }
 
-/* .cook_images{
-  display: flex;
-}
-.cook_image{
-  width: 33.3%;
-  height: 500px;
-  object-fit: cover;
-} */
 .side-bar2 {
   width: 300px;
   padding: 20px;
@@ -281,17 +272,19 @@ img {
 }
 
 .mikaiinn {
-  color: aqua;
+  color: black;
   text-align: center;
+  border-bottom: 1px solid #ccc;
+  height: 55px
 
 }
 
 .susumu {
-  color: yellow;
-  border: solid;
+  color: #fff
   text-align: center;
   background-color: orange;
   color:honeydew
+  border-radius:  4px;
 }
 
 .sumi {
@@ -299,8 +292,8 @@ img {
   text-align: center;
   border: 1px solid #ccc;
   padding: 10px;
-    border: 1px solid #333;
-    background: #f2f2f2;
+  border: 1px solid #333;
+  background: #f2f2f2;
   
   
   

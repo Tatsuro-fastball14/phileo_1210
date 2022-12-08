@@ -22,7 +22,6 @@
 
     <% @cooks.each do |cook| %>
       <div class='item'>
-        <%# <%= link_to '詳細', cook_path(cook.id), method: :get %>
         <div class='item-img'>
           <%= image_tag cook.images[0], id: "shopimage", class: "star-icon" %>
         </div>
@@ -45,6 +44,3 @@
   
     <div id="map"></div>
 
-
-<%# <%= link_to 'トップページへ戻る', root_path %> 
-  <%# <%= link_to image_tag("avatar.JPG"), cook_path(cook.id), method: :get %> 
