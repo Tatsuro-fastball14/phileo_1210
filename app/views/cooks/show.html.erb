@@ -43,6 +43,8 @@
         <p><%= @cook.cooksentence %></p>
       </div>  
     </div>  
+    旨レポ
+     <%= link_to "旨レポを投稿",   cooks_new_path, method: :new,class:"umarepo"%>
      <h1>
     店舗情報 
      </h1>
@@ -70,9 +72,7 @@
      </div> 
     </div>   
   </div>
-  
-  #ユーザー（開発者側）のみ表示させたい。
-  #開発者側専用の管理画面を作成した方が良いか、別のページに遷移（記載）させた方が良いか。
+
   <% if current_user.admin? %>
     <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
     <%= link_to "削除", cook_path(@cook.id), method: :delete,class:"cook-destroy"%>

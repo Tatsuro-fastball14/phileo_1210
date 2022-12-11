@@ -1,15 +1,9 @@
 <%= javascript_pack_tag 'hello_vue' %>
 <div class="side-bar">
-<%# //4行目は何処に記述すればよいかわからないため、headなので、1番上だと思い記述を行なった。 
-<%# <script type="text/javascript" src="js/infowindow.js"></script> %>
+
 </div>
 <div class='phileo-info'>
-
- 
-  <%# 12行目から13行目は何処に記述すれば良いかわからなかった。 %>
-  <%# <div id="infoopts">
-    <input type="button" id="method11" value="吹き出しを変更"/>
-</div> %>
+</div>
 <div class="wrapper">
   <div class="side-bar">
     <%= search_form_for @p, url: cooks_search_path do |f| %>
@@ -18,16 +12,6 @@
       <br>
       <%= f.submit '検 索' %>
     <% end %>
-
-    <ul>
-      <li>hogehoge</li>
-      <li>hogehoge</li>
-      <li>hogehoge</li>
-      <li>hogehoge</li>
-      <li>hogehoge</li>
-      <li>hogehoge</li>
-      <li>hogehoge</li>
-    </ul>
   </div>
 
   <div class="cooks">
@@ -38,7 +22,6 @@
 
     <% @cooks.each do |cook| %>
       <div class='item'>
-        <%# <%= link_to '詳細', cook_path(cook.id), method: :get %>
         <div class='item-img'>
           <%= image_tag cook.images[0], id: "shopimage", class: "star-icon" %>
         </div>
@@ -61,6 +44,3 @@
   
     <div id="map"></div>
 
-
-<%# <%= link_to 'トップページへ戻る', root_path %> 
-  <%# <%= link_to image_tag("avatar.JPG"), cook_path(cook.id), method: :get %> 
