@@ -1,0 +1,2 @@
+class Umarepo < ApplicationRecord
+end

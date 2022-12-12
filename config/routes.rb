@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post 'orders/pay'
   post  'orders/destroy'
   get  'orders/kiyaku'
+  post 'umarepos/new'
   
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
