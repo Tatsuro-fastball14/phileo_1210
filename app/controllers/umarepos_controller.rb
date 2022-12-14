@@ -7,7 +7,8 @@ class UmareposController < ApplicationController
 
   def create
      @umarepo = Umarepo.new(umarepos_params)
-    if @umarepo.save
+     binding.pry
+    if @umarepo.save!
       redirect_to root_path
     else
       render :new
