@@ -46,6 +46,23 @@
     旨レポ
      <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
      <h1>
+     <div class="umarepo-ti">
+       <p><%= @umarepo.title %></p>
+      </div>
+
+      <div class="umarepo-coment">
+       <p><%= @cook.coment %></p>
+      </div>
+
+
+      <div class="umarepo_images">
+        <%@cook.images.each do |image| %>
+          <%= image_tag image %> 
+        </div>
+      </div>
+        <% end %>
+      
+
     店舗情報 
      </h1>
      <div class="title_main">
