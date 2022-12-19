@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 2022_12_12_143152) do
 
   create_table "umarepos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title", null: false
-    t.string "coment", null: false
+    t.string "comment", null: false
     t.text "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
