@@ -46,12 +46,14 @@
     旨レポ
      <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
      <h1>
-     <div class="umarepo-ti">
-       <p><%= @umarepo.title %></p>
-      </div>
+     <%@umarepos.title.each do |title| %>
+        <div class="umarepo-title">
+          <p><%= @umarepos.title %></p>
+        </div>
+      <% end %>
 
       <div class="umarepo-coment">
-       <p><%= @cook.coment %></p>
+       <p><%= @umarepos.comment %></p>
       </div>
 
 
