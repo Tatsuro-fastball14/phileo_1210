@@ -22,7 +22,7 @@ class UmareposController < ApplicationController
 
 
    def umarepos_params
-    params.require(:umarepo).permit(:title, :comment, :cook_id, images: [])
+    params.require(:umarepo).permit(:title, :comment,  images: [])
   end
   
 
