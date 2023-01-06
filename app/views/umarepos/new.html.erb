@@ -1,4 +1,6 @@
 <%= form_with model: @umarepos, local: true do |f| %>
+<%= f.hidden_field :cook_id,:value =>  @umarepos.id %>
+
   <%= render partial: "form", locals: { umarepo: @umarepo, f: f } %>
   <%= f.submit "登録する", class: "sell-btn" %>
   <% end %>

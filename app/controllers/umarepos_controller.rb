@@ -8,8 +8,7 @@ class UmareposController < ApplicationController
 
   def create
       @umarepos = Umarepo.new(umarepos_params)
-      @umarepos.cook_id = cook.id
-    
+      
      
     if @umarepos.save!
       redirect_to root_path
@@ -23,7 +22,7 @@ class UmareposController < ApplicationController
 
 
    def umarepos_params
-    params.require(:umarepo).permit(:title, :comment, cook_id: cook.id, images: [])
+    params.require(:umarepo).permit(:title, :comment, cook_id:"phileo-name", images: [])
   end
   
 
