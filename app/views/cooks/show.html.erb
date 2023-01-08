@@ -46,7 +46,7 @@
     旨レポ
      <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
      <h1>
-     <%@umarepos.each do |umarepo| %>
+     <%@umarepo.each do |umarepo| %>
         <div class="umarepo-title">
           <p><%= @umarepos.title %></p>
         </div>
@@ -56,7 +56,7 @@
       <% end %>
 
       <div class="umarepo_images">
-        <%@cook.images.each do |image| %>
+        <%@umarepo.images.each do |image| %>
           <%= image_tag image %> 
         </div>
       </div>

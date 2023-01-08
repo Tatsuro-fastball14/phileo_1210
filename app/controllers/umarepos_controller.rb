@@ -8,6 +8,7 @@ class UmareposController < ApplicationController
 
   def create
       @umarepos = Umarepo.new(umarepos_params)
+     
       
      
     if @umarepos.save!
@@ -22,7 +23,7 @@ class UmareposController < ApplicationController
 
 
    def umarepos_params
-    params.require(:umarepo).permit(:title, :comment,  images: [])
+    params.require(:umarepo).permit(:title, :comment,:cook_id,  images: [])
   end
   
 
