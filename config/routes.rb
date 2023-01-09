@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post 'orders/pay'
   post  'orders/destroy'
   get  'orders/kiyaku'
+  post 'umarepos/new'
   
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
  
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :cooks
+  resources :umarepos
   resources :orders, only: [:show, :create, :index,:destroy] do
     collection do 
       post 'order'
