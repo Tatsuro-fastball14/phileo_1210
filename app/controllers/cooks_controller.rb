@@ -11,6 +11,7 @@ class CooksController < ApplicationController
 
   def new
     @cook = Cook.new
+    @umarepo = Umarepo.new
   end
 
   def create
