@@ -44,13 +44,12 @@
       </div>  
     </div>  
     旨レポ
+    <%= form_with model: @umarepos, local: true do |f| %>
      <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
+    
      <h1>
-      <form  document.createElement('form')
-        form.action = '/show';
-        form.method = 'POST'; >
-      </form>
-        <% @umarepos.each do |umarepo| %>
+      
+    <% @umarepos.each do |umarepo| %>
          <div class="umarepo-title">
             <p><%= umarepo.title %></p>
           </div>
@@ -67,6 +66,8 @@
         </div>
       </div>
       <% end %>
+    <%= f.submit "登録する", class: "sell-btn" %>
+    <% end %>
        
    
       
