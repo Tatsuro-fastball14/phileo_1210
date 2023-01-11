@@ -44,36 +44,25 @@
       </div>  
     </div>  
     旨レポ
-    <%= form_with model: @umarepos, local: true do |f| %>
+    
      <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
     
      <h1>
-      
-    <% @umarepos.each do |umarepo| %>
-         <div class="umarepo-title">
-            <p><%= umarepo.title %></p>
-          </div>
-    
-          <div class="umarepo-comment">
-            <p><%= umarepo.comment %></p>
-        </div>
-        <% end %>
-      
-
-      <div class="umarepo_images">
-        <%  @umarepos.each do |image| %>
-          <%= image_tag image %> 
-        </div>
-      </div>
-      <% end %>
-    <%= f.submit "登録する", class: "sell-btn" %>
-    <% end %>
-       
-   
-      
-    
-
-
+    div class="new-umarepo">
+  <div class="weight-bold-text-umarepo">
+    タイトル
+    <span class="indispensable">必須</span>
+  </div>
+  <%= f.text_area :title, class: "items-text", id: "phileo-name", placeholder: "商品名（必須 40文字まで)", maxlength: "40" %>
+  <div class="items-explain">
+    <div class="weight-bold-text">
+      コメント
+      <span class="indispensable">必須</span>
+    </div>
+    <%= f.text_area :comment, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
+  </div>
+    <%= f.file_field :images, multiple: true %>
+</div>
    
      
     店舗情報 
