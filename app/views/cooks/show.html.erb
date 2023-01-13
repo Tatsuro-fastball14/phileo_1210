@@ -49,16 +49,13 @@
     
      <h1>
     <div class="new-umarepo">
-    <div class="weight-bold-text-umarepo">
-    <%= form_with model: @umarepo, local: true do |f| %>
-   <%= f.hidden_field :cook_id,{value:1} %>
-
-       <%= render partial: "form", locals: { umarepo: @umarepo, f: f } %>
-       <%= f.submit "登録する", class: "sell-btn" %>
+    
+      <div class="weight-bold-text-umarepo">
+        <%= form_with model: @umarepo, local: true do |f| %>
+        <%= f.hidden_field :cook_id,{value:@cook.id} %>
+        <%= render partial: "umarepos/form", locals: { f: f } %>
+        <%= f.submit "登録する", class: "sell-btn" %>
       <% end %>
-
-   
-     
     店舗情報 
      </h1>
      <div class="title_main">
