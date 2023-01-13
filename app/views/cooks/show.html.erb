@@ -56,6 +56,26 @@
         <%= render partial: "umarepos/form", locals: { f: f } %>
         <%= f.submit "登録する", class: "sell-btn" %>
       <% end %>
+
+
+
+       <%@umarepo.each do |umarepo| %>
+        <div class="umarepo-title">
+         
+          <p><%= umarepo.title %></p>
+        </div>
+         <div class="umarepo-comment">
+         
+          <p><%= umarepo.comment %></p>
+        </div>
+      <% end %>
+
+      <div class="umarepo_images">
+        <%@umarepo.images.each do |image| %>
+     
+          <%= image_tag image %> 
+        </div>
+       <% end %>
     店舗情報 
      </h1>
      <div class="title_main">
