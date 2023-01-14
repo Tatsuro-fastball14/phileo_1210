@@ -4,7 +4,16 @@
     <div class="cook__wrapper">
       <p class="cook__hedding">
       </p>
-     
+      <div class="cook_images">
+       
+         <%@cook.images.each do |image| %>
+        <div class="cook_hoge">
+        <div class="cook_image">
+          <%= image_tag image %> 
+        <% end %>
+       
+  
+      </div>
      
      
 
@@ -60,10 +69,11 @@
         </div>
       <% end %>
 
-        <div class="umarepo_images">
-          <%@umarepo.images.each do |image| %>
-            <%= image_tag image %> 
-          <% end %>
+      <%@umarepos.each do |umarepo| %>
+        <%umarepo.images.each do |image| %>
+        <%= image_tag image %> 
+        <% end %>
+      <% end %>
           
     店舗情報 
      </h1>
