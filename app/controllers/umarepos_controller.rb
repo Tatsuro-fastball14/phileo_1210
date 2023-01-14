@@ -10,8 +10,8 @@ class UmareposController < ApplicationController
       @umarepos = Umarepo.new(umarepos_params)
      
       
-     
-    if @umarepos.save!
+    if
+     @umarepos.save!
       redirect_to root_path
     else
       render :new

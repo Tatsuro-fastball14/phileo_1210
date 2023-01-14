@@ -11,6 +11,7 @@ class CooksController < ApplicationController
 
   def new
     @cook = Cook.new
+    @umarepo = Umarepo.new
   end
 
   def create
@@ -44,6 +45,10 @@ class CooksController < ApplicationController
     redirect_to orders_path unless current_user.subscriber?
     @cook = Cook.find(params[:id])
     @umarepos = @cook.umarepos
+    @umarepo =Umarepo.new
+    
+   
+   
   end
 
   def search

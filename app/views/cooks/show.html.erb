@@ -4,17 +4,18 @@
     <div class="cook__wrapper">
       <p class="cook__hedding">
       </p>
-     
       <div class="cook_images">
-        <%@cook.images.each do |image| %>
+       
+         <%@cook.images.each do |image| %>
         <div class="cook_hoge">
         <div class="cook_image">
           <%= image_tag image %> 
-        </div>
-        </div>
-        <% end %> 
+        <% end %>
+       
   
       </div>
+     
+     
 
       <div class="avatar">
         <%= image_tag "avatar.JPG", class:"avatar" %>
@@ -44,26 +45,36 @@
       </div>  
     </div>  
     旨レポ
+    
      <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
+    
      <h1>
-     <% @umarepos.each do |umarepo| %>
-        <div class="umarepo-title">
+    <div class="new-umarepo">
+    
+      <div class="weight-bold-text-umarepo">
+        <%= form_with model: @umarepo, local: true do |f| %>
+        <%= f.hidden_field :cook_id,{value:@cook.id} %>
+        <%= render partial: "umarepos/form", locals: { f: f } %>
+        <%= f.submit "登録する", class: "sell-btn" %>
+      <% end %>
+
+
+
+      <%@umarepos.each do |umarepo| %>
+        <div class="umarepo-title"> 
           <p><%= umarepo.title %></p>
         </div>
-         <div class="umarepo-comment">
-          <p><%= umarepo.comment %></p>
+        <div class="umarepo-comment">
+            <p><%= umarepo.comment %></p>
         </div>
       <% end %>
 
-      <div class="umarepo_images">
-        <%  @umarepos.each do |image| %>
-          <%= image_tag image %> 
-        </div>
-      </div>
+      <%@umarepos.each do |umarepo| %>
+        <%umarepo.images.each do |image| %>
+        <%= image_tag image %> 
+        <% end %>
       <% end %>
-
-   
-     
+          
     店舗情報 
      </h1>
      <div class="title_main">
