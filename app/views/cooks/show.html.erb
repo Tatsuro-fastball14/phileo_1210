@@ -48,9 +48,9 @@
 
   <%@umarepos.each do |umarepo| %>
     <div class="umarepo-title"></div>
-      <p><%= umarepo.title %></p>
-    <div class="umarepo-comment">
-      <p><%= umarepo.comment %></p>
+    <p><%= umarepo.title %></p>
+    <div class="umarepo-comment"></div>
+    <p><%= umarepo.comment %></p>
   <% end %>
 
   <%@umarepos.each do |umarepo| %>
@@ -61,17 +61,17 @@
 
   <h2>店舗情報 </h2>
     <div class="title_main"> </div> 
-      <p><%= @cook.holiday_day %></p>
+    <p><%= @cook.holiday_day %></p>
     <div id="test3"></div>
-      <p><%= @cook.regular_holiday %></p>
+    <p><%= @cook.regular_holiday %></p>
     <div class="wrapper"></div>
     <div class="store_main"></div>
-      <p><%= @cook.store %></p>
+    <p><%= @cook.store %></p>
 
     <div class="side-bar_store"> </div> 
-      <p><%= @cook.address %></p>
+    <p><%= @cook.address %></p>
     <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
-      <p><%= @cook.open_day %></p>
+    <p><%= @cook.open_day %></p>
   
   <% if current_user.admin? %>
     <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
