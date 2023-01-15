@@ -4,13 +4,14 @@
     <div class="cook__wrapper">
       <p class="cook__hedding"></p>
       <div class="cook_images"></div>
-        <%@cook.images.each do |image| %>
-          <div class="cook_hoge"></div>
-          <div class="cook_image"></div>
-          <%= image_tag image %> 
-        <% end %>
+      <div class="cook_hoge"></div>
+      <div class="cook_image"></div>
     </div>
   </div>
+  <%@cook.images.each do |image| %>
+    <%= image_tag image %> 
+  <% end %>
+
   <div class="avatar">
     <%= image_tag "avatar.JPG", class:"avatar" %>
   </div>
@@ -60,17 +61,17 @@
 
   <h2>店舗情報</h2>
   <div div class="title_main"> </div> 
-    <p><%= @cook.holiday_day %></p>
+  <p><%= @cook.holiday_day %></p>
   <div id="test3"></div>
-    <p><%= @cook.regular_holiday %></p>
+  <p><%= @cook.regular_holiday %></p>
   <div class="wrapper"></div>
   <div class="store_main"></div>
-    <p><%= @cook.store %></p>
+  <p><%= @cook.store %></p>
 
   <div class="side-bar_store"> </div> 
-    <p><%= @cook.address %></p>
+  <p><%= @cook.address %></p>
   <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
-    <p><%= @cook.open_day %></p>
+  <p><%= @cook.open_day %></p>
   
   <% if current_user.admin? %>
     <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
