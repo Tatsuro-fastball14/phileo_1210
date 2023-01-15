@@ -5,8 +5,8 @@
       <p class="cook__hedding"></p>
       <div class="cook_images"></div>
         <%@cook.images.each do |image| %>
-        <div class="cook_hoge"></div>
-        <div class="cook_image"></div>
+          <div class="cook_hoge"></div>
+          <div class="cook_image"></div>
           <%= image_tag image %> 
         <% end %>
     </div>
@@ -35,9 +35,9 @@
   </div>  
 
   <h1>旨レポ</h1>
-    <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
-    <div class="new-umarepo"></div>
-    <div class="weight-bold-text-umarepo"></div>
+  <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
+  <div class="new-umarepo"></div>
+  <div class="weight-bold-text-umarepo"></div>
 
   <%= form_with model: @umarepo, local: true do |f| %>
     <%= f.hidden_field :cook_id,{value:@cook.id} %>
@@ -58,18 +58,18 @@
     <% end %>
   <% end %>
 
-    <h2>店舗情報</h2>
-    <div class="title_main"> </div> 
+  <h2>店舗情報</h2>
+  <div div class="title_main"> </div> 
     <p><%= @cook.holiday_day %></p>
-    <div id="test3"></div>
+  <div id="test3"></div>
     <p><%= @cook.regular_holiday %></p>
-    <div class="wrapper"></div>
-    <div class="store_main"></div>
+  <div class="wrapper"></div>
+  <div class="store_main"></div>
     <p><%= @cook.store %></p>
 
-    <div class="side-bar_store"> </div> 
+  <div class="side-bar_store"> </div> 
     <p><%= @cook.address %></p>
-    <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
+  <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
     <p><%= @cook.open_day %></p>
   
   <% if current_user.admin? %>
