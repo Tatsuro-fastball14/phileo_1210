@@ -15,26 +15,15 @@
     <%= image_tag "avatar.JPG", class:"avatar" %>
   </div>
 
-  <div class="cook__body">
-    <div class="cook__detail">
-      <p class="detail__title"></p>
-      <p class="detail__message"></p>
-      <%= @cook.store %>
-    </div>
+    <div class="cook__detail"><%= @cook.store %></div>
   </div>
-  <div class="title_main"></div>
-    <p><%= @cook.holiday_day %></p>
-  </div>  
-
-  <div class="cooksentence_main">
-    <p><%= @cook.cooksentence %></p>
-  </div>  
-
+  <div class="title_main"><%= @cook.holiday_day %></div>
+  
+  <div class="cooksentence_main"><%= @cook.cooksentence %></div> 
+   
   <h1>旨レポ</h1>
   <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
-  <div class="new-umarepo"></div>
-  <div class="weight-bold-text-umarepo"></div>
-
+  
   <%= form_with model: @umarepo, local: true do |f| %>
     <%= f.hidden_field :cook_id,{value:@cook.id} %>
     <%= render partial: "umarepos/form", locals: { f: f } %>
@@ -42,10 +31,8 @@
   <% end %>
 
   <%@umarepos.each do |umarepo| %>
-    <div class="umarepo-title"></div>
-    <p><%= umarepo.title %></p>
-    <div class="umarepo-comment"></div>
-    <p><%= umarepo.comment %></p>
+    <div class="umarepo-title"> <%= umarepo.title %></div>
+    <div class="umarepo-comment"><%= umarepo.comment %></div>
   <% end %>
 
   <%@umarepos.each do |umarepo| %>
@@ -55,19 +42,15 @@
   <% end %>
 
   <h2>店舗情報</h2>
-  <div div class="title_main"> </div> 
-  <p><%= @cook.holiday_day %></p>
-  <div id="test3"></div>
-  <p><%= @cook.regular_holiday %></p>
+  <div div class="holiday_day"><%= @cook.holiday_day %> </div> 
+  <div id="test3"> <%= @cook.regular_holiday %></div>
   <div class="wrapper"></div>
-  <div class="store_main"></div>
-  <p><%= @cook.store %></p>
-
-  <div class="side-bar_store"> </div> 
-  <p><%= @cook.address %></p>
-  <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
-  <p><%= @cook.open_day %></p>
+  <div class="store_main"> <%= @cook.store %></div>
   
+  <div class="address"><%= @cook.address %> </div> 
+  <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
+  <div class="open_day"><%= @cook.open_day %></div>
+ 
   <% if current_user.admin? %>
     <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
     <%= link_to "削除", cook_path(@cook.id), method: :delete,class:"cook-destroy"%>
