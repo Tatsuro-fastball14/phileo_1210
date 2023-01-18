@@ -15,21 +15,16 @@
     <%= image_tag "avatar.JPG", class:"avatar" %>
   </div>
 
-    <div class="cook__detail"><%= @cook.store %></div>
+    <div class="store_catchcopy"><%= @cook.store_catchcopy %></div>
   </div>
-  <div class="title_main"><%= @cook.holiday_day %></div>
+  <div class="place"><%= @cook.place %></div>
   
-  <div class="cooksentence_main"><%= @cook.cooksentence %></div> 
+  <div class="sentence"><%= @cook.sentence %></div> 
    
   <h1>旨レポ</h1>
   <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
   
-  <%= form_with model: @umarepo, local: true do |f| %>
-    <%= f.hidden_field :cook_id,{value:@cook.id} %>
-    <%= render partial: "umarepos/form", locals: { f: f } %>
-    <%= f.submit "登録する", class: "sell-btn" %>
-  <% end %>
-
+  
   <%@umarepos.each do |umarepo| %>
     <div class="umarepo-title"> <%= umarepo.title %></div>
     <div class="umarepo-comment"><%= umarepo.comment %></div>
@@ -42,14 +37,11 @@
   <% end %>
 
   <h2>店舗情報</h2>
-  <div div class="holiday_day"><%= @cook.holiday_day %> </div> 
-  <div id="test3"> <%= @cook.regular_holiday %></div>
+  <div class="store"> <%= @cook.store %></div>
+  <div class="category"> <%= @cook.category %></div>
   <div class="wrapper"></div>
-  <div class="store_main"> <%= @cook.store %></div>
-  
   <div class="address"><%= @cook.address %> </div> 
   <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
-  <div class="open_day"><%= @cook.open_day %></div>
  
   <% if current_user.admin? %>
     <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>

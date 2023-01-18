@@ -55,15 +55,13 @@ ActiveRecord::Schema.define(version: 2022_12_24_125048) do
   end
 
   create_table "cooks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "title", null: false
-    t.string "store", null: false
-    t.string "cooksentence", null: false
-    t.text "map_html"
+    t.string "store_catchcopy", null: false
+    t.string "sentence", null: false
     t.string "address", null: false
     t.string "phone_number", null: false
-    t.string "open_day", null: false
-    t.string "holiday_day", null: false
-    t.string "regular_holiday", null: false
+    t.string "store", null: false
+    t.string "place", null: false
+    t.string "category", null: false
     t.decimal "lat", precision: 8, scale: 6
     t.decimal "lng", precision: 9, scale: 6
   end
@@ -92,7 +90,7 @@ ActiveRecord::Schema.define(version: 2022_12_24_125048) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "admin"
+    t.boolean "admin", default: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
