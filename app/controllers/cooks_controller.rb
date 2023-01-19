@@ -15,7 +15,9 @@ class CooksController < ApplicationController
   end
 
   def create
+     binding.pry
     @cook = Cook.new(cooks_params)
+   
     if @cook.save
       redirect_to root_path
     else
