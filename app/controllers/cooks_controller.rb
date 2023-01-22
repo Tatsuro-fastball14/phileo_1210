@@ -15,7 +15,6 @@ class CooksController < ApplicationController
   end
 
   def create
-     binding.pry
     @cook = Cook.new(cooks_params)
    
     if @cook.save
@@ -61,7 +60,7 @@ class CooksController < ApplicationController
   private
 
   def cooks_params
-    params.require(:cook).permit(:title, :store, :cooksentence, :address, :phone_number,:open_day,:holiday_day,:regular_holiday,:lat,:lng,images: [])
+    params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,images: [])
   end
 
   def search_cook

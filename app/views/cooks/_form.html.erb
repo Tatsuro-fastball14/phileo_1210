@@ -1,22 +1,17 @@
 <%= f.file_field :images, multiple: true %>
 <div class="new-items">
   <div class="weight-bold-text">
-    店名
+    お店のキャッチコピー
     <span class="indispensable">必須</span>
   </div>
-  <%= f.text_area :title, class: "items-text", id: "phileo-name", placeholder: "商品名（必須 40文字まで)", maxlength: "40" %>
+  <%= f.text_area :store_catchcopy, class: "items-text", id: "phileo-name", placeholder: "商品名（必須 40文字まで)", maxlength: "40" %>
   <div class="items-explain">
     <div class="weight-bold-text">
-      Store
+      料理の紹介
       <span class="indispensable">必須</span>
     </div>
-    <%= f.text_area :store, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
+    <%= f.text_area :sentence, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
   </div>
-  <div class="weight-bold-text">
-    料理の説明
-    <span class="indispensable">必須</span>
-  </div>
-  <%= f.text_area :cooksentence, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
   <div class="weight-bold-text">
     住所
     <span class="indispensable">必須</span>
@@ -25,24 +20,20 @@
   <div class="weight-bold-text">
     電話番号
     <span class="indispensable">必須</span>
- </div>
+  </div>
   <%= f.text_area :phone_number, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
   <div class="weight-bold-text">
-    営業日
+    店名
+    <span class="indispensable">必須</span>
+ </div>
+  <%= f.text_area :store, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
+  <div class="weight-bold-text">
+   
+    カデゴリー
     <span class="indispensable">必須</span>
   </div>
-  <%= f.text_area :open_day, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
-  <div class="weight-bold-text">
-    休日
-    <span class="indispensable">必須</span>
-  </div>
-  <%= f.text_area :holiday_day, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
-  <div class="weight-bold-text">
-    定休日
-    <span class="indispensable">必須</span>
-  </div>
-  <%= f.text_area :regular_holiday, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
-  <div class="weight-bold-text">
+  <%= f.text_area :category, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。", rows: "7", maxlength: "1000" %>
+  
     緯度
     <span class="indispensable">必須</span>
   </div>
