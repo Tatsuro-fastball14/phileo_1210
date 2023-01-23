@@ -1,12 +1,6 @@
 <%=  javascript_pack_tag 'hello_vue' %>
 <main class="main">
-  <div class="inner">
-    <div class="cook__wrapper">
-      <div class="cook_images"></div>
-      <div class="cook_hoge"></div>
-      <div class="cook_image"></div>
-    </div>
-  </div>
+ 
   <%@cook.images.each do |image| %>
     <%= image_tag image %> 
   <% end %>
@@ -16,14 +10,13 @@
   </div>
 
     <div class="store_catchcopy"><%= @cook.store_catchcopy %></div>
-  </div>
+  
   <div class="place"><%= @cook.store %></div>
   
   <div class="sentence"><%= @cook.sentence %></div> 
    
   <h1>旨レポ</h1>
   <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
-  
   
   <%@umarepos.each do |umarepo| %>
     <div class="umarepo-title"> <%= umarepo.title %></div>
@@ -39,7 +32,6 @@
   <h2>店舗情報</h2>
   <div class="store"> <%= @cook.store %></div>
   <div class="category"> <%= @cook.category %></div>
-  <div class="wrapper"></div>
   <div class="address"><%= @cook.address %> </div> 
   <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
  
