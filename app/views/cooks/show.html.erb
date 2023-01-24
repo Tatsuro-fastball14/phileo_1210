@@ -5,11 +5,18 @@
     <%= image_tag image %> 
   <% end %>
 
+ 
+  <div class="cook__wrapper">
+    <div class="cook_image1"><%= image1 %></div>
+    <div class="cook_image2"><%= image2 %></div>
+    <div class="cook_image3"><%= image3 %></div>
+  </div>
+  
   <div class="avatar">
     <%= image_tag "avatar.JPG", class:"avatar" %>
   </div>
 
-    <div class="store_catchcopy"><%= @cook.store_catchcopy %></div>
+  <div class="store_catchcopy"><%= @cook.store_catchcopy %></div>
   
   <div class="place"><%= @cook.store %></div>
   
