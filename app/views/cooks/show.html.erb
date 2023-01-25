@@ -1,100 +1,46 @@
 <%=  javascript_pack_tag 'hello_vue' %>
 <main class="main">
-  <div class="inner">
-    <div class="cook__wrapper">
-      <p class="cook__hedding">
-      </p>
-     
-      <div class="cook_images">
-        <%@cook.images.each do |image| %>
-        <div class="cook_hoge">
-        <div class="cook_image">
-          <%= image_tag image %> 
-        </div>
-        </div>
-        <% end %> 
-  
-      </div>
-
-      <div class="avatar">
-        <%= image_tag "avatar.JPG", class:"avatar" %>
-      </div>
-
-      <div class="cook__body">
-        <div class="cook__detail">
-          <p class="detail__title">
-          </p>
-          <p class="detail__message">
-            <%= @cook.store %>
-          </p>
-        </div>
-      </div>
-      <div class="prototype__detail">
-        <p class="detail__title"></p>
-        <p class="detail__message"> </p>
-      </div>
-   
-   
-      <div class="title_main">
-        <p><%= @cook.holiday_day %></p>
-      </div>  
-
-      <div class="cooksentence_main">
-        <p><%= @cook.cooksentence %></p>
-      </div>  
-    </div>  
-    旨レポ
-     <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
-     <h1>
-     <% @umarepos.each do |umarepo| %>
-        <div class="umarepo-title">
-          <p><%= umarepo.title %></p>
-        </div>
-         <div class="umarepo-comment">
-          <p><%= umarepo.comment %></p>
-        </div>
-      <% end %>
-
-      <div class="umarepo_images">
-        <%  @umarepos.each do |image| %>
-          <%= image_tag image %> 
-        </div>
-      </div>
-      <% end %>
-
-   
-     
-    店舗情報 
-     </h1>
-     <div class="title_main">
-       <p><%= @cook.holiday_day %></p>
-      </div>  
-
-      
-   <div id="test3"></div>
-    <p><%= @cook.regular_holiday %></p>
-    <div class="wrapper">
-      <div class="store_main">
-       <p><%= @cook.store %></p>
  
    
-      
-    
-      <div class="side-bar_store">
-      <p><%= @cook.address %></p>
-        <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
-       
-      
-      <p><%= @cook.open_day %></p>
-    
-     </div> 
-    </div>   
+  <div class="cook__wrapper">
+    <%@cook.images.each do |image| %>
+      <div class="cook_image"><%= image_tag image %> </div>
+    <% end %>
   </div>
 
+  <div class="avatar">
+    <%= image_tag "avatar.JPG", class:"avatar" %>
+  </div>
+
+  <div class="store_catchcopy"><%= @cook.store_catchcopy %></div>
+  
+  <div class="place"><%= @cook.store %></div>
+  
+  <div class="sentence"><%= @cook.sentence %></div> 
+   
+  <h1>旨レポ</h1>
+  <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
+  
+  <%@umarepos.each do |umarepo| %>
+    <div class="umarepo-title"> <%= umarepo.title %></div>
+    <div class="umarepo-comment"><%= umarepo.comment %></div>
+  <% end %>
+
+  <%@umarepos.each do |umarepo| %>
+    <%umarepo.images.each do |image| %>
+      <%= image_tag image %> 
+    <% end %>
+  <% end %>
+
+  <h2>店舗情報</h2>
+  <div class="store"> <%= @cook.store %></div>
+  <div class="category"> <%= @cook.category %></div>
+  <div class="address"><%= @cook.address %> </div> 
+  <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
+ 
   <% if current_user.admin? %>
     <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
     <%= link_to "削除", cook_path(@cook.id), method: :delete,class:"cook-destroy"%>
   <% end %> 
-  
 </main>
 

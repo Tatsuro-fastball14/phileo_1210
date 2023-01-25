@@ -61,6 +61,11 @@ gem 'image_processing', '~> 1.2'
 gem 'http'
 gem "aws-sdk-s3", require: false
 gem 'payjp'
+gem 'pry-byebug'
+gem 'pry-rails'
+gem 'pry-stack_explorer'
+gem 'better_errors'
+gem 'binding_of_caller'
 
 
 

@@ -11,10 +11,12 @@ class CooksController < ApplicationController
 
   def new
     @cook = Cook.new
+    @umarepo = Umarepo.new
   end
 
   def create
     @cook = Cook.new(cooks_params)
+   
     if @cook.save
       redirect_to root_path
     else
@@ -44,6 +46,10 @@ class CooksController < ApplicationController
     redirect_to orders_path unless current_user.subscriber?
     @cook = Cook.find(params[:id])
     @umarepos = @cook.umarepos
+    @umarepo =Umarepo.new
+    
+   
+   
   end
 
   def search
@@ -54,7 +60,7 @@ class CooksController < ApplicationController
   private
 
   def cooks_params
-    params.require(:cook).permit(:title, :store, :cooksentence, :address, :phone_number,:open_day,:holiday_day,:regular_holiday,:lat,:lng,images: [])
+    params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,images: [])
   end
 
   def search_cook
