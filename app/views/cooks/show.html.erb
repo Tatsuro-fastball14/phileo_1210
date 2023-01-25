@@ -2,18 +2,12 @@
 <main class="main">
  
    
- 
-  <%@cook.images.each do |image| %>
-    <%= image_tag image %> 
-  <% end %>
-
   <div class="cook__wrapper">
-    <div class="cook_images"><%=@cook.image %></div>
-    <div class="cook_hoge"><%=@cook.image %></div>
-    <div class="cook_image"><%=@cook.image %></div>
+    <%@cook.images.each do |image| %>
+      <div class="cook_image"><%= image_tag image %> </div>
+    <% end %>
   </div>
- 
- 
+
   <div class="avatar">
     <%= image_tag "avatar.JPG", class:"avatar" %>
   </div>
