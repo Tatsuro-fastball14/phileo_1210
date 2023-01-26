@@ -255,6 +255,7 @@ img {
 }
 
 .cook_image{
+    display: flex;
     position: relative;
     overflow: hidden;
     padding-top: 60%;
@@ -367,4 +368,6 @@ img {
   vertical-align: bottom;
   
 }
+
+
 
