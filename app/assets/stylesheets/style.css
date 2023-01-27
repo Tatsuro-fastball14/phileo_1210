@@ -246,9 +246,7 @@ img {
   }
 
 
-.cook_images {
-    display: flex;
-}
+
 
 .cook_hoge{
     flex-basis: 100%;
@@ -260,16 +258,6 @@ img {
     overflow: hidden;
     padding-top: 60%;
     margin: 10px 5px;
-}
-
-.cook_image img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 100%;
-    height: 100%;
-
 }
 
 .mikaiinn {
@@ -369,5 +357,9 @@ img {
   
 }
 
+.cook_wrapper{
+  display: flex;
+  margin-top: 0;
+}
 
 
