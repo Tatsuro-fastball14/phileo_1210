@@ -362,6 +362,5 @@ img {
 }
 
 .島田達郎{
-display: flex;
-  justify-content: flex-end;
+text-align: right
 }
