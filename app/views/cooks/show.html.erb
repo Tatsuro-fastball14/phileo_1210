@@ -1,14 +1,15 @@
-<%=  javascript_pack_tag 'hello_vue' %>
+d<%=  javascript_pack_tag 'hello_vue' %>
 <main class="main">
   <div class="cook_wrapper">
     <%@cook.images.each do |image| %>
       <div class="cook_image"><%= image_tag image %> </div>
     <% end %>
   </div>
-
-  <div class="avatar"> <%= image_tag "avatar.JPG" %></div>島田 達郎
-  <p>食・グルメ・ホテル紹介のキューレータ（沖縄限定）</P>
-  <div class="島田 達郎"></div>
+  <div class="avatar_main">
+    <div class="avatar"> <%= image_tag "avatar.JPG" %></div>
+    <div class="島田達郎”><%="島田達郎"%></div>
+    <p>食・グルメ・ホテル紹介のキューレータ（沖縄限定）</P>
+  </div>
     
 
   <div class="store_catchcopy"><%= @cook.store_catchcopy %></div>

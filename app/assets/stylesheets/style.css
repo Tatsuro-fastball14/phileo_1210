@@ -361,6 +361,6 @@ img {
   margin-top: 0;
 }
 
-.島田達郎{
-text-align: right
+.avater_main{
+  display: flex;
 }
