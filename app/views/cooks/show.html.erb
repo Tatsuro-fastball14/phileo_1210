@@ -1,4 +1,4 @@
-d<%=  javascript_pack_tag 'hello_vue' %>
+<%=  javascript_pack_tag 'hello_vue' %>
 <main class="main">
   <div class="cook_wrapper">
     <%@cook.images.each do |image| %>
@@ -7,8 +7,10 @@ d<%=  javascript_pack_tag 'hello_vue' %>
   </div>
   <div class="avatar_main">
     <div class="avatar"> <%= image_tag "avatar.JPG" %></div>
-    <div class="curator_name">島田達郎</div>
-    <p><div class ="curator_job">食・グルメ・ホテル紹介のキューレータ（沖縄限定</div></p>
+    <div>
+      <div class="curator_name">島田達郎</div>
+      <p><div class ="curator_job">食・グルメ・ホテル紹介のキューレータ（沖縄限定)</div></p>
+    </div>
   </div>
 
 
