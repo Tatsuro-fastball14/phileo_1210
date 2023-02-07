@@ -28,6 +28,7 @@
 
   <%@umarepos.each do |umarepo| %>
     <div class="umarepo-title"> <%= umarepo.title %></div>
+    <div class="umarepo-curator"><%= umarepo.curator %></div>
     <div class="umarepo-comment"><%= umarepo.comment %></div>
     <%umarepo.images.each do |image| %>
       <div class="umarepo_image"><%= image_tag image %> </div>

@@ -368,3 +368,9 @@ img {
 .curator_job{
   text-align: left;
 }
+
+.umarepo_image{
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  float: left;
+}
