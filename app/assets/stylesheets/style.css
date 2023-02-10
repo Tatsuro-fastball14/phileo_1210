@@ -369,8 +369,14 @@ img {
   text-align: left;
 }
 
-.umarepo_image_img{
+.umarepo_image img{
   border-radius: 50%;
   border: 1px solid #ccc;
   float: left;
+  min-height: 1px;
+}
+
+.umarepo_title{
+  float: right;
+  font-weight: 600;
 }
