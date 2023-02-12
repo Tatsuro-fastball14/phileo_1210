@@ -374,9 +374,10 @@ img {
   border: 1px solid #ccc;
   float: left;
   min-height: 1px;
+  width: 100px;
+  margin: 40px;
 }
 
 .umarepo_title{
-  float: right;
   font-weight: 600;
 }
