@@ -372,7 +372,6 @@ img {
 .umarepo_image img{
   border-radius: 50%;
   border: 1px solid #ccc;
-  float: left;
   min-height: 1px;
   width: 100px;
   margin: 40px;
@@ -380,4 +379,15 @@ img {
 
 .umarepo_title{
   font-weight: 600;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+
+.umarepo-curator{
+  font-weight: 600;
+}
+
+.umarepo-curato{
+  font-weight: 600; 
 }
