@@ -375,6 +375,7 @@ img {
   min-height: 1px;
   width: 100px;
   margin: 40px;
+
 }
 
 .umarepo_title{
@@ -382,12 +383,22 @@ img {
   position: absolute;
   top: 25px;
   right: 25px;
+ 
 }
 
 .umarepo-curator{
   font-weight: 600;
+ 
+  
 }
 
 .umarepo-curato{
   font-weight: 600; 
+ 
+}
+
+.umarepo_display_flex{
+  display: flex;
+  justify-content: center;
+  vertical-align: top;
 }
