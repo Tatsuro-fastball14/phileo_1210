@@ -375,30 +375,22 @@ img {
   min-height: 1px;
   width: 100px;
   margin: 40px;
-
 }
 
 .umarepo_title{
-  font-weight: 600;
-  position: absolute;
-  top: 25px;
-  right: 25px;
- 
+  font-weight: 600; 
 }
 
 .umarepo-curator{
-  font-weight: 600;
- 
-  
+  font-weight: 600; 
 }
 
 .umarepo-curato{
   font-weight: 600; 
- 
 }
 
-.umarepo_display_flex{
+.umarepo_flex{
   display: flex;
-  justify-content: center;
-  vertical-align: top;
+  align-items: stretch;
+  height: 150px;
 }

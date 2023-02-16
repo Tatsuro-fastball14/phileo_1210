@@ -28,14 +28,20 @@
 
   <%@umarepos.each do |umarepo| %>
     <%umarepo.images.each do |image| %>
+    <div class="umarepo_flex">
       <div class="umarepo_image img"><%= image_tag image %> </div>
     <% end %>
-    <div class="umarepo_display_flex">
-      <div class="umarepo-title"> <%= umarepo.title %></div>
-      <div class="umarepo-curator"><%= umarepo.curator %></div>
-      <div class="umarepo-curato"><%= umarepo.comment %></div>
-    </div>
-  
+      <div>
+        <div class="umarepo-title"> <%= umarepo.title %></div>
+        <div class="umarepo-curator"><%= umarepo.curator %></div>
+        <div class="umarepo-curato"><%= umarepo.comment %></div>
+      </div>
+  </div>
+    
+
+
+
+    
   <% end %>
     <h2>店舗情報</h2>
     <div  id="test3"></div>
