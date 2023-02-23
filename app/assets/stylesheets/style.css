@@ -377,7 +377,7 @@ img {
  
 }
 
-.umarepo_title{
+.umarepo-title{
   font-weight: 600;
   margin: 10px;
 }
@@ -387,13 +387,12 @@ img {
   margin: 10px;
 }
 
-.umarepo-curato{
+.umarepo-comment{
   font-weight: 600;
   margin: 10px;
 }
 
 .umarepo_flex{
   display: flex;
-  align-items: stretch;
   height: 150px;
 }
