@@ -80,3 +80,4 @@ class CooksController < ApplicationController
     @cook = Cook.find(params[:id])
   end
 end
+

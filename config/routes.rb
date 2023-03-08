@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get  'orders/kiyaku'
   post 'umarepos/new'
   
+  
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
     
