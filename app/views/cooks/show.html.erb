@@ -1,16 +1,21 @@
 <%=  javascript_pack_tag 'hello_vue' %>
 <main class="main">
- 
-   
-  <div class="cook__wrapper">
+  <div class="cook_wrapper">
     <%@cook.images.each do |image| %>
       <div class="cook_image"><%= image_tag image %> </div>
     <% end %>
   </div>
-
-  <div class="avatar">
-    <%= image_tag "avatar.JPG", class:"avatar" %>
+  <div class="avatar_main">
+    <div class="avatar"> <%= image_tag "avatar.JPG" %></div>
+    <div>
+      <div class="curator_name">島田達郎</div>
+      <p><div class ="curator_job">食・グルメ・ホテル紹介のキューレータ（沖縄限定)</div></p>
+    </div>
   </div>
+
+
+  
+
 
   <div class="store_catchcopy"><%= @cook.store_catchcopy %></div>
   
@@ -20,24 +25,25 @@
    
   <h1>旨レポ</h1>
   <%= link_to "旨レポを投稿",    new_umarepo_path, method: :new,class:"umarepowotoukou"%>
-  
-  <%@umarepos.each do |umarepo| %>
-    <div class="umarepo-title"> <%= umarepo.title %></div>
-    <div class="umarepo-comment"><%= umarepo.comment %></div>
-  <% end %>
 
   <%@umarepos.each do |umarepo| %>
     <%umarepo.images.each do |image| %>
-      <%= image_tag image %> 
+    <div class="umarepo_flex">
+      <div class="umarepo_image img"><%= image_tag image %> </div>
     <% end %>
+      <div>
+        <div class="umarepo-title"> <%= umarepo.title %></div>
+        <div class="umarepo-curator"><%= umarepo.curator %></div>
+        <div class="umarepo-comment"><%= umarepo.comment %></div>
+      </div>
+  </div>
   <% end %>
-
-  <h2>店舗情報</h2>
-  <div class="store"> <%= @cook.store %></div>
-  <div class="category"> <%= @cook.category %></div>
-  <div class="address"><%= @cook.address %> </div> 
-  <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
- 
+    <h2>店舗情報</h2>
+    <div  id="test3"></div>
+    <div class="store"> <%= @cook.store %></div>
+    <div class="category"> <%= @cook.category %></div>
+    <div class="address"><%= @cook.address %> </div> 
+    <div>電話番号 :<a href="tel: <%= @cook.phone_number %>"><%= @cook.phone_number %></a></div>
   <% if current_user.admin? %>
     <%= link_to "商品の編集", edit_cook_path(@cook.id), method: :get, class: "item-red-btn" %>
     <%= link_to "削除", cook_path(@cook.id), method: :delete,class:"cook-destroy"%>

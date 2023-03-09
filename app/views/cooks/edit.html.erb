@@ -19,29 +19,26 @@
     <div class="cook__body">
       <div class="cook__detail">
         <p class="detail__title"></p>
-        <p class="detail__message"><%= @cook.store %></p>
+        <p class="detail__message"><%=@cook.store_catchcopy %></p>
       </div>
     </div>
 
-     <%= @cook.title %>
+     <div><%= @cook.store%></div>
     <div class="wrapper">
       <div class="store_main">
-        <p><%= @cook.store %></p>
+        <p><%= @cook.sentence%></p>
       </div><!-- /.store_main -->
 
     <div class="title_main">
-        <p><%= @cook.title %></p>
+        <p><%= @cook.address%></p>
       </div><!-- /.title_main -->
 
-      <div class="cooksentence_main">
-        <p><%= @cook.cooksentence %></p>
-      </div><!-- /.cooksentence_main -->
+     
 
       <div class="side-bar_store">
         <p><%= @cook.address %></p>
         <p><%= @cook.phone_number %></p>
-        <p><%= @cook.open_day %></p>
-        <p><%= @cook.regular_holiday %></p>
+      
       </div><!-- /.side-bar_store -->
     </div><!-- /.wrapper -->
   </div>
