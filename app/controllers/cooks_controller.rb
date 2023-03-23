@@ -55,6 +55,7 @@ class CooksController < ApplicationController
   def search
     @p = Cook.ransack(params[:q])
     @cooks = @p.result
+    @cook = Cook.find(params[:id])
   end
 
   private
