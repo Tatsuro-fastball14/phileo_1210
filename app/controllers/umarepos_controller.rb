@@ -3,6 +3,7 @@ class UmareposController < ApplicationController
 
   def new
     @umarepos = Umarepo.new
+    @cook_id = @cook.id
     
   end
 
