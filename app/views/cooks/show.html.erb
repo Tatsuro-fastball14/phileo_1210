@@ -24,8 +24,8 @@
   <div class="sentence"><%= @cook.sentence %></div> 
    
   <h1>旨レポ</h1>
-  <%= link_to "旨レポを投稿",    new_cook_umarepo_path, method: :new,class:"umarepowotoukou"%>
- 
+  <%= link_to "旨レポを投稿",    new_cook_umarepos_path(@cook), method: :new,class:"umarepowotoukou"%>
+  
 
   <%@umarepos.each do |umarepo| %>
     <%umarepo.images.each do |image| %>
