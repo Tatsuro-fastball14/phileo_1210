@@ -3,7 +3,8 @@ class UmareposController < ApplicationController
 
   def new
     @umarepos = Umarepo.new
-    cook_id = @cook.id
+    @cook = Cook.find(params[:cook_id])
+   
     
   end
 
