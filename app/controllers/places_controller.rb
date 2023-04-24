@@ -7,7 +7,7 @@ class PlacesController < ApplicationController
   end
 
   def new
-    @cook = Cook.new
+    @cook = Cook.find(params[:cook_id])
   end
 
   def create
