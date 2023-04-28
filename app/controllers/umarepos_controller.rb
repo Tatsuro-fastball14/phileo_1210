@@ -6,9 +6,9 @@ class UmareposController < ApplicationController
 
   def create
     cook = Cook.find(params[:cook_id])
-    @umarepo = cook.Umarepos.build(umarepos_params)  
+    @umarepo = cook.umarepos.build(umarepos_params)  
     if
-      @umarepos.save!
+      @umarepo.save!
       redirect_to root_path
     else
       render :new
