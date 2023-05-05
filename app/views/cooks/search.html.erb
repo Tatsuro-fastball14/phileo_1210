@@ -1,9 +1,6 @@
 <%= javascript_pack_tag 'hello_vue' %>
-<div class="side-bar">
-
-</div>
-<div class='phileo-info'>
-</div>
+<div class="side-bar"></div>
+<div class='phileo-info'></div>
 <div class="wrapper">
   <div class="side-bar">
     <%= search_form_for @p, url: cooks_search_path do |f| %>
@@ -13,12 +10,9 @@
       <%= f.submit '検 索' %>
     <% end %>
   </div>
-
   <div class="cooks">
     <div id="test3"></div>
-    <h1 >
-      お店一覧
-    </h1>
+    <h1 >お店一覧</h1>
 
     <% @cooks.each do |cook| %>
       <div class='item'>
@@ -29,12 +23,8 @@
           <div class="avatar">
             <%= link_to image_tag("avatar.JPG"),   cook_path(cook.id), method: :get %>
           </div>
-          <h3 class='item-name'>
-            <%= cook.store_catchcopy %>
-          </h3>
-          <div class='item-store'>
-            <%= cook.sentence %>
-          </div>
+          <h3 class='item-name'><%= cook.store_catchcopy %></h3>
+          <div class='item-store'><%= cook.sentence %></div>
         </div>
       </div>
     <% end %>

@@ -42,14 +42,11 @@
       <% end %>
       <%= link_to "旨レポを投稿",  umareos_new_path,class:"umarepowotoukou"%> 
   <% end %>
-  
 </div>
-
 <%# 商品一覧 %>
 <% @places.each do |place| %>
   <br>
   <li>
     <%= place.name %>
-
   </li>
 <% end %>

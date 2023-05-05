@@ -16,11 +16,10 @@ class CooksController < ApplicationController
 
   def create
     @cook = Cook.new(cooks_params)
-   
-    if @cook.save
-      redirect_to root_path
+    if  @cook.save
+        redirect_to root_path
     else
-      render :new
+        render :new
     end
   end
 
@@ -28,16 +27,14 @@ class CooksController < ApplicationController
   end
 
   def update
-    
-    if @cook.update(cooks_params)
+    if  @cook.update(cooks_params)
         redirect_to cook_path
     else
-      render :edit
+        render :edit
     end 
   end
 
   def destroy
-  
     @cook.destroy
     redirect_to root_path
   end
@@ -47,9 +44,6 @@ class CooksController < ApplicationController
     @cook = Cook.find(params[:id])
     @umarepos = @cook.umarepos
     @umarepo =Umarepo.new
-    
-   
-   
   end
 
   def search
@@ -72,7 +66,7 @@ class CooksController < ApplicationController
 
   def basic_auth
     authenticate_or_request_with_http_basic do |username, password|
-      username == 'admin' && password == '1414'
+    username == 'admin' && password == '1414'
     end
   end
 

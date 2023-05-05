@@ -38,10 +38,7 @@ class OrdersController < ApplicationController
   
   def kiyaku 
   end
-
-
-
-
+  
   private
 
   def order_params

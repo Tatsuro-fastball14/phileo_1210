@@ -13,10 +13,6 @@
     </div>
   </div>
 
-
-  
-
-
   <div class="store_catchcopy"><%= @cook.store_catchcopy %></div>
   
   <div class="place"><%= @cook.store %></div>
@@ -26,7 +22,6 @@
   <h1>旨レポ</h1>
   <%= link_to "旨レポを投稿", new_cook_umarepo_path(@cook.id), class:"umarepowotoukou"%>
   
-
   <%@umarepos.each do |umarepo| %>
     <%umarepo.images.each do |image| %>
     <div class="umarepo_flex">

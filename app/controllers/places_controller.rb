@@ -13,10 +13,10 @@ class PlacesController < ApplicationController
 
   def create
     @cook = Cook.new(cooks_params)
-    if @cook.save
-      redirect_to root_path
+    if  @cook.save
+        redirect_to root_path
     else
-      render :new
+        render :new
     end
   end
 

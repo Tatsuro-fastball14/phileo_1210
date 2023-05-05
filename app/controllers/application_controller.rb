@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
 
   def storable_location?
     controller_name != 'members' &&
-      controller_name != 'orders' &&
-      request.get? && is_navigational_format? && !devise_controller? && !request.xhr? 
+    controller_name != 'orders' &&
+    request.get? && is_navigational_format? && !devise_controller? && !request.xhr? 
   end
 
   def store_user_location!

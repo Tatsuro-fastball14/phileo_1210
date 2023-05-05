@@ -2,7 +2,7 @@ class CardController < ApplicationController
   require "payjp"
   before_action :set_card
 
-def new
+  def new
     card = Card.where(user_id: current_user.id)
       redirect_to action: "show" if card.exists?
     @card = Card.new(
@@ -30,8 +30,8 @@ end
   def create #PayjpとCardのデータベースを作成
     Payjp.api_key = '秘密鍵'
 
-    if params['payjp-token'].blank?
-      redirect_to action: "new"
+    if  params['payjp-token'].blank?
+        redirect_to action: "new"
     else
       # トークンが正常に発行されていたら、顧客情報をPAY.JPに登録します。
       customer = Payjp::Customer.create(
@@ -42,16 +42,14 @@ end
       )
     end
 
-    if @card.save
-      redirect_to action: "index"
+    if  @card.save
+        redirect_to action: "index"
     else
         redirect_to action: "create"
     end
-    
   end
 
   private
-
   def set_card
     @card = Card.where(user_id: current_user.id).first if Card.where(user_id: current_user.id).present?
   end
