@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post  'orders/destroy'
   get  'orders/kiyaku'
   post  'umareos/new'
+  post  'cooks/new'
   
   
   
