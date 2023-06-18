@@ -23,7 +23,6 @@ GEM
     actionpack (6.1.7.3)
       actionview (= 6.1.7.3)
       activesupport (= 6.1.7.3)
-      rack (~> 2.0, >= 2.0.9)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.2.0)
@@ -50,9 +49,8 @@ GEM
     activestorage (6.1.7.3)
       actionpack (= 6.1.7.3)
       activejob (= 6.1.7.3)
-      activesupport (= 6.1.7.3)
-      marcel (~> 1.0)[]
-      mini_mime (>= 1.1.0)
+      activerecord (= 6.1.7.3)
+      marcel (~> 1.0)
     activesupport (6.1.7.3)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -296,7 +294,7 @@ GEM
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
-      railties (>= 6.0.0.)
+      railties (>= 6.1.7.3)
     webdrivers (5.2.0)
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
@@ -322,8 +320,8 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
-  devise  (~> 4.9.2)
-  dotenv-rails (~> 2.8.1)
+  devise
+  dotenv-rails
   http
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
@@ -344,7 +342,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
   tzinfo-data
-  web-console 
+  web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.3.0)
 
