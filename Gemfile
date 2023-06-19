@@ -60,7 +60,7 @@ gem 'mini_magick'
 gem 'image_processing', '~> 1.2'
 gem 'http'
 gem "aws-sdk-s3", require: false
-gem 'payjp', '~> 0.0.10'
+gem 'payjp'
 gem 'pry-byebug'
 gem 'pry-rails'
 gem 'pry-stack_explorer'
