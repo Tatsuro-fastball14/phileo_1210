@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post 'orders/pay'
   post  'orders/destroy'
   get  'orders/kiyaku'
-  post  'umareos/new'
+  get  'umareos/new'
   post  'cooks/new'
   
   
