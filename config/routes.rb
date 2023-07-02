@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get  'umareos/new'
   post  'cooks/new'
   
-  
+  aaaa
   
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
