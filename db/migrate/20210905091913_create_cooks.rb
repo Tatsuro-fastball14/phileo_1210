@@ -13,7 +13,7 @@ class CreateCooks < ActiveRecord::Migration[6.0]
       
 
     end
-    add_column :cooks, :order, :integer
+   
   end
 end
 
