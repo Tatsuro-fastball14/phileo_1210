@@ -31,8 +31,8 @@
         <li><%= link_to current_user.email, "#", class: "user-nickname"%> </li> 
         <li><%= link_to '',destroy_user_session_path, method: :delete, class: "logout" %></li>
       <% else %> 
-        <li><%= link_to 'ログイン', new_user_session_path, class: "login" %></li>
-        <li><%= link_to '新規登録', new_user_registration_path, class:  "sign-up" %></li>  
+        <li><%= link_to 'ログイン', new_admin_session_path, class: "login" %></li>
+        <li><%= link_to '新規登録', new_admin_registration_path, class:  "sign-up" %></li>  
         <li class="kiyaku"> <%= link_to "利用規約",   orders_kiyaku_path ,class:  "orders-kiyaku"%> </li>
       <% end %>
     </ul>
