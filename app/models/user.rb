@@ -5,10 +5,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
  
   has_many :cards
- 
   has_many :Others
 
   def subscriber?
-    self.customer_id.present?
+    false
   end
 end
+
+
+ 
