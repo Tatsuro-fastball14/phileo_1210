@@ -9,7 +9,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-       binding.pry
       Payjp.api_key = ENV["SECRET_KEY_ENV"]
       customer = Payjp::Customer.create(
       description: '登録テスト',
@@ -23,6 +22,7 @@ class OrdersController < ApplicationController
      )
      
      if stored_location_for(current_user).nil?
+        binding.pry
         redirect_to places_index_path
      else
         redirect_to stored_location_for(current_user)
