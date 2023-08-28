@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_user_location!
+      binding.pry
    session[:return_to_url] = request.fullpath
   end
 

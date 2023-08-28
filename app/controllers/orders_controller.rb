@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
      )
      
      if stored_location_for(current_user).nil?
-        binding.pry
+      
         redirect_to places_index_path
      else
         redirect_to stored_location_for(current_user)
