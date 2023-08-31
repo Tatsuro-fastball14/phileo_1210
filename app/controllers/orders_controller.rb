@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
      )
      
      if stored_location_for(current_user).nil?
-      
+
         redirect_to places_index_path
      else
         redirect_to stored_location_for(current_user)
@@ -37,8 +37,7 @@ class OrdersController < ApplicationController
       subscription.pause
   end
   
-  def kiyaku 
-  end
+  
   
   private
 
