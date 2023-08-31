@@ -54,15 +54,14 @@ class CooksController < ApplicationController
   private
 
   def cooks_params
-    params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,images:[])
+    params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,:order,images:[])
   end
 
   def search_cook
     @p = Cook.ransack(params[:q])
   end
 
-  def cook
-  end
+  
 
   def basic_auth
     authenticate_or_request_with_http_basic do |username, password|

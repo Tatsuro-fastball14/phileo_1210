@@ -17,9 +17,8 @@ class ApplicationController < ActionController::Base
     !devise_controller? && !request.xhr? 
   end
 
-  def store_user_location!
-      binding.pry
-   session[:return_to_url] = request.fullpath
-  end
+ def store_user_location!
+  store_location_for(:user, request.fullpath)
+end
 
 end

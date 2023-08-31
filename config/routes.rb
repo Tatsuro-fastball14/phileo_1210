@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get  'umarepos/new'
   post  'cooks/new'
   
+  
+  
  
   
   devise_for :users, :controllers => {
@@ -27,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:show, :create, :index,:destroy] do
     collection do 
-      post 'order'
+      get 'order'
       get  'pay'
     end
   end
