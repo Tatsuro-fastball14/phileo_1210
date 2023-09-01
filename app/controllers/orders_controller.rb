@@ -25,6 +25,7 @@ class OrdersController < ApplicationController
 
         redirect_to places_index_path
      else
+        binding.pry
         redirect_to stored_location_for(current_user)
      end
       
