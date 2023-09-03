@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   private
 
   def storable_location?
+    (controller_name == 'cooks' && action_name != 'index') && 
     controller_name != 'members' &&
       controller_name != 'orders' &&
       request.get? && is_navigational_format? && 
@@ -18,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
  def store_user_location!
-      binding.pry
+    
   store_location_for(:user, request.fullpath)
 end
 
