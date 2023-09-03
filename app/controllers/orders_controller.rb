@@ -9,26 +9,18 @@ class OrdersController < ApplicationController
   end
 
   def create
-      Payjp.api_key = ENV["SECRET_KEY_ENV"]
+    Payjp.api_key = ENV["SECRET_KEY_ENV"]
       customer = Payjp::Customer.create(
       description: '登録テスト',
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
     )
-      current_user.update(customer_id: customer.id)
-      Payjp::Subscription.create(
+    current_user.update(customer_id: customer.id)
+    Payjp::Subscription.create(
       plan: 'getugaku400',
       customer: customer.id
-     )
-     
-     if stored_location_for(current_user).nil?
-
-        redirect_to places_index_path
-     else
-      
-        redirect_to stored_location_for(current_user)
-     end
-      
+    )
+    redirect_to stored_location_for(current_user) || places_index_path
   end
 
   def destroy
@@ -37,8 +29,6 @@ class OrdersController < ApplicationController
       subscription = customer.subscriptions.last # lastが使えるかは不明
       subscription.pause
   end
-  
-  
   
   private
 
