@@ -19,7 +19,6 @@ class ApplicationController < ActionController::Base
   end
 
  def store_user_location!
-      binding.pry
   store_location_for(:user, request.fullpath)
 end
 
