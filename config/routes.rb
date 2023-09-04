@@ -26,13 +26,10 @@ Rails.application.routes.draw do
     resources :umarepos
   end
 
-
   resources :orders, only: [:show, :create, :index,:destroy] do
     collection do 
       get 'order'
       get  'pay'
     end
   end
- 
-
 end
