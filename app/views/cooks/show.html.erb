@@ -6,8 +6,7 @@
     <% end %>
   </div>
   <% @cook.videos.each do |video| %>
-  <p><%= video.title %></p>
-  <video src="./videos.mp4" width="500" height="300" controls autoplay muted loop ></video>
+  <video src=<%= movie.mp4 %> controls></video>
 <% end %>
 
   
