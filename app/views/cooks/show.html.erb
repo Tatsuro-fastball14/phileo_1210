@@ -5,9 +5,11 @@
       <div class="cook_image"><%= image_tag image %> </div>
     <% end %>
   </div>
-  <%@cook.movies.each do |movie| %>
-      <div class="cook_movie"> <%= movie_tag movie %></div>
-  <% end %>
+  <% @cook.videos.each do |video| %>
+  <p><%= video.title %></p>
+  <video src="./test1.mp4" width="500" height="300" controls autoplay muted loop ></video>
+<% end %>
+
   
   <div class="avatar_main">
     <div class="avatar"> <%= image_tag "avatar.JPG" %></div>
