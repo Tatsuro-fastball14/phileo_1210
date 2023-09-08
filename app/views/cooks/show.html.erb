@@ -5,8 +5,10 @@
       <div class="cook_image"><%= image_tag image %> </div>
     <% end %>
   </div>
-   <%@cook.videos.each do |video| %>
-      <div class="cook_video"> <%= video_tag rails_blob_path(@cook.video) %>
+  <%@cook.movies.each do |movie| %>
+      <div class="cook_movie"> <%= movie_tag movie %></div>
+  <% end %>
+  
   <div class="avatar_main">
     <div class="avatar"> <%= image_tag "avatar.JPG" %></div>
     <div>
