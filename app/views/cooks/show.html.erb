@@ -8,7 +8,6 @@
   <% @cook.videos.each do |video| %>
       <video src=<%= rails_storage_redirect_path(video) %> controls></video>
   <% end %>
-
   
   <div class="avatar_main">
     <div class="avatar"> <%= image_tag "avatar.JPG" %></div>
