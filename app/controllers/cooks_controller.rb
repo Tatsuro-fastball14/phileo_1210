@@ -55,7 +55,7 @@ class CooksController < ApplicationController
   private
 
   def cooks_params
-    params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,:order,videos:[],images:[])
+    params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,:order,images:[],videos:[])
   end
 
   def search_cook
