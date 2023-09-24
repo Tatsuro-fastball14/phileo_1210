@@ -44,6 +44,7 @@ class CooksController < ApplicationController
     @cook = Cook.find(params[:id])
     @umarepos = @cook.umarepos
     @umarepo =Umarepo.new
+    
   end
 
   def search
@@ -54,7 +55,7 @@ class CooksController < ApplicationController
   private
 
   def cooks_params
-    params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,:order,images:[])
+    params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,:order,images:[],videos:[])
   end
 
   def search_cook

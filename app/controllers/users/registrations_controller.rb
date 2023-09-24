@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         stored_location_for(resource)
     else
           
-        orders_url       
+         new_user_registration_path      
     end  
     
  end

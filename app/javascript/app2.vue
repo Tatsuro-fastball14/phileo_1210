@@ -1,63 +1,43 @@
 <script>
-  export default{
-    props: {
-      myLatLng: {
-        type: object,
-        required: ture,
-      },
-      zoom: {
-        type: Number,
-        required: ture,
-      },
-    },
-    mounted(){
-      if (!window.mapLoadStarted) {
-        window.mapLoadStarted = true;
-        let script = document.createElement('script');
-        script.src =
-          'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixta.jp%2Fillustration%2F12767983&psig=AOvVaw0JcQTIocWdS2K6xFdU8EYV&ust=1638779689532000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJjvx5ygzPQCFQAAAAAdAAAAABAO';
-          script.async = true;
-          document.head.appendChild(script);
-      }
-
-      window.initMap =() => {
-        window.mapLoaded = true;
-      };
-      
-      let timer = setInterval(() => {
-        if (window. mapLoaded) {
-          clearInterval(timer);
-          const map = new
-      window.google.maps.Map(this.$refs.map, {
-            center: this.myLatLng,
-            zoom: 15,
-            mapTypeId: 'roadmap'
-
-
-      });
-      new window.google.maps.Marker({ position:
-      this.myLatLng, map });
-        }
-      },500);
-    },
-  }
-</script>
-
-<template>
-  <h1>プラグインの作成</h1>
-   <google-map />
-</template>
-
-<script>
-import GoogleMap from './components/GoogleMap.vue';
-
 export default {
-  name: 'App',
-  components: {
-    GoogleMap,
+  props: {
+    myLatLng: {
+      type: Object,
+      required: true,
+    },
+    zoom: {
+      type: Number,
+      default: 15
+    },
   },
-};
-</script>
+  mounted() {
+    if (!window.mapLoadStarted) {
+      window.mapLoadStarted = true;
+      let script = document.createElement('script');
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAc8ucfbF9aY5Jn9VehhJZ852fopENuQTc&callback=initMap';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+
+    window.initMap = () => {
+      window.mapLoaded = true;
+    };
+
+    let timer = setInterval(() => {
+      if (window.mapLoaded) {
+        clearInterval(timer);
+        const map = new window.google.maps.Map(this.$refs.map, {
+          center: this.myLatLng,
+          zoom: this.zoom,
+          mapTypeId: 'roadmap'
+        });
+        new window.google.maps.Marker({ position: this.myLatLng, map });
+      }
+    }, 500);
+  },
+  
+}
+  < template >
+  <div ref="map" style="height: 400px; width: 100%;"></div>
 
 
-aaaa
