@@ -3,6 +3,7 @@
   <div class="cook_wrapper">
     <%@cook.images.each do |image| %>
       <div class="cook_image"><%= image_tag image %> </div>
+      <video src="<%= @cook.images.video %>" type="video/mp4" controls></video>
     <% end %>
   </div>
   <div class="avatar_main">
