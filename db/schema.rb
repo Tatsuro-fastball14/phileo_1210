@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_14_220109) do
+ActiveRecord::Schema.define(version: 2023_07_02_002915) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2023_08_14_220109) do
     t.string "category", null: false
     t.decimal "lat", precision: 8, scale: 6
     t.decimal "lng", precision: 9, scale: 6
-    t.bigint "order"
+    t.string "order", null: false
   end
 
   create_table "places", charset: "utf8", force: :cascade do |t|
