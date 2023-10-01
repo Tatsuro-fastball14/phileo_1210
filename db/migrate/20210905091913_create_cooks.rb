@@ -10,6 +10,7 @@ class CreateCooks < ActiveRecord::Migration[6.0]
       t.string :category, null:false
       t.decimal :lat,  precision: 8, scale: 6
       t.decimal :lng,  precision: 9, scale: 6
+     
 
       
     end
