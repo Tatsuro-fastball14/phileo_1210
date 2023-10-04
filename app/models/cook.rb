@@ -5,6 +5,6 @@ class Cook < ApplicationRecord
 
   def delete_videos!
       update!(videos: nil)
-      
+      save!
   end
 end
