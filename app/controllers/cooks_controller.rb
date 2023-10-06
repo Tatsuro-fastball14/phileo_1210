@@ -5,7 +5,8 @@ class CooksController < ApplicationController
   before_action :set_cook, only: [:edit, :show,:update,:destroy]
 
   def index
-    @cooks = Cook.all
+    @cooks =  Cook.all
+    @videos=  Cook.all
     render json: @cooks
   end
 
@@ -39,6 +40,8 @@ class CooksController < ApplicationController
     redirect_to root_path
   end
 
+  
+
   def show
     redirect_to orders_path unless current_user.subscriber?
     @cook = Cook.find(params[:id])
@@ -56,6 +59,10 @@ class CooksController < ApplicationController
 
   def cooks_params
     params.require(:cook).permit(:store_catchcopy, :sentence, :address, :phone_number,:store,:category,:lat,:lng,:order,images:[],videos:[])
+  end
+
+  def videos_params
+    params.require(:cook).permit(images:[],videos:[])
   end
 
   def search_cook
