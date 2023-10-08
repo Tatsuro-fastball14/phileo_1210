@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       get  'pay'
     end
   end
- resources :videos
-
+  #ここでルーティング設定している
+  resources :videos
+  
 end

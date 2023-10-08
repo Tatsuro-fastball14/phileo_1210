@@ -11,7 +11,7 @@ end
 def edit
   @video = Video.find(params[:id])
 end
-
+#destroy actionしているが、binding.pryがかからない
  def destroy
   @video = Video.find(params[:id])
   biding.pry
