@@ -8,5 +8,4 @@ class Cook < ApplicationRecord
       videos.each { |video| video.purge }
     end
   end
-
 end

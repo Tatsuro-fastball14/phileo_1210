@@ -1,9 +1,12 @@
- class VideosController < ApplicationController
+class VideosController < ApplicationController
   def index
     @videos=  Video.all
     render json: @cooks
   end
 
+  def show
+    @video = Video.find(params[:id])
+  end
 
   def show
     @video = Video.find(params[:id])
@@ -24,3 +27,4 @@
     params.require(:video).permit(images:[],videos:[])
   end
 end
+
