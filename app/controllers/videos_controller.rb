@@ -15,7 +15,8 @@ class VideosController < ApplicationController
   def destroy
     @cook = Cook.find(params[:id])
     @cook.delete_videos
-    redirect_to cooks_path(@cook)
+    
+    redirect_to cook_path(@cook)
   end
 
 

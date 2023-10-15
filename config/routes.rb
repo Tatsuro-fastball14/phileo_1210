@@ -34,5 +34,12 @@ Rails.application.routes.draw do
   end
   #ここでルーティング設定している
   resources :videos
+
+  resources :users do
+        member do
+            get "check"
+            patch "withdrawl"
+        end
+    end
   
 end
