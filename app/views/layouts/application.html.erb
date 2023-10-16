@@ -24,6 +24,9 @@
       </div>   
     </header>
     <%= yield %>
+     <% if current_user %>
+      <%= button_to 'アカウントを削除', destroy_account_user_path(current_user), method: :delete, data: { confirm: '本当にアカウントを削除しますか？' } %>
+      <% end %>
 
     <ul class="test">
       <% if user_signed_in? %>
@@ -35,6 +38,6 @@
         <li><%= link_to '新規登録', new_user_registration_path, class:  "sign-up" %></li>  
         <li class="kiyaku"> <%= link_to "利用規約",   orders_kiyaku_path ,class:  "orders-kiyaku"%> </li>
       <% end %>
-    </ul>
+    </ul> 
   </body>
 </html>

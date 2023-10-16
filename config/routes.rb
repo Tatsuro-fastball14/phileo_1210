@@ -36,10 +36,8 @@ Rails.application.routes.draw do
   resources :videos
 
   resources :users do
-        member do
-            get "check"
-            patch "withdrawl"
-        end
+    member do
+      delete :destroy_account
     end
-  
+  end
 end
