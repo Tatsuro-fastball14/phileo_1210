@@ -23,6 +23,14 @@ def show
   end
 end
 
+  def destroy
+       card = Card.find_by(user_id: current_user.id)
+    require 'payjp'
+    Payjp.api_key = 'sk_test_c62fade9d045b54cd76d7036'
+    subscription = Payjp::Subscription.retrieve('sub_567a1e44562932ec1a7682d746e0')
+    subscription.delete
+    redirect_to root_path
+  end
 
 
  # indexアクションはここでは省略
