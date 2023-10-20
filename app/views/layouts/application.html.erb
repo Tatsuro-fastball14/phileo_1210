@@ -29,7 +29,7 @@
       <% end %>
 
        <% if current_user %>
-      <%= button_to 'サブスクを退会', destroy_account_user_path(current_user), method: :delete, data: { confirm: '本当に退会致しますか？' } %>
+      <%= button_to 'サブスクを退会', card_path(current_user), method: :delete, data: { confirm: '本当に退会致しますか？' } %>
       <% end %>
 
     <ul class="test">

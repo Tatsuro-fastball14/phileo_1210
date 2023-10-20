@@ -1,4 +1,4 @@
-class CardController < ApplicationController
+class CardsController < ApplicationController
   require "payjp"
   before_action :set_card
 
@@ -27,13 +27,14 @@ end
        card = Card.find_by(user_id: current_user.id)
     require 'payjp'
     Payjp.api_key = 'sk_test_c62fade9d045b54cd76d7036'
-    subscription = Payjp::Subscription.retrieve('sub_567a1e44562932ec1a7682d746e0')
-    subscription.delete
-    redirect_to root_path
+     if card
+      customer = Payjp::Customer.retrieve(card.customer_id)
+      subscription.delete
+    else
+      redirect_to root_path
+    end
   end
 
-
- # indexアクションはここでは省略
 
   def create #PayjpとCardのデータベースを作成
     Payjp.api_key = '秘密鍵'
