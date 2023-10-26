@@ -28,7 +28,8 @@ end
     require 'payjp'
     Payjp.api_key = 'sk_test_c62fade9d045b54cd76d7036'
      if card
-      customer = Payjp::Customer.retrieve(card.customer_id)
+      customer = Payjp::Customer.retrieve(current_user.customer_id)
+      
       subscription.delete
     else
       redirect_to root_path

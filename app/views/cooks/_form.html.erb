@@ -1,7 +1,5 @@
 <%= f.file_field :images, multiple: true %>
 <%= f.file_field :videos, multiple: true %>
-<%= link_to "削除（全部）", cook_path(@cook.id) , method: :delete, class:"cooks-destroy" %>
-<%= link_to "削除（画像ファイル）", video_path(@cook.id) , method: :delete, class:"videos-destroy" %>
 
 
 
