@@ -9,7 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
    
     if  resource.subscriber?
       
-        stored_location_for(resource)
+        new_card_path
     else
           
          new_user_registration_path      
