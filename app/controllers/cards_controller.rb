@@ -3,14 +3,15 @@ class CardsController < ApplicationController
   before_action :set_card
 
     def new
-    card = Card.where(user_id: current_user.id)
+      card = Card.where(user_id: current_user.id)
       redirect_to action: "show" if card.exists?
-    @card = Card.new(
-      user_id: current_user.id,
-      customer_id: customer.id,
-      card_id: customer.default_card
+      @card = Card.new(
+      customer  = Customer.find(params[:customer_id])
+        user_id: current_user.id,
+        customer_id: customer.id,
+        card_id: customer.default_card
     )
-end
+  end
 
 def show
     card = Card.find_by(user_id: current_user.id)
