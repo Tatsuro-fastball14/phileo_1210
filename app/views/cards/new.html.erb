@@ -1,8 +1,8 @@
 .content__title
-  <%=h2 クレジットカード情報入力%>
+  <h2><%= クレジットカード情報入力 %></h2>
 .content__credit-card
   .content__credit-card__inner
-   <%= form_with url: cards_path, method: :post, html: { name: "inputForm" } do |f|%> -# createアクションのパスを指定
+  <%= form_with url: cards_path, method: :post, html: { name: "inputForm" } do |f|%> -# createアクションのパスを指定
      <%= f.label :カード番号, class: 'label'%>
       <%=span 必須%>
      <%= f.text_field :card_number, type: 'text', class: 'input-number', placeholder: '半角数字のみ', maxlength: "16"%>
@@ -23,3 +23,4 @@
        <% = f.text_field :cvc, type: 'text', class: 'input-number', placeholder: 'カード背面4桁もしくは3桁の番号', maxlength: "4"%>
       .content-bottom#card_token
        <% = f.submit '追加する', class: 'content-bottom--add-btn', id: 'token_submitbtn', id: 'token_submit'%>
+  <% end %>
