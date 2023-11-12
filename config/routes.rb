@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   end
   #ここでルーティング設定している
   resources :videos
-  resource :card
+  resources :cards
 
   resources :users do
     member do
