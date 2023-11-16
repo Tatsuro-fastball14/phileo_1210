@@ -3,14 +3,13 @@ class CardsController < ApplicationController
   before_action :set_card
 
   def new      
-    card = Card.where(user_id: current_user.id)
-    binding.pry
-    redirect_to action: "show" if card.exists?
-    @card = Card.new(
-      user_id: current_user.id,
-    )
-    end
+  card = Card.where(user_id: current_user.id)
+  if card.exists?
+    redirect_to action: "show"
+  else
+    @card = Card.new(user_id: current_user.id)
   end
+end
 
   def show
       card = Card.find_by(user_id: current_user.id)
@@ -24,48 +23,61 @@ class CardsController < ApplicationController
   end
 
   def destroy   
-    card = Card.find_by(user_id: current_user.id)
-    require 'payjp'
-    Payjp.api_key = 'sk_test_c62fade9d045b54cd76d7036'
-     if card
-      customer = Payjp::Customer.retrieve(current_user.customer_id)
-
-      subscription.delete
-    else
-      redirect_to root_path
-    end
+  card = Card.find_by(user_id: current_user.id)
+  if card
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    customer = Payjp::Customer.retrieve(card.customer_id)
+    customer.delete_card(card.card_id)
+    card.delete
+    redirect_to root_path, notice: 'カード情報を削除しました。'
+  else
+    redirect_to root_path, alert: 'カード情報が見つかりませんでした。'
   end
-
-
-  def create #PayjpとCardのデータベースを作成
-    Payjp.api_key = '秘密鍵'
-
-    if params['payjp-token'].blank?
-       redirect_to action: "new"
-    else
-      # トークンが正常に発行されていたら、顧客情報をPAY.JPに登録します。
-      customer = Payjp::Customer.create(
-        description: 'test', # 無くてもOK。PAY.JPの顧客情報に表示する概要です。
-        email: current_user.email,
-        card: params['payjp-token'], # 直前のnewアクションで発行され、送られてくるトークンをここで顧客に紐付けて永久保存します。
-        metadata: {user_id: current_user.id} # 無くてもOK。
-      )
-    end
-
-    if  @card.save
-    
-        redirect_to action: "index"
-    else
-        redirect_to action: "create"
-    end
-  end
-
-  private
-  def set_card
-    @card = Card.where(user_id: current_user.id).first if 
-  Card.where(user_id: current_user.id).present?
 end
 
 
+  def create
+  Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
 
+  # トークンが存在しない、または空である場合は処理を中断
+  if params['payjp-token'].blank?
+    binding.pry
+    redirect_to new_card_path, alert: "カード情報を取得できませんでした。"
+    return
+  end
+
+  # PAY.JPに顧客情報を登録し、エラーハンドリングを行う
+  begin
+    customer = Payjp::Customer.create(
+      email: current_user.email,
+      card: params['payjp-token'],
+      metadata: { user_id: current_user.id }
+    )
+  rescue Payjp::PayjpError => e
+    # PayJPからのエラー応答を処理
+    flash[:alert] = "カード情報の登録に失敗しました。エラー: #{e.message}"
+    redirect_to new_card_path
+    return
+  end
+
+  # アプリケーションのデータベースにカード情報を保存
+  @card = Card.new(
+    user_id: current_user.id,
+    customer_id: customer.id,
+    card_id: customer.default_card
+  )
+
+  if @card.save
+    redirect_to action: "show", notice: 'カード情報を登録しました。'
+  else
+    redirect_to action: "new", alert: 'カード情報の保存に失敗しました。'
+  end
+end
+
+
+  private
+  def set_card
+    @card = Card.where(user_id: current_user.id).first if Card.where(user_id: current_user.id).present?
+  end
+end
 
