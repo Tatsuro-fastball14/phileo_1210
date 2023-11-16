@@ -3,8 +3,8 @@ class CardsController < ApplicationController
   before_action :set_card
 
   def new      
-    card = Card.where(user_id: current_user.id)
-    if card.exists?
+      @card = Card.where(user_id: current_user.id)
+    if @card.exists?
       redirect_to action: "show"
     else
       @card = Card.new(user_id: current_user.id)
@@ -38,7 +38,7 @@ class CardsController < ApplicationController
 
   def create
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-
+      binding.pry
       # トークンが存在しない、または空である場合は処理を中断
     if params['payjp-token'].blank?
      
@@ -58,7 +58,7 @@ class CardsController < ApplicationController
       flash[:alert] = "カード情報の登録に失敗しました。エラー: #{e.message}"
       redirect_to new_card_path
     return
-    
+
     end
   end
 
@@ -68,13 +68,6 @@ class CardsController < ApplicationController
   #   customer_id: customer.id,
   #   card_id: customer.default_card
   # )
-
-  if @card.save
-    redirect_to action: "show", notice: 'カード情報を登録しました。'
-  else
-    redirect_to action: "new", alert: 'カード情報の保存に失敗しました。'
-  end
-
 
 
   private
