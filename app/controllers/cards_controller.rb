@@ -51,7 +51,7 @@ class CardsController < ApplicationController
       redirect_to new_card_path
 
     return
-    
+      
     end
 
     if  @card.save
