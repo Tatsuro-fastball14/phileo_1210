@@ -1,21 +1,21 @@
 # frozen_string_literal: true
-
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
- def after_sign_up_path_for(resource)
+  def after_sign_up_path_for(resource)
    
     if  resource.subscriber?
-      
-        new_card_path
+
+      new_card_path
     else
           
-         new_user_registration_path      
+      new_user_registration_path 
+
     end  
     
- end
+end
   # POST /resource
   # def create
   #   super

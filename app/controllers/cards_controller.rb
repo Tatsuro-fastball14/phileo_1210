@@ -45,14 +45,13 @@ class CardsController < ApplicationController
       card: params['payjp-token'],
       metadata: { user_id: current_user.id }
     )   
-    rescue Payjp::PayjpError => e
+      rescue Payjp::PayjpError => e
     # PayJPからのエラー応答を処理
       flash[:alert] = "カード情報の登録に失敗しました。エラー: #{e.message}"
       redirect_to new_card_path
 
-    return
-
-    end
+      return     
+      end
 
   end
 
