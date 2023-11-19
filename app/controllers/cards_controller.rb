@@ -51,16 +51,9 @@ class CardsController < ApplicationController
       redirect_to new_card_path
 
     return
-      
+
     end
 
-    if  @card.save
-        binding.pry
-    
-        redirect_to action: "index"
-    else
-        redirect_to action: "create"
-    end
   end
 
 
