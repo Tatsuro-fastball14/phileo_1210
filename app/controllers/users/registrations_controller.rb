@@ -5,15 +5,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def after_sign_up_path_for(resource)
-   
     if  resource.subscriber?
-
       new_card_path
-    else
-          
+    else       
       new_user_registration_path 
-
-    end  
+  end  
     
 end
   # POST /resource

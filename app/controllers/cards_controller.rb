@@ -38,25 +38,24 @@ class CardsController < ApplicationController
 
   def create
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-    binding.pry
-  
+   
     customer = Payjp::Customer.create(
       email: current_user.email,
       card: params['payjp-token'],
       metadata: { user_id: current_user.id }
     )   
-      rescue Payjp::PayjpError => e
-    # PayJPからのエラー応答を処理
+    rescue Payjp::PayjpError => e
+      # PayJPからのエラー応答を処理
       flash[:alert] = "カード情報の登録に失敗しました。エラー: #{e.message}"
       redirect_to new_card_path
-
       return     
-      end
-
+    end
   end
 
+ 
 
-  
+
+
 
   # アプリケーションのデータベースにカード情報を保存
   # @card = Card.new(
