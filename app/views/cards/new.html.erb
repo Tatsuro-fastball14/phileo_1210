@@ -1,21 +1,10 @@
 <%= form_with url: cards_path, method: :post, html: { name: "inputForm" } do |f| %> <!-- createアクションのパスを指定 -->
   <%= f.label :カード番号, class: 'label',id:'number-form' %>
-    <span class="required">必須</span>
-  <%= f.text_field :card_number, type: 'text', class: 'input-number', placeholder: '半角数字のみ', maxlength: "16" %>
-  <br>
-  <%= f.label :有効期限, class: 'label',id:'expiry-form' %>
-    <span class="required">必須</span>
-  <br>
-
-  <%= f.select :exp_month, [["01",1],["02",2],["03",3],["04",4],["05",5],["06",6],["07",7],["08",8],["09",9],["10",10],["11",11],["12",12]],{}, class: 'input-expire' %>
-    <span class="expire-text">月</span>
-  <br>
-    
-  <%= f.select :exp_year, [["19",2019],["20",2020],["21",2021],["22",2022],["23",2023],["24",2024],["25",2025],["26",2026],["27",2027],["28",2028],["29",2029]],{}, class: 'input-expire' %>
-    <span class="expire-text">年</span>
-
-  <%= f.label :セキュリティコード, class: 'label',id:'cvc-form' %>
-   <span class="required">必須</span>
-  <%= f.text_field :cvc, type: 'text', class: 'input-number', placeholder: 'カード背面4桁もしくは3桁の番号', maxlength: "4" %>
-  <%= f.submit '登録する', class: 'content-bottom--add-btn', id: 'token_submit' %>
+  <%# id:'number-formにpay.jsにnumberElement.mount('#number-form')しているため %>
+  <div id="number-form"></div>
+   <%# id:'expiry-formにpay.jsにnumberElement.mount('#number-form')しているため %>
+  <div id="expiry-form"></div>
+   <%# id:'cvc-formにpay.jsにnumberElement.mount('#number-form')しているため %>
+   <div id="cvc-form"></div>
+  <%= f.submit '登録する', id: 'info_submit',class: 'content-bottom--add-btn' %>
 <% end %>
