@@ -27,7 +27,8 @@ $(function () {
             `<input type="hidden" name="payjp_token" value=${response.id}>
             <input type="hidden" name="card_token" value=${response.card.id}>`
           );
-          $('#card_form')[0].submit();
+          
+          $('#card_form').submit(function() {});console.log
 
           $("#card_number").removeAttr("name");
           $("#cvc-from").removeAttr("name");
@@ -39,3 +40,8 @@ $(function () {
   }
   
 });
+
+
+
+
+
