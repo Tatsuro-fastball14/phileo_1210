@@ -44,6 +44,8 @@ class CardsController < ApplicationController
       card: params['payjp-token'],
       metadata: { user_id: current_user.id }
     )   
+      flash[:notice] = "カード情報を登録しました。"
+      redirect_to redirect_to orders_path unless current_user.subscriber?  # ここを希望のリダイレクト先に変更
     rescue Payjp::PayjpError => e
       # PayJPからのエラー応答を処理
       flash[:alert] = "カード情報の登録に失敗しました。エラー: #{e.message}"
