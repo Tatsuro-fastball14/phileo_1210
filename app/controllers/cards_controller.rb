@@ -38,19 +38,20 @@ class CardsController < ApplicationController
 
   def create
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-   
     customer = Payjp::Customer.create(
       email: current_user.email,
-      card: params['payjp-token'],
+      card: params['payjp_token'],
       metadata: { user_id: current_user.id }
     )   
-      flash[:notice] = "カード情報を登録しました。"
+    binding.pry
+    flash[:notice] = "カード情報を登録しました。"
       redirect_to redirect_to orders_path unless current_user.subscriber?  # ここを希望のリダイレクト先に変更
     rescue Payjp::PayjpError => e
       # PayJPからのエラー応答を処理
-      flash[:alert] = "カード情報の登録に失敗しました。エラー: #{e.message}"
+      binding.pry
+    flash[:alert] = "カード情報の登録に失敗しました。エラー: #{e.message}"
       redirect_to new_card_path
-      return     
+    return     
     end
   end
 

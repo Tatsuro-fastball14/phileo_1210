@@ -30,13 +30,12 @@ $(function () {
 
           console.log('333')
           $("#card_token").append(
-            `<input type="hidden" name="payjp_token" value=${response.id}>
+            `<input type="hidden" name="payjp_token" value=${response.id}>'
             <input type="hidden" name="card_token" value=${response.card.id}>`
           );
           
-          console.log($('#info_submit'))
-          $('#info_submit').submit();
-          $('#card_form').submit(function() {});console.log
+          
+          $('#card_form').submit()
           $("#card_number").removeAttr("name");
           $("#cvc-from").removeAttr("name");
           $("#exp_month").removeAttr("name");
