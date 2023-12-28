@@ -48,7 +48,7 @@ class CardsController < ApplicationController
       redirect_to redirect_to orders_path unless current_user.subscriber?  # ここを希望のリダイレクト先に変更
     rescue Payjp::PayjpError => e
       # PayJPからのエラー応答を処理
-      binding.pry
+    
     flash[:alert] = "カード情報の登録に失敗しました。エラー: #{e.message}"
       redirect_to new_card_path
     return     
