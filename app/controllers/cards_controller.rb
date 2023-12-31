@@ -38,18 +38,18 @@ class CardsController < ApplicationController
 
   def create
     Payjp.api_key = ENV["SECRET_KEY_ENV"]
-      customer = Payjp::Customer.create(
+    customer = Payjp::Customer.create(
       description: '登録テスト',
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
     )
+    binding.pry
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
       plan: 'getugaku400',
       customer: customer.id
-          )
-        redirect_to stored_location_for(current_user) || 
-     places_index_path
+    )
+    redirect_to stored_location_for(current_user) || places_index_path
   end
 
   private
