@@ -3,7 +3,7 @@ $(function () {
   if (document.URL.match(/cards/)){
 
     //公開鍵を記述
-    var payjp = Payjp('pk_test_0383a1b8f91e8a6e3ea0e2a9');
+    var payjp = Payjp('pk_test_bdc8b66f1293fd3bd5821143');
     //Elements インスタンスを生成します。
     var elements = payjp.elements();
     var numberElement = elements.create('cardNumber');
@@ -19,16 +19,23 @@ $(function () {
       e.preventDefault();
       payjp.createToken(numberElement).then(function (response) {
 
+        console.log('111')
+
         if (response.error) {  //  通信に失敗したとき
           alert(response.error.message)
           regist_card.prop('disabled', false)
-        } else {
-          $("#card_token").append(
-            `<input type="hidden" name="payjp_token" value=${response.id}>
-            <input type="hidden" name="card_token" value=${response.card.id}>`
-          );
-          $('#card_form')[0].submit();
 
+          console.log('222')
+        } else {
+
+          console.log('333')
+          $("#card_token").append(
+            `<input type="hidden" name="payjp_token" value=${response.id}>'
+            '<input type="hidden" name="card_token" value=${response.card.id}>`
+          );
+          
+          
+          $('#card_form').submit()
           $("#card_number").removeAttr("name");
           $("#cvc-from").removeAttr("name");
           $("#exp_month").removeAttr("name");
@@ -39,3 +46,8 @@ $(function () {
   }
   
 });
+
+
+
+
+

@@ -6,10 +6,13 @@ class User < ApplicationRecord
  
   has_many :cards
   has_many :Others
+  has_one :subscription
 
   def subscriber?
     true
   end
+  
+  
 end
 
 

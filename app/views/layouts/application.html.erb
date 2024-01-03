@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta name="description" content="PHILEO [フィレオ] は那覇出身の沖縄観光キュレーターの絶対にハズさない本当に美味しいお店が探せる検索サイトです" />
-    <script type="text/javascript" src="https://js.pay.jp/v2/"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://js.pay.jp/v2/pay.js"></script>
     <title>PHILEO [フィレオ] | 絶対にハズさない美味しいお店の検索サイト</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -13,17 +13,13 @@
   </head>
   <body>
     <header class="header">
-      <div class="inner">
-        <div class="nav">
-          <div class="nav__left">
-           phileo
-          </div>
-            <div class="nav__right">
-            </div> 
-        </div>
-      </div>   
+      <div class="inner"> </div>
+      <div class="nav"> </div>
+      <div class="nav__left">phileo</div>
+      <div class="nav__right"></div>  
     </header>
     <%= yield %>
+   
 
     <ul class="test">
       <% if user_signed_in? %>
@@ -35,6 +31,6 @@
         <li><%= link_to '新規登録', new_user_registration_path, class:  "sign-up" %></li>  
         <li class="kiyaku"> <%= link_to "利用規約",   orders_kiyaku_path ,class:  "orders-kiyaku"%> </li>
       <% end %>
-    </ul>
+    </ul> 
   </body>
 </html>

@@ -1,0 +1,11 @@
+<%= form_with url: cards_path, id: 'card_form', method: :post, html: { name: "inputForm" } do |f| %><!-- createアクションのパスを指定 -->
+  <%= f.label :カード番号, class: 'label',id:'number-form' %>
+  <%# id:'number-formにpay.jsにnumberElement.mount('#number-form')しているため %>
+  <div id="number-form"></div>
+   <%# id:'expiry-formにpay.jsにnumberElement.mount('#number-form')しているため %>
+  <div id="expiry-form"></div>
+   <%# id:'cvc-formにpay.jsにnumberElement.mount('#number-form')しているため %>
+   <div id="cvc-form"></div>
+   <div id="card_token"></div>
+  <%= f.submit '登録する', id: 'info_submit',class: 'content-bottom--add-btn' %>
+<% end %>
