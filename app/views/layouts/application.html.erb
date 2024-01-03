@@ -19,13 +19,7 @@
       <div class="nav__right"></div>  
     </header>
     <%= yield %>
-    <% if current_user %>
-      <%= button_to 'アカウントを削除', destroy_account_user_path(current_user), method: :delete, data: { confirm: '本当にアカウントを削除しますか？' } %>
-    <% end %>
-
-    <% if current_user %>
-      <%= button_to 'サブスクを退会', card_path(current_user), method: :delete, data: { confirm: '本当に退会致しますか？' } %>
-    <% end %>
+   
 
     <ul class="test">
       <% if user_signed_in? %>
