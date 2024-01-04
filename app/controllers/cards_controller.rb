@@ -24,16 +24,21 @@ class CardsController < ApplicationController
 
   def destroy   
     card = Card.find_by(user_id: current_user.id)
+    binding.pry
     if card
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+      binding.pry
       customer = Payjp::Customer.retrieve(card.customer_id)
       customer.delete_card(card.card_id)
       card.delete
+      binding.pry
       redirect_to root_path, notice: 'カード情報を削除しました。'
     else
       redirect_to root_path, alert: 'カード情報が見つかりませんでした。'
     end
   end
+
+  
 
 
   def create
