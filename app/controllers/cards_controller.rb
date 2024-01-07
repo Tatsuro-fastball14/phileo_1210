@@ -54,6 +54,11 @@ class CardsController < ApplicationController
       plan: 'getugaku400',
       customer: customer.id
     )
+    # pay.jpから顧客情報取得する処理５７行目から６２行目
+    GET https://api.pay.jp/v1/customers/:id
+    require 'payjp'
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp::Customer.retrieve(card.customer_id)
     redirect_to stored_location_for(current_user) || places_index_path
   end
 
