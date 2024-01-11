@@ -28,9 +28,9 @@ class CardsController < ApplicationController
     if card
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       binding.pry
-      customer = Payjp::Customer.retrieve(card.customer_id)
-      customer.delete_card(card.card_id)
-      card.delete
+      customer = Payjp::Customer.retrieve(user.customer_id)
+      cus=Payjp::Customer.retrieve(user.customer_id)
+      cus.delete
       binding.pry
       redirect_to root_path, notice: 'カード情報を削除しました。'
     else
@@ -54,12 +54,7 @@ class CardsController < ApplicationController
       plan: 'getugaku400',
       customer: customer.id
     )
-    # pay.jpから顧客情報取得する処理５７行目から６２行目
-    GET https://api.pay.jp/v1/customers/:id
-    require 'payjp'
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-    Payjp::Customer.retrieve(card.customer_id)
-    redirect_to stored_location_for(current_user) || places_index_path
+   
   end
 
   private
