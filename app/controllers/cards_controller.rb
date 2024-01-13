@@ -22,20 +22,27 @@ class CardsController < ApplicationController
     end
   end
 
-  def destroy   
-    card = Card.find_by(user_id: current_user.id)
-    binding.pry
-    if card
-      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-      binding.pry
-      customer = Payjp::Customer.retrieve(user.customer_id)
-      cus=Payjp::Customer.retrieve(user.customer_id)
-      cus.delete
-      binding.pry
-      redirect_to root_path, notice: 'カード情報を削除しました。'
-    else
-      redirect_to root_path, alert: 'カード情報が見つかりませんでした。'
-    end
+  # def destroy   
+    # card = Card.find_by(user_id: current_user.id)
+    # binding.pry
+    # if card
+    #   Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    #   binding.pry
+    #   customer = Payjp::Customer.retrieve(user.customer_id)
+    #   cus=Payjp::Customer.retrieve(user.customer_id)
+    #   cus.delete
+    #   binding.pry
+    #   redirect_to root_path, notice: 'カード情報を削除しました。'
+    # else
+    #   redirect_to root_path, alert: 'カード情報が見つかりませんでした。'
+    # end
+  # end
+
+  def destroy 
+    require 'payjp'
+    Payjp.api_key = 'sk_test_332f0eea67ba0eadf867b9b8'
+     cus = Payjp::Customer.retrieve(current_user.customer_id)
+     cus.delete
   end
 
   
