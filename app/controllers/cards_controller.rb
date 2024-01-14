@@ -41,7 +41,7 @@ class CardsController < ApplicationController
   def destroy 
     require 'payjp'
     Payjp.api_key = 'sk_test_332f0eea67ba0eadf867b9b8'
-     cus = Payjp::Customer.retrieve(current_user.customer_id:Payjp::Subscription.all.data)
+     cus = Payjp::Customer.retrieve(current_user:Payjp::Subscription.all.data)
      cus.delete
   end
 
