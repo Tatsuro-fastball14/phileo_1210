@@ -41,7 +41,8 @@ class CardsController < ApplicationController
   def destroy 
     require 'payjp'
     Payjp.api_key = 'sk_test_332f0eea67ba0eadf867b9b8'
-     cus = Payjp::Customer.retrieve(current_user.customer_id)
+    Payjp::Subscription.retrieve(current_user.subscription_id)
+     cus = Payjp::Subscription.retrieve(current_user.subscription_id)
      cus.delete
   end
 
@@ -57,6 +58,7 @@ class CardsController < ApplicationController
     )
   
     current_user.update(customer_id: customer.id)
+    current_user.update(subscription_id: subscription.id)
     Payjp::Subscription.create(
       plan: 'getugaku400',
       customer: customer.id
