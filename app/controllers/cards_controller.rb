@@ -54,6 +54,7 @@ class CardsController < ApplicationController
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
     )
+    binding.pry
   
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
