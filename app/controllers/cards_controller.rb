@@ -41,7 +41,11 @@ class CardsController < ApplicationController
   def destroy 
     require 'payjp'
     Payjp.api_key = 'sk_test_332f0eea67ba0eadf867b9b8'
-    cus = Payjp::Customer.retrieve(current_user.customer_id)
+    # cus = Payjp::Customer.retrieve(current_user.customer_id)
+    # card = customer.cards.retrieve(Customer.all.data.last.cards)
+    # card.delete
+    customer_id = Customer.all.data.last.id
+    customer = Customer.retrieve(customer_id) 
     card = customer.cards.retrieve(Customer.all.data.last.cards)
     card.delete
   end
@@ -54,7 +58,7 @@ class CardsController < ApplicationController
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
     )
-    binding.pry
+    
   
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
