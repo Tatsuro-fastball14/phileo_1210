@@ -28,6 +28,10 @@ Rails.application.routes.draw do
     resources :umarepos
   end
 
+  resources :users, only: [:show] do
+    get 'mypage', on: :collection # ユーザーのマイページへのルーティング
+  end
+  
   resources :orders, only: [:show, :create, :index,:destroy] do
     collection do 
       get 'order'
