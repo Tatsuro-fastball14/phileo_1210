@@ -41,13 +41,12 @@ class CardsController < ApplicationController
   def destroy 
     require 'payjp'
     Payjp.api_key = 'sk_test_332f0eea67ba0eadf867b9b8'
-    # cus = Payjp::Customer.retrieve(current_user.customer_id)
-    # card = customer.cards.retrieve(Customer.all.data.last.cards)
-    # card.delete
-    customer_id = Customer.all.data.last.id
-    customer = Customer.retrieve(customer_id) 
-    card = customer.cards.retrieve(Customer.all.data.last.cards)
-    card.delete
+    cus = Payjp::Customer.retrieve(current_user.customer_id)
+   if cus.subscriptions.data.empty?
+      cus.subscriptions.data.last.delete # 定期課金への対応には一時停止や削除など種類があるので確認してくださいね。
+    else
+     puts "定期課金情報がありません。" 
+    end
   end
     
 
