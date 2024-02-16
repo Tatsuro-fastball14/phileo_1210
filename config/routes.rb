@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get  'orders/kiyaku'
   get  'umarepos/new'
   post  'cooks/new'
+  get 'users/mypage'
+  
   
   
   
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
     collection do 
       get 'order'
       get  'pay'
+      
     end
   end
   #ここでルーティング設定している
@@ -42,3 +45,4 @@ Rails.application.routes.draw do
     end
   end
 end
+

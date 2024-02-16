@@ -43,7 +43,7 @@ class CardsController < ApplicationController
     Payjp.api_key = 'sk_test_332f0eea67ba0eadf867b9b8'
     cus = Payjp::Customer.retrieve(current_user.customer_id)
    if cus.subscriptions.data.empty?
-      cus.subscriptions.data.last.delete # 定期課金への対応には一時停止や削除など種類があるので確認してくださいね。
+      cus.subscriptions.data.last.pause # 定期課金への対応には一時停止や削除など種類があるので確認してくださいね。
     else
      puts "定期課金情報がありません。" 
     end
