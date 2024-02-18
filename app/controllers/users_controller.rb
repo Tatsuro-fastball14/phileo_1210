@@ -3,8 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show]
 
   def show
-    # @user is set by set_user
-    # その他の処理（ユーザーの詳細情報を表示するなど）
+   
   end
 
   def mypage

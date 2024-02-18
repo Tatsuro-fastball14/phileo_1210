@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get  'umarepos/new'
   post  'cooks/new'
   get 'users/mypage'
+  get 'users/show'
   
   
   
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show] do
     get 'mypage', on: :collection # ユーザーのマイページへのルーティング
   end
-  
+
   resources :orders, only: [:show, :create, :index,:destroy] do
     collection do 
       get 'order'
