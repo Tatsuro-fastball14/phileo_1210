@@ -1,8 +1,15 @@
-<h1>プロフィール</h1>
+<h1>User#edit</h1>
+<span>現在ログイン中のユーザー：<%= current_user.name %></span>
+<%= form_with(model: @user, local: true) do |f| %>
+    <div>
+        <%= f.label :タイトル %><br>
+       <%= f.text_field :title, autofocus: true, placeholder: "タイトルを入力" %>
 
-<h3>ユーザー名</h3>
-<%= @user.name %>
-<h3>メールアドレス</h3>
-<%= @user.email %>
-<h3>プロフィール</h3>
-<%= @user.profile %>
+    </div>
+    <div>
+        <%= f.label :中身 %><br>
+       <%= f.text_area :body, placeholder: "内容を入力してください" %>
+
+    </div>
+    <div><%= f.submit "更新する" %></div>
+<% end %>

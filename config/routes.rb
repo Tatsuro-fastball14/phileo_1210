@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   post  'cooks/new'
   get 'users/mypage'
   get 'users/show'
+  get 'users/edit'
+  
   
   
   
@@ -30,7 +32,7 @@ Rails.application.routes.draw do
     resources :umarepos
   end
 
-  resources :users, only: [:show] do
+  resources :users, only: [:show,:edit, :update, :destroy] do
     get 'mypage', on: :collection # ユーザーのマイページへのルーティング
   end
 

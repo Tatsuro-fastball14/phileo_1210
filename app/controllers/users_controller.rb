@@ -11,6 +11,25 @@ class UsersController < ApplicationController
     redirect_to user_path(current_user)
   end
 
+  def edit
+   @post = User.find(params[:id])
+  end
+
+  def update
+    @post = User.find(params[:id])
+    if @post.update(post_params)
+      redirect_to request.referer
+    else
+     redirect_to user_path(@user)
+    end
+  end
+
+  def destroy
+    @post = User.find(params[:id])
+    @post.destroy
+    redirect_to request.referer
+  end
+
   def destroy_account
     if current_user.destroy
       redirect_to root_path, notice: 'アカウントを削除しました。'
