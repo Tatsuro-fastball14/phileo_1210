@@ -16,8 +16,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    @post = User.find(params[:id])
-    if @post.update(post_params)
+    @user = User.find(params[:id])
+    if @user.update(post_params)
       redirect_to request.referer
     else
      redirect_to user_path(@user)
