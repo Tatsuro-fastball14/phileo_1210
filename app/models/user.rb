@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :cards
   has_many :Others
   has_one :subscription
+  has_many :posts, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   def subscriber?
     true
