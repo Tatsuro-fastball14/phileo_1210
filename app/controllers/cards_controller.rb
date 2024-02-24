@@ -22,19 +22,36 @@ class CardsController < ApplicationController
     end
   end
 
-  def destroy   
-    card = Card.find_by(user_id: current_user.id)
-    if card
-      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-      customer = Payjp::Customer.retrieve(card.customer_id)
-      customer.delete_card(card.card_id)
-      card.delete
-      redirect_to root_path, notice: 'カード情報を削除しました。'
+  # def destroy   
+    # card = Card.find_by(user_id: current_user.id)
+    # binding.pry
+    # if card
+    #   Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    #   binding.pry
+    #   customer = Payjp::Customer.retrieve(user.customer_id)
+    #   cus=Payjp::Customer.retrieve(user.customer_id)
+    #   cus.delete
+    #   binding.pry
+    #   redirect_to root_path, notice: 'カード情報を削除しました。'
+    # else
+    #   redirect_to root_path, alert: 'カード情報が見つかりませんでした。'
+    # end
+  # end
+
+  def destroy 
+    require 'payjp'
+    Payjp.api_key = 'sk_test_332f0eea67ba0eadf867b9b8'
+    cus = Payjp::Customer.retrieve(current_user.customer_id)
+   if cus.subscriptions.data.empty?
+       puts "定期課金情報がありません。" 
+      # 定期課金への対応には一時停止や削除など種類があるので確認してくださいね。
     else
-      redirect_to root_path, alert: 'カード情報が見つかりませんでした。'
+      cus.subscriptions.data.last.pause
+
+   
     end
   end
-
+    
 
   def create
     Payjp.api_key = ENV["SECRET_KEY_ENV"]
@@ -43,13 +60,14 @@ class CardsController < ApplicationController
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
     )
+    
   
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
       plan: 'getugaku400',
       customer: customer.id
     )
-    redirect_to stored_location_for(current_user) || places_index_path
+   
   end
 
   private
