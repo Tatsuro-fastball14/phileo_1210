@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   
 
   def show
-  
+    @post = current_user
   end
 
   private
