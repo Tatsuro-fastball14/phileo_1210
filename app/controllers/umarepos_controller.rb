@@ -1,4 +1,7 @@
 class UmareposController < ApplicationController
+  before_action :set_umarepo, only: [:show, :edit, :update, :destroy, :favorite]
+  
+
   def new
     @umarepos = Umarepo.new
     @cook = Cook.find(params[:cook_id])
@@ -15,7 +18,26 @@ class UmareposController < ApplicationController
     end
   end
 
+  def show
+    @umarepos = current_user
+  end
+
+
   def umarepos_params
     params.require(:umarepo).permit(:title,:curator,:comment,:cook_id,  images: [])
   end
 end
+
+
+  private
+
+  def set_umarepo
+    @umarepo = Post.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    flash[:alert] = "Post not found."
+    redirect_to cook_path(cook.id)
+  end
+
+   def favorite?(user)
+    favorites.where(user: user).exists?
+  end
