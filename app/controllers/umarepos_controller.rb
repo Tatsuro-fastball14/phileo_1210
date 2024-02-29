@@ -19,7 +19,7 @@ class UmareposController < ApplicationController
   end
 
   def show
-    @umarepos = @cook.umarepos
+    @umarepo = @cook.umarepos
   end
 
 
@@ -32,9 +32,9 @@ end
   private
 
   def set_umarepo
-    @umarepos = Umarepo.find(params[:id])
+    @umarepo = Umarepo.find(params[:id])
     rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Post not found."
-    redirect_to cook_path(cook.id)
+    redirect_to umarepo_new_path(cook.id)
   end
 
