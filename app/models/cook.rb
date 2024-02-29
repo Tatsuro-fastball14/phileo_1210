@@ -8,4 +8,8 @@ class Cook < ApplicationRecord
       videos.each { |video| video.purge }
     end
   end
+
+   def favorite?(user)
+    favorites.where(user: user).exists?
+  end
 end
