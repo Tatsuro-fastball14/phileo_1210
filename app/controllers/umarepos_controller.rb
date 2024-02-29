@@ -3,7 +3,7 @@ class UmareposController < ApplicationController
   
 
   def new
-    @umarepos = Umarepo.new
+    @umarepo = Umarepo.new
     @cook = Cook.find(params[:cook_id])
   end
 
@@ -19,7 +19,7 @@ class UmareposController < ApplicationController
   end
 
   def show
-    @umarepos = current_user
+    @umarepos = @cook.umarepos
   end
 
 
@@ -32,12 +32,9 @@ end
   private
 
   def set_umarepo
-    @umarepo = Post.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
+    @umarepos = Umarepo.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Post not found."
     redirect_to cook_path(cook.id)
   end
 
-   def favorite?(user)
-    favorites.where(user: user).exists?
-  end
