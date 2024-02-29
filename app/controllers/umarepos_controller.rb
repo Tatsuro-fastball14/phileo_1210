@@ -35,6 +35,5 @@ end
     @umarepo = Umarepo.find(params[:id])
     rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Post not found."
-    redirect_to umarepo_new_path(cook.id)
   end
 
