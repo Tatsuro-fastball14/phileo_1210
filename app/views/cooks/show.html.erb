@@ -43,7 +43,7 @@
     <%= @umarepo.favorites.count %>like
     <% end %>
     <% else %>
-    <%= link_to umarepos_new_path(@umarepo_image) , method: :POST do %>
+    <%= link_to favorite_path(@favorite.like) , method: :POST do %>
     <i class="fa fa-heart-o" aria-hidden="true"></i>
     <%= @umarepo.favorites.count %>like
     <% end %>
