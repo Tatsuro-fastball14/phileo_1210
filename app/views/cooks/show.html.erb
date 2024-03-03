@@ -43,8 +43,7 @@
     <%= @umarepo.favorites.count %>like
     <% end %>
     <% else %>
-   <%= link_to 'like', favorites_path, method: :post do %>
-
+   <%= link_to  favorites_path, method: :post do %>
     <i class="fa fa-heart-o" aria-hidden="true"></i>
     <%= @umarepo.favorites.count %>like
     <% end %>
