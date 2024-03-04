@@ -11,9 +11,8 @@ class User < ApplicationRecord
   has_many :cards
   has_many :Others
   has_one :subscription
-  has_many :umarepos, dependent: :destroy
-  has_many :favorites, dependent: :destroy
-
+  has_many :favorite
+  has_many :umarepos,through: :favorite
   def subscriber?
     true
   end

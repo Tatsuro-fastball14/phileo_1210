@@ -1,14 +1,2 @@
-<% if @umarepos.favorited_by?(current_user) %>
-   <%= link_to umarepowotoukou_favorite_path(@umarepos), method: :DELETE do %>
-   <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
-   <%= @umarepo.favorites.count %>like
-   <% end %>
-<% else %>
-  <%= link_to umarepo_favorites_path(@umarepo_image) , method: :POST do %>
-  <i class="fa fa-heart-o" aria-hidden="true"></i>
-  <%= @umarepo.favorites.count %>like
-  <% end %>
-<% end %>
-
 
 

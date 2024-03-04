@@ -9,7 +9,7 @@ class Cook < ApplicationRecord
     end
   end
 
-   def favorite?(user)
+  def favorite?(user)
     favorites.where(user: user).exists?
   end
 end
