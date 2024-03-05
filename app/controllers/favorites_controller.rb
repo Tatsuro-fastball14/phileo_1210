@@ -1,8 +1,5 @@
 class FavoritesController < ApplicationController
   
-  def new
-    @umarepo_favorite = Favorite.new
-  end
   
   def create
     @umarepo_favorite = Favorite.new(favorite_params)

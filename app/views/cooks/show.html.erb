@@ -37,9 +37,9 @@
         <div class="umarepo-comment"><%= umarepo.comment %></div>
       </div>
   </div>
- <% if @umarepowotoukou.favorite?(current_user) %>
+ <% if @umarepo.favorite?(current_user) %>
     <%# # 一致するレコードが存在する＝すでにいいね済みの場合はdestroyアクションへ %>
-    <%= link_to umrepo_favorite_path(@umarepo.id), method: :delete do %>
+    <%= link_to umrepo_favorites_path(@umarepo.id), method: :delete do %>
         <span style="color:red;">❤︎</span>
     <% end %>
 <% else %>
@@ -47,6 +47,7 @@
     <%= link_to umarepo_favorites_path(@umarepo.id), method: :post do %>
         <span>❤︎</span>
     <% end %>
+<% end %>
 <% end %>
   
     <h2>店舗情報</h2>
