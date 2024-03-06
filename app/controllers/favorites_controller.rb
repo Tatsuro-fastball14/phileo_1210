@@ -1,13 +1,14 @@
 class FavoritesController < ApplicationController
+  before_action :set_umarepo, only: [:destroy]
   
   
   def create
-    @umarepo_favorite = Favorite.new(favorite_params)
+    @umarepo_favorite = AFavorite.new(favorite_params)
     @umarepo_favorite.save
   end
   
   def destroy
-    @umarepo_favorite = Favorite.find_by(user_id: current_user.id, umarepo_id: params[:umarepo_id])
+    @umarepo_favorite = Favorite.find_by(user_id: current_user.id, umarepo_id: @umarepo_favorite, params[:umarepo_id])
     if @umarepo_favorite
       @umarepo_favorite.destroy
   
@@ -17,6 +18,10 @@ class FavoritesController < ApplicationController
   private
 
   def favorite_params
-    params.require(:favorite).permit(:umarepo_id, :user_id,:like)
+    params.require(:favorite).permit(:umarepo_id:@umarepo_favorite, :user_id,:like)
   end
 end
+
+  
+
+  
