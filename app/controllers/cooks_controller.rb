@@ -23,6 +23,8 @@ class CooksController < ApplicationController
     else
         render :new
     end
+    @umarepo_favorite = AFavorite.new(favorite_params)
+    @umarepo_favorite.save
   end
 
   def edit
