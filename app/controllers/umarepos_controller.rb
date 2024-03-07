@@ -20,6 +20,7 @@ class UmareposController < ApplicationController
 
   def show
       @cook = Cook.find(params[:cook_id])
+      
   end
 
 
