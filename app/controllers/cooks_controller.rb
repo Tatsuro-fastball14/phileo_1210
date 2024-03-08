@@ -13,7 +13,6 @@ class CooksController < ApplicationController
   def new
     @cook = Cook.new
     @umarepo = Umarepo.new
-    @umarepo_favorite = Umarepo_favorite.new
   end
 
   def create
@@ -23,8 +22,6 @@ class CooksController < ApplicationController
     else
         render :new
     end
-    @umarepo_favorite = AFavorite.new(favorite_params)
-    @umarepo_favorite.save
   end
 
   def edit
@@ -50,9 +47,6 @@ class CooksController < ApplicationController
     @cook = Cook.find(params[:id])
     @umarepos = @cook.umarepos
     @umarepo =Umarepo.new
-    @umarepo_favorite = Umarepo_favorite.find(params[:id])
-
-    
   end
 
   def search
