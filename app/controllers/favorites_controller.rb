@@ -8,7 +8,7 @@ class FavoritesController < ApplicationController
   end
   
   def destroy
-    @umarepo_favorite = Favorite.find_by(user_id: current_user.id,umarepo_id: umarepo_favorite, params[favorite_params])
+    @umarepo_favorite = Favorite.find_by(user_id: current_user.id,umarepo_id: umarepo.id, params[favorite_params])
     if @umarepo_favorite
       @umarepo_favorite.destroy
   
