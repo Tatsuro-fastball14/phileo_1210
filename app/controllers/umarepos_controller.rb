@@ -19,16 +19,12 @@ class UmareposController < ApplicationController
   end
 
   def show
-      @cook = Cook.find(params[:cook_id])
-      
+      @cook = Cook.find(params[:cook_id])  
   end
-
 
   def umarepos_params
     params.require(:umarepo).permit(:title,:curator,:comment,:cook_id,  images: [])
   end
-end
-
 
   private
 
@@ -37,4 +33,5 @@ end
     rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Post not found."
   end
+end
 

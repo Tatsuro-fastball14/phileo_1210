@@ -47,7 +47,7 @@ class UsersController < ApplicationController
   private
   # user_paramsメソッドを定義
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation,:profile,:like)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation,:profile)
     # :profile を :email, :password, :password_confirmation に変更しました。
     # 実際の属性に応じて適宜修正してください。
   end
