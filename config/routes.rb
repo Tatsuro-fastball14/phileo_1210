@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   end
 
   resources :umarepos do
-   resource :favorites, only: [:create, :destroy]
+   resource :favorites
   end
 end
 
