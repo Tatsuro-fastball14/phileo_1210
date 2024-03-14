@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   #ここでルーティング設定している
   resources :videos
   resources :cards
+  
 
   resources :users do
     member do
@@ -55,7 +56,7 @@ Rails.application.routes.draw do
   end
 
   resources :umarepos do
-   resource :favorites
+   resources :favorites
   end
 end
 

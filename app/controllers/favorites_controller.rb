@@ -3,13 +3,13 @@ class FavoritesController < ApplicationController
   
   
   def create
-    @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:umarepo.id)
+    @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
     @umarepo_favorite.save
     redirect_to umarepo_path(params[:umarepo_id]) 
   end
   
   def destroy
-    @umarepo_favorite = Favorite.find_by(user_id: current_user.id,umarepo_id: umarepo.id)
+    @umarepo_favorite = Favorite.find_by(user_id: current_user.id,umarepo_id:  params[:umarepo_id])
     @umarepo_favorite.destroy
     redirect_to umarepo_path(params[:umarepo_id]) 
   end
