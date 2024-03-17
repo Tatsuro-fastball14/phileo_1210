@@ -19,8 +19,8 @@ class User < ApplicationRecord
   
   extend Enumerize
 
-  enumerize :role, in: [:user, :admin]
-  
+  enumerize :status, in: [:student, :employed, :retired], skip_validations: lambda { |user| user.new_record? }
+  enumerize :role, in: [:user, :admin], skip_validations: tr
 end
 
 
