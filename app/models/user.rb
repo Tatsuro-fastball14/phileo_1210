@@ -17,6 +17,9 @@ class User < ApplicationRecord
     true
   end
   
+  extend Enumerize
+
+  enumerize :role, in: [:user, :admin]
   
 end
 

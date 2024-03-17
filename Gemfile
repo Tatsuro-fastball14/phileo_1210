@@ -66,6 +66,7 @@ gem 'pry-rails'
 gem 'pry-stack_explorer'
 gem 'better_errors'
 gem 'binding_of_caller'
+gem 'enumerize'
 
 
 

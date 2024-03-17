@@ -117,6 +117,8 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
+    enumerize (2.7.0)
+      activesupport (>= 3.2)
     erubi (1.12.0)
     ffi (1.15.5)
     ffi-compiler (1.0.1)
@@ -325,6 +327,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   devise (~> 4.9.2)
   dotenv-rails (~> 2.8.1)
+  enumerize
   http
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
