@@ -37,7 +37,20 @@
         <div class="umarepo-comment"><%= umarepo.comment %></div>
       </div>
   </div>
+
+  <% if @umarepo.favorite?(current_user) %>
+    <%# # 一致するレコードが存在する＝すでにいいね済みの場合はdestroyアクションへ %>
+    <%= link_to umrepo_favorites_path(umarepo.id), method: :delete do %>
+        <span style="color:red;">❤︎</span>
+    <% end %>
+    <% else %>
+    <%# # 一致するレコードが存在しない＝まだいいねしていない場合はcreateアクションへ %>
+      <%= link_to umarepo_favorites_path(umarepo.id), method: :post do %>
+        <span>❤︎</span>
+      <% end %>
+    <% end %>
   <% end %>
+  
     <h2>店舗情報</h2>
     <div  id="test3"></div>
     <div class="store"> <%= @cook.store %></div>
@@ -49,4 +62,6 @@
     <%= link_to "削除", cook_path(@cook.id), method: :delete,class:"cook-destroy"%>
   <% end %> 
 </main>
+
+
 

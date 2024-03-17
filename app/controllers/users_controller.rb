@@ -66,6 +66,13 @@ class UsersController < ApplicationController
     # 自分で設定した「マイページ」へのパス
     users_profile_path
   end
+
+  def add_user
+    @umarepo = Umarepo.find(params[:umarepo_id])
+    user = User.find(params[:user_id])
+    @umarepo.users << user
+    redirect_to umarepo_path, notice: "ユーザーを追加しました。"
+  end
 end
 
 

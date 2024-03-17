@@ -47,7 +47,6 @@ class CooksController < ApplicationController
     @cook = Cook.find(params[:id])
     @umarepos = @cook.umarepos
     @umarepo =Umarepo.new
-    
   end
 
   def search
@@ -79,6 +78,12 @@ class CooksController < ApplicationController
 
   def set_cook
     @cook = Cook.find(params[:id])
+  end
+
+  private
+
+  def favorite_params
+    params.require(:favorite).permit(:umarepo_id, :user_id)
   end
 end
 

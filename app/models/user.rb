@@ -11,13 +11,15 @@ class User < ApplicationRecord
   has_many :cards
   has_many :Others
   has_one :subscription
-  has_many :posts, dependent: :destroy
-  has_many :favorites, dependent: :destroy
-
+  has_many :favorite
+  has_many :umarepos,through: :favorite
   def subscriber?
     true
   end
   
+  extend Enumerize
+
+  enumerize :role, in: [:user, :admin]
   
 end
 
