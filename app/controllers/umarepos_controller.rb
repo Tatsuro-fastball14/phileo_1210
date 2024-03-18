@@ -24,6 +24,8 @@ class UmareposController < ApplicationController
 
   def umarepos_params
     params.require(:umarepo).permit(:title,:curator,:comment,:cook_id,  images: [])
+    
+
   end
 
   private
