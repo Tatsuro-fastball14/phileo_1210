@@ -1,0 +1,9 @@
+select collection
+<%= simple_form_for @user do |f| %>
+  <%= f.input :status %>
+<% end %>
+
+radio buttons
+<%= simple_form_for @user do |f| %>
+  <%= f.input :status, :as => :radio_buttons %>
+<% end %>
