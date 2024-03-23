@@ -6,9 +6,9 @@ class FavoritesController < ApplicationController
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
     if @umarepo_favorite.save
       update_user_rank(params[:umarepo_id])
-      redirect_to users_show_path(params[:umarepo_id]), notice: 'いいねを登録しました'
+      redirect_to user_show_path(params[:umarepo_id]), notice: 'いいねを登録しました'
     else
-      redirect_to users_show_path(params[:umarepo_id]), alert: 'いいねの登録に失敗しました'
+      redirect_to user_show_path(params[:umarepo_id]), alert: 'いいねの登録に失敗しました'
     end
   end
   
