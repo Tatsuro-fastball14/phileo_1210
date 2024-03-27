@@ -28,7 +28,7 @@ class FavoritesController < ApplicationController
 
   def update_user_rank(umarepo_id)
     umarepo = Umarepo.find(umarepo_id)
-    user = umarepo.user
+    user = umarepo.users
     total_likes = user.umarepos.joins(:favorites).count
     user.update_rank(total_likes)
   end
