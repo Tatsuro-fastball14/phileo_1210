@@ -6,7 +6,7 @@ class FavoritesController < ApplicationController
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
     if @umarepo_favorite.save
       update_user_rank(params[:umarepo_id])
-      redirect_to user_show_path(params[:umarepo_id]), notice: 'いいねを登録しました'
+      redirect_to users_show_path(params[:umarepo_id]), notice: 'いいねを登録しました'
     else
       redirect_to user_show_path(params[:umarepo_id]), alert: 'いいねの登録に失敗しました'
     end
@@ -26,24 +26,12 @@ class FavoritesController < ApplicationController
 
   private
 
-  def update_user_rank(umarepo_id)
-    umarepo = Umarepo.find(umarepo_id)
-    user = umarepo.users
-    total_likes = user.umarepos.joins(:favorites).count
-    user.update_rank(total_likes)
-  end
+ def update_user_rank(umarepo_id)
+  umarepo = Umarepo.find_by(id: umarepo_id) # find_byを使用してnilの場合の対応をします。
+  return unless umarepo && umarepo.user # umarepoがnilでなく、かつ関連するuserが存在することを確認
 
-  # ユーザーが投稿したうまれぽについたいいねの総数に基づいてランクを更新
-  def update_rank(total_likes)
-    new_rank = case total_likes
-               when 0..1
-                 'gold'
-               when 2..3
-                 'diamond'
-               else
-                 'nomal'
-               end
-
-    update(rank: new_rank)
-  end
+  user = umarepo.user
+  total_likes = user.umarepos.joins(:favorites).count # userが投稿したUmarepoについたいいねの合計数
+  user.update_rank(total_likes)
+end
 end
