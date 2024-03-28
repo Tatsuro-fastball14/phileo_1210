@@ -18,9 +18,7 @@ class User < ApplicationRecord
   end
   
   extend Enumerize
-
-  enumerize :role, in: [:user, :admin]
-  
+  enumerize :rank, in: [:user, :admin], default: :user
 end
 
 
