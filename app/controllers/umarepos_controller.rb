@@ -9,6 +9,7 @@ class UmareposController < ApplicationController
 
   def create
     cook = Cook.find(params[:cook_id])
+   
     @umarepo = cook.umarepos.build(umarepos_params)  
     if
       @umarepo.save!
