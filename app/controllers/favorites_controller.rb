@@ -3,9 +3,12 @@ class FavoritesController < ApplicationController
   
   
   def create
-    binding.pry
+      
+   
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
+   
     if @umarepo_favorite.save
+
     
       update_rank(params[:umarepo_id])
       redirect_to users_show_path(params[:umarepo_id]), notice: 'いいねを登録しました'
@@ -22,6 +25,7 @@ class FavoritesController < ApplicationController
 
   def update_rank
      new_rank = case total_likes
+      
              when 2..Float::INFINITY # 2回以上のいいねでダイヤモンドランクへ
                'diamond'
              when 1 # 1回のいいねでゴールドランクへ
