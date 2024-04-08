@@ -24,9 +24,22 @@ class FavoritesController < ApplicationController
   end
 
   def update_rank
-  user = User.find_by(id: 1)
+  user = User.find_by(id: user_id)
   return unless user # ユーザーが見つからない場合は何もしない
   
+   # userの総いいねの数をカウント
+  total_likes = user.favorite.count
+
+  # 対象ランクを決定
+     new_rank = case total_likes
+             when 2..Float::INFINITY # 2回以上のいいねでダイヤモンドランクへ
+               'diamond'
+             when 1 # 1回のいいねでゴールドランクへ
+               'gold'
+             else # 0回のいいねはノーマルランク
+               'normal'
+             end 
+
   user.update(rank: 'gold')
 end
 
