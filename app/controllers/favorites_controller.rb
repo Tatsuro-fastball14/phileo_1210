@@ -28,7 +28,7 @@ class FavoritesController < ApplicationController
   return unless user # ユーザーが見つからない場合は何もしない
   
    # userの総いいねの数をカウント
-  total_likes = user.favorite.count
+  total_likes = user.likes.count
 
   # 対象ランクを決定
      new_rank = case total_likes
