@@ -23,7 +23,7 @@ class FavoritesController < ApplicationController
     redirect_to umarepo_path(params[:umarepo_id]) 
   end
 
-  def update_rank
+  def update_rank(user_id)
   user = User.find_by(id: user_id)
   return unless user # ユーザーが見つからない場合は何もしない
   
