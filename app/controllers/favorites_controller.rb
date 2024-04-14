@@ -3,7 +3,7 @@ class FavoritesController < ApplicationController
   
   
   def create
-      binding.pry
+     
    
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
    
@@ -24,11 +24,12 @@ class FavoritesController < ApplicationController
   end
 
   def update_rank(user_id)
+    binding.pry
   user = User.find_by(id: user_id)
   return unless user # ユーザーが見つからない場合は何もしない
   
    # userの総いいねの数をカウント
-  total_likes = user.likes.count
+  total_likes = user.favorite.count
 
   # 対象ランクを決定
      new_rank = case total_likes

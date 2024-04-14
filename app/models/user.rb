@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_one :subscription
   has_many :favorite
   has_many :umarepos,through: :favorite
+  has_many :likes
   def subscriber?
     true
   end
