@@ -11,15 +11,15 @@ class User < ApplicationRecord
   has_many :cards
   has_many :Others
   has_one :subscription
-  has_many :favorite
+  has_many :favorites
   has_many :umarepos,through: :favorite
-  has_many :likes
+
   def subscriber?
     true
   end
   
   extend Enumerize
-  enumerize :rank, in: [:user, :admin], default: :user
+  enumerize :rank, in: [:user, :status], default: :user
 end
 
 

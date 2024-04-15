@@ -4,7 +4,4 @@ ja:
       status:
         diamond: ダイヤモンド
         gold: ゴールド
-        nomal:ノーマル
-      role:
-        user: 会員
-        admin: 管理者
+        nomal: ノーマル

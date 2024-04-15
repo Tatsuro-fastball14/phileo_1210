@@ -24,7 +24,7 @@ class FavoritesController < ApplicationController
   end
 
   def update_rank(user_id)
-    binding.pry
+   
   user = User.find_by(id: user_id)
   return unless user # ユーザーが見つからない場合は何もしない
   
