@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 2024_03_17_124155) do
     t.string "curator", null: false
     t.string "comment", null: false
     t.text "image"
+    t.string "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cook_id"
