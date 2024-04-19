@@ -6,11 +6,13 @@ class FavoritesController < ApplicationController
      
    
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
+    # 特定のumarepo_idに対するいいねの数を取得
    
     if @umarepo_favorite.save
 
-    
       update_rank(current_user.id) 
+      likes_count = Favorite.where(umarepo_id: params[:umarepo_id]).count
+        
       redirect_to users_show_path(params[:umarepo_id]), notice: 'いいねを登録しました'
     else
       redirect_to user_show_path(params[:umarepo_id]), alert: 'いいねの登録に失敗しました'
@@ -41,7 +43,7 @@ class FavoritesController < ApplicationController
                'normal'
              end 
 
-  user.update(rank: 'gold')
+  user.update(rank: 'new_rank')
 end
 
   private
