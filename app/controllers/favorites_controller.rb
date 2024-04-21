@@ -13,9 +13,9 @@ class FavoritesController < ApplicationController
       update_rank(current_user.id) 
       likes_count = Favorite.where(umarepo_id: params[:umarepo_id]).count
         
-      redirect_to users_show_path(params[:umarepo_id]), notice: 'いいねを登録しました'
+      redirect_to cooks_new_path(params[:umarepo_id]), notice: 'いいねを登録しました'
     else
-      redirect_to user_show_path(params[:umarepo_id]), alert: 'いいねの登録に失敗しました'
+      redirect_to cooks_show_path(params[:umarepo_id]), alert: 'いいねの登録に失敗しました'
     end
   end
   
@@ -31,7 +31,7 @@ class FavoritesController < ApplicationController
   return unless user # ユーザーが見つからない場合は何もしない
   
    # userの総いいねの数をカウント
-  total_likes = user.favorite.count
+  total_likes = user.favorites.count
 
   # 対象ランクを決定
      new_rank = case total_likes
