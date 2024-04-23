@@ -13,7 +13,7 @@ class FavoritesController < ApplicationController
       update_rank(current_user.id) 
       likes_count = Favorite.where(umarepo_id: params[:umarepo_id]).count
         
-      redirect_to cooks_new_path(params[:umarepo_id]), notice: 'いいねを登録しました'
+      redirect_to cooks_show_path(params[:id]), notice: 'いいねを登録しました'
     else
       redirect_to cooks_show_path(params[:umarepo_id]), alert: 'いいねの登録に失敗しました'
     end

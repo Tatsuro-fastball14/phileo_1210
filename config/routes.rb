@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get 'users/mypage'
   get 'users/show'
   get 'users/edit'
+  get 'cooks/show'
+  
   
   
   
@@ -47,6 +49,7 @@ Rails.application.routes.draw do
   #ここでルーティング設定している
   resources :videos
   resources :cards
+  
   
 
   resources :users do
