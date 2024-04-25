@@ -3,6 +3,7 @@ class FavoritesController < ApplicationController
   
   
   def create
+    binding.pry
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
     # 特定のumarepo_idに対するいいねの数を取得
    
@@ -39,7 +40,7 @@ class FavoritesController < ApplicationController
               'normal'
             end 
 
-    user.update(rank: new_rank)
+    user.update(new_rank)
   end
 
   private
