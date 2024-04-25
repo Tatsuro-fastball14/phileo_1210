@@ -24,8 +24,11 @@ class FavoritesController < ApplicationController
 
   def update_rank(user)
      # userの総いいねの数をカウント
-    total_likes = Favorite.where(umarepo_id: user.umarepos.select(:id)).count
-   
+    if user
+      total_likes = Favorite.where(umarepo_id: user.umarepos.select(:id)).count
+    else
+      total_likes = 0  # ユーザーが存在しない場合は0を返す
+    end
     # 対象ランクを決定
     new_rank = case total_likes
             when 2..Float::INFINITY # 2回以上のいいねでダイヤモンドランクへ

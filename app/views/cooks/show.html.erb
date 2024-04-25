@@ -40,12 +40,12 @@
 
   <% if @umarepo.favorite?(current_user) %>
     <%# # 一致するレコードが存在する＝すでにいいね済みの場合はdestroyアクションへ %>
-    <%= link_to cook_umrepo_favorites_path(@cook.id), method: :delete do %>
+    <%= link_to cook_umarepo_favorites_path(@cook.id,umarepo.id), method: :delete do %>
         <span style="color:red;">❤︎</span>
     <% end %>
     <% else %>
     <%# # 一致するレコードが存在しない＝まだいいねしていない場合はcreateアクションへ %>
-      <%= link_to cook_umarepo_favorites_path(@cook.id), method: :post do %>
+      <%= link_to cook_umarepo_favorites_path(@cook.id,umarepo.id), method: :post do %>
         <span>❤︎</span>
       <% end %>
     <% end %>

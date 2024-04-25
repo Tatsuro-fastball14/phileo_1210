@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :cooks  do
     resources :umarepos do
       resources :favorites
+    end
   end
 
   resources :users, only: [:show,:edit, :update, :destroy] do
