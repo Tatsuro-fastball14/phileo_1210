@@ -12,14 +12,14 @@ class User < ApplicationRecord
   has_many :Others
   has_one :subscription
   has_many :favorites
-  has_many :umarepos,through: :favorite
+  has_many :umarepos
 
   def subscriber?
     true
   end
   
   extend Enumerize
-  enumerize :rank, in: [:user, :status], default: :user
+  enumerize :rank, in: [:diamond, :gold,:nomal], default: :nomal
 end
 
 

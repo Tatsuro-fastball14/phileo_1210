@@ -3,19 +3,16 @@ class FavoritesController < ApplicationController
   
   
   def create
-     
-   
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
     # 特定のumarepo_idに対するいいねの数を取得
    
     if @umarepo_favorite.save
-
-      update_rank(current_user.id) 
-      likes_count = Favorite.where(umarepo_id: params[:umarepo_id]).count
-        
-      redirect_to cooks_show_path(params[:id]), notice: 'いいねを登録しました'
+      umarepo = Umarepo.find(params[:umarepo_id])
+      update_rank(umarepo.user) 
+     
+      redirect_to cook_path(params[:id]), notice: 'いいねを登録しました'
     else
-      redirect_to cooks_show_path(params[:umarepo_id]), alert: 'いいねの登録に失敗しました'
+      redirect_to cook_path(params[:cook_id]), alert: 'いいねの登録に失敗しました'
     end
   end
   
@@ -25,26 +22,22 @@ class FavoritesController < ApplicationController
     redirect_to umarepo_path(params[:umarepo_id]) 
   end
 
-  def update_rank(user_id)
+  def update_rank(user)
+     # userの総いいねの数をカウント
+    total_likes = Favorite.where(umarepo_id: user.umarepos.select(:id)).count
    
-  user = User.find_by(id: user_id)
-  return unless user # ユーザーが見つからない場合は何もしない
-  
-   # userの総いいねの数をカウント
-  total_likes = user.favorites.count
+    # 対象ランクを決定
+    new_rank = case total_likes
+            when 2..Float::INFINITY # 2回以上のいいねでダイヤモンドランクへ
+              'diamond'
+            when 1 # 1回のいいねでゴールドランクへ
+              'gold'
+            else # 0回のいいねはノーマルランク
+              'normal'
+            end 
 
-  # 対象ランクを決定
-     new_rank = case total_likes
-             when 2..Float::INFINITY # 2回以上のいいねでダイヤモンドランクへ
-               'diamond'
-             when 1 # 1回のいいねでゴールドランクへ
-               'gold'
-             else # 0回のいいねはノーマルランク
-               'normal'
-             end 
-
-  user.update(rank: 'new_rank')
-end
+    user.update(rank: new_rank)
+  end
 
   private
 

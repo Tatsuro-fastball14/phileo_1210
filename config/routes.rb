@@ -14,15 +14,7 @@ Rails.application.routes.draw do
   get 'users/show'
   get 'users/edit'
   get 'cooks/show'
-  
-  
-  
-  
-  
-  
-  
- 
-  
+
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
     
@@ -32,7 +24,8 @@ Rails.application.routes.draw do
  
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :cooks  do
-    resources :umarepos
+    resources :umarepos do
+      resources :favorites
   end
 
   resources :users, only: [:show,:edit, :update, :destroy] do
@@ -50,16 +43,10 @@ Rails.application.routes.draw do
   resources :videos
   resources :cards
   
-  
-
   resources :users do
     member do
       delete :destroy_account
     end
-  end
-
-  resources :umarepos do
-   resources :favorites
   end
 end
 
