@@ -1,5 +1,6 @@
 class UmareposController < ApplicationController
   before_action :set_umarepo, only: [:show, :edit, :update, :destroy, :favorite]
+
   
 
   def new

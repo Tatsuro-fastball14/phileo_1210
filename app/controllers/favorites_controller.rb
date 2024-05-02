@@ -1,15 +1,19 @@
 class FavoritesController < ApplicationController
   before_action :set_umarepo, only: [:destroy]
   
-  
+
+
+
   def create
     binding.pry
+  
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
     # 特定のumarepo_idに対するいいねの数を取得
    
     if @umarepo_favorite.save
       umarepo = Umarepo.find(params[:umarepo_id])
-      update_rank(umarepo.user) 
+      umarepo_user = umarepo.user 
+      update_rank(umarepo_user) 
      
       redirect_to cook_path(params[:id]), notice: 'いいねを登録しました'
     else
@@ -48,4 +52,5 @@ class FavoritesController < ApplicationController
   def favorite_params
     params.require(:favorite).permit(:user_id,:umarepo_id)
   end
+
 end
