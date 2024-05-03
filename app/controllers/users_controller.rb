@@ -2,6 +2,11 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:mypage]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+   def index
+    @users = User.all
+  end
+
+
   def create
     @user = User.update(user_params) # 新しいユーザーインスタンスを作成
     if @user.save # ユーザーをデータベースに保存

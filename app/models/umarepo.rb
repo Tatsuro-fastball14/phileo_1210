@@ -3,7 +3,8 @@ class Umarepo < ApplicationRecord
   belongs_to  :cooks,optional: true
   belongs_to :user
   has_many :favorites
-  has_many :users, through: :favorites
+  belongs_to :cook
+  
 
   def favorite?(user)
     favorites.where(user: user).exists?

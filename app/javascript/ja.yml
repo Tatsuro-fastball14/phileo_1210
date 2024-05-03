@@ -1,0 +1,7 @@
+ja:
+  enumerize:
+    user:
+      status:
+        diamond: ダイヤモンド
+        gold: ゴールド
+        nomal: ノーマル
