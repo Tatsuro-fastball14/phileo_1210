@@ -5,17 +5,17 @@ class FavoritesController < ApplicationController
 
 
   def create
-    binding.pry
   
     @umarepo_favorite = Favorite.new(user_id: current_user.id, umarepo_id:  params[:umarepo_id])
     # 特定のumarepo_idに対するいいねの数を取得
    
     if @umarepo_favorite.save
+        # binding.pry
       umarepo = Umarepo.find(params[:umarepo_id])
       umarepo_user = umarepo.user 
       update_rank(umarepo_user) 
      
-      redirect_to cook_path(params[:id]), notice: 'いいねを登録しました'
+      redirect_to cook_path(umarepo.cook.id), notice: 'いいねを登録しました'
     else
       redirect_to cook_path(params[:cook_id]), alert: 'いいねの登録に失敗しました'
     end
@@ -44,7 +44,7 @@ class FavoritesController < ApplicationController
               'normal'
             end 
 
-    user.update(new_rank)
+    user.update(rank:new_rank)
   end
 
   private

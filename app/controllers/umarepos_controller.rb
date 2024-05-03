@@ -1,8 +1,6 @@
 class UmareposController < ApplicationController
   before_action :set_umarepo, only: [:show, :edit, :update, :destroy, :favorite]
 
-  
-
   def new
     @umarepo = Umarepo.new
     @cook = Cook.find(params[:cook_id])
