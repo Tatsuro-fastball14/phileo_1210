@@ -369,30 +369,74 @@ img {
   text-align: left;
 }
 
-.umarepo_image img{
-  border-radius: 50%;
-  border: 1px solid #ccc;
-  min-height: 1px;
-  width: 100px;
- 
-}
-
-.umarepo-title{
-  font-weight: 600;
-  margin: 10px;
-}
-
-.umarepo-curator{
-  font-weight: 600;
-  margin: 10px;
-}
-
-.umarepo-comment{
-  font-weight: 600;
-  margin: 10px;
-}
-
-.umarepo_flex{
+.umarepo_flex {
   display: flex;
-  height: 150px;
+  align-items: center; /* Align items vertically */
+  margin-bottom: 20px; /* Add margin bottom for spacing */
+}
+
+.umarepo_image {
+  margin-right: 20px; /* Add margin between image and text */
+}
+
+.umarepo_image img {
+  width: 100px; /* Adjust image width */
+  height: auto; /* Ensure aspect ratio is maintained */
+  border-radius: 50%; /* Make the image round */
+  border: 1px solid #ccc; /* Add border */
+}
+
+.umarepo-info {
+  flex-grow: 1; /* Allow info to grow to fill available space */
+}
+
+.umarepo-title,
+.umarepo-curator,
+.umarepo-comment {
+  margin: 5px 0; /* Adjust spacing */
+  font-weight: 600; /* Make text bold */
+}
+.umarepo_flex {
+  display: flex;
+  align-items: center;
+  /* Align items vertically */
+  margin-bottom: 20px;
+  /* Add margin bottom for spacing */
+}
+
+.umarepo_image {
+  margin-right: 20px;
+  /* Add margin between image and text */
+}
+
+.umarepo_image img {
+  width: 100px;
+  /* Adjust image width */
+  height: auto;
+  /* Ensure aspect ratio is maintained */
+  border-radius: 50%;
+  /* Make the image round */
+  border: 1px solid #ccc;
+  /* Add border */
+}
+
+.umarepo-info {
+  flex-grow: 1;
+  /* Allow info to grow to fill available space */
+}
+
+.umarepo-title,
+.umarepo-curator,
+.umarepo-comment {
+  margin: 5px 0;
+  /* Adjust spacing */
+  font-weight: 600;
+  /* Make text bold */
+}
+
+.heart-icon {
+  margin-right: 50px;
+  /* Add margin between like button and next image */
+  align-self: flex-start;
+  /* Align like button at the top of the container */
 }
