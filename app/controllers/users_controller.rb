@@ -33,6 +33,9 @@ class UsersController < ApplicationController
     else
      render 'edit'
     end
+    
+    current_user.update(update_params)
+    SampleMailer.send_when_update(current_user).deliver
   end
 
   def destroy
