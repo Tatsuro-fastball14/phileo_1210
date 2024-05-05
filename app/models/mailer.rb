@@ -1,0 +1,3 @@
+class Mailer < ApplicationRecord
+  
+end

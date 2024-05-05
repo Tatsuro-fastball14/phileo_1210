@@ -49,5 +49,7 @@ Rails.application.routes.draw do
       delete :destroy_account
     end
   end
+  
+  resources :subscribers, only: [:new, :create, :destroy]
 end
 
