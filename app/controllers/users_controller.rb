@@ -8,8 +8,11 @@ class UsersController < ApplicationController
 
 
   def create
+    binding.pry
     @user = User.update(user_params) # 新しいユーザーインスタンスを作成
-    if @user.save # ユーザーをデータベースに保存
+    if @user.save
+   # ユーザーをデータベースに保存
+      UserMailer.send_newsletter(@user).deliver_now
       flash[:success] = "User was successfully created."
       redirect_to @user # 例: ユーザーの詳細ページへリダイレクト
     else
