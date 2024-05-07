@@ -6,6 +6,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def after_sign_up_path_for(resource)
     if  resource.subscriber?
+      binding.pry
+       UserMailer.send_newsletter(@user).deliver_now
+      
       new_card_path
     else       
       new_user_registration_path 
