@@ -67,6 +67,9 @@ gem 'pry-stack_explorer'
 gem 'better_errors'
 gem 'binding_of_caller'
 gem 'enumerize'
+gem 'mail'
+gem 'letter_opener' # 開発環境でのみ使用する場合
+gem 'letter_opener_web'
 
 
 

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
  protected
   def configure_permitted_parameters
+    
     # ユーザー登録時にnameのストロングパラメータを追加（サインアップ時にnameを入力する場合は追記）
    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :profile])
    

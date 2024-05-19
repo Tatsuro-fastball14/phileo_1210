@@ -6,12 +6,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def after_sign_up_path_for(resource)
     if  resource.subscriber?
-      new_card_path
-    else       
-      new_user_registration_path 
-  end  
     
-end
+        UserMailer.send_newsletter(resource).deliver_now
+      
+        new_card_path
+    else       
+        super  
+    end  
+  end
+
+
+  def send_newsletter(user)
+    @user = user
+    mail(to: @user.email, subject: 'Welcome to Our Newsletter!')  # 送信先とメールタイトル
+  end
   # POST /resource
   # def create
   #   super

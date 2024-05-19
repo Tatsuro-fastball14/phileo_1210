@@ -9,7 +9,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.update(user_params) # 新しいユーザーインスタンスを作成
-    if @user.save # ユーザーをデータベースに保存
+    if @user.save
+   # ユーザーをデータベースに保存
       flash[:success] = "User was successfully created."
       redirect_to @user # 例: ユーザーの詳細ページへリダイレクト
     else
@@ -33,6 +34,9 @@ class UsersController < ApplicationController
     else
      render 'edit'
     end
+    
+    current_user.update(update_params)
+    SampleMailer.send_when_update(current_user).deliver
   end
 
   def destroy
