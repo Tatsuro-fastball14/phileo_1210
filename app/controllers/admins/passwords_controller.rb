@@ -23,6 +23,13 @@ class Admins::PasswordsController < Devise::PasswordsController
 
   # protected
 
+  def create
+   if params[:sns_auth] == 'true'
+     pass = Devise.friendly_token
+     params[:user][:password] = pass
+     params[:user][:password_confirmation] = pass
+   end
+   super
   # def after_resetting_password_path_for(resource)
   #   super(resource)
   # end

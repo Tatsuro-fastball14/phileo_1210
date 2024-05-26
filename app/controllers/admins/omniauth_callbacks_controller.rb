@@ -1,6 +1,23 @@
 # frozen_string_literal: true
 
 class Admins::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  def twitter
+  authorization
+ end
+
+ def facebook
+  authorization
+ end
+
+ def google_oauth2
+  authorization
+ end
+
+ private
+
+ def authorization
+   @user = User.from_omniauth(request.env["omniauth.auth"])
+ end
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 

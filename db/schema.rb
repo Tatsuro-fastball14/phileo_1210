@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_05_103922) do
+ActiveRecord::Schema.define(version: 2024_05_25_225711) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -96,6 +96,15 @@ ActiveRecord::Schema.define(version: 2024_05_05_103922) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "sns_credentials", charset: "utf8", force: :cascade do |t|
+    t.string "provider"
+    t.string "uid"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_sns_credentials_on_user_id"
+  end
+
   create_table "subscribers", charset: "utf8", force: :cascade do |t|
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
@@ -143,4 +152,5 @@ ActiveRecord::Schema.define(version: 2024_05_05_103922) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "favorites", "umarepos"
   add_foreign_key "favorites", "users"
+  add_foreign_key "sns_credentials", "users"
 end
