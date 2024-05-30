@@ -70,10 +70,7 @@ gem 'enumerize'
 gem 'mail'
 gem 'letter_opener' # 開発環境でのみ使用する場合
 gem 'letter_opener_web'
-gem 'omniauth-twitter'
 gem 'omniauth-facebook'
-gem 'instagram'
-gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
 

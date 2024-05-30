@@ -1,17 +1,11 @@
 # frozen_string_literal: true
 
 class Admins::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def twitter
-  authorization
- end
-
+ 
  def facebook
   authorization
  end
 
- def google_oauth2
-  authorization
- end
 
  private
 
