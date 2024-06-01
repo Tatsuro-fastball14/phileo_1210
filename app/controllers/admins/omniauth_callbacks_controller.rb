@@ -7,6 +7,10 @@ class Admins::OmniauthCallbacksController < Devise::OmniauthCallbacksController
  end
 
 
+ def google
+  authorization
+ end
+
  private
 
  def authorization
