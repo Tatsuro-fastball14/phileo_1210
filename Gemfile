@@ -73,6 +73,8 @@ gem 'letter_opener_web'
 gem 'omniauth-facebook'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-google-oauth2'
+gem 'rspec-rails', '~> 5.0.0'
+gem 'shoulda-matchers', '~> 5.0'
 
 
 
