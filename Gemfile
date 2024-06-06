@@ -75,8 +75,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-google-oauth2'
 gem 'rspec-rails', '~> 5.0.0'
 gem 'shoulda-matchers', '~> 5.0'
-
-
+gem 'factory_bot_rails'
 
 
 
