@@ -1,16 +1,13 @@
-# spec/factories/cooks.rb
 FactoryBot.define do
   factory :cook do
-    # 必要な属性をここに記述します
-    # 例:
-    # store_catchcopy { "Sample Catchcopy" }
-    # sentence { "Sample Sentence" }
-    # address { "123 Sample Street" }
-    # phone_number { "123-456-7890" }
-    # store { "Sample Store" }
-    # category { "Sample Category" }
-    # lat { 35.6895 }
-    # lng { 139.6917 }
-    # order { 1 }
+    store_catchcopy { "Delicious cuisine, just for you!" }
+    sentence { "Experience the best food in Okinawa with our specially curated dishes." }
+    address { "456 Gourmet Avenue, Okinawa" }
+    phone_number { "098-765-4321" }
+    store { "Okinawa Gourmet Store" }
+    category { "Japanese Cuisine" }
+    lat { 26.2124 }
+    lng { 127.6792 }
+    order { 1 }
   end
 end
