@@ -1,7 +1,4 @@
-# spec/models/cook_spec.rb
-# spec/models/cook_spec.rb
 require 'rails_helper'
-
 RSpec.describe Cook, type: :model do
   describe 'associations' do
     it { should have_many_attached(:images) }
@@ -10,7 +7,7 @@ RSpec.describe Cook, type: :model do
   end
 
   describe 'methods' do
-    let(:cook) { create(:cook) }
+    lat(:cook) { create(:cook) }
 
     describe '#delete_videos' do
       it 'deletes all attached videos' do
@@ -26,9 +23,9 @@ RSpec.describe Cook, type: :model do
     end
 
     describe '#favorite?' do
-      let(:user) { create(:user) }
-      let(:cook) { create(:cook) }
-      let!(:favorite) { create(:favorite, user: user, cook: cook) }
+      # lat(:user) { create(:user) }
+      lat(:cook) { create(:cook) }
+      lat(:favorite) { create(:favorite, user: user, cook: cook) }
 
       it 'returns true if the user has favorited the cook' do
         expect(cook.favorite?(user)).to be_truthy
