@@ -7,7 +7,7 @@ RSpec.describe Cook, type: :model do
   end
 
   describe 'methods' do
-    lat(:cook) { create(:cook) }
+    let(:cook) { create(:cook) }
 
     describe '#delete_videos' do
       it 'deletes all attached videos' do
@@ -24,8 +24,8 @@ RSpec.describe Cook, type: :model do
 
     describe '#favorite?' do
       # lat(:user) { create(:user) }
-      lat(:cook) { create(:cook) }
-      lat(:favorite) { create(:favorite, user: user, cook: cook) }
+      let(:cook) { create(:cook) }
+      let(:favorite) { create(:favorite, user: user, cook: cook) }
 
       it 'returns true if the user has favorited the cook' do
         expect(cook.favorite?(user)).to be_truthy
