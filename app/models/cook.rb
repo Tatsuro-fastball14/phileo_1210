@@ -3,6 +3,7 @@ class Cook < ApplicationRecord
   has_many :umarepos
   has_many_attached :videos
 
+
   def delete_videos
     ActiveRecord::Base.transaction do
       videos.each { |video| video.purge }
@@ -13,3 +14,7 @@ class Cook < ApplicationRecord
     favorites.where(user: user).exists?
   end
 end
+
+
+
+  
