@@ -2,7 +2,8 @@ class Cook < ApplicationRecord
   has_many_attached :images
   has_many :umarepos
   has_many_attached :videos
-
+  has_many :favorites
+  has_many :favorited_by, through: :favorites, source: :user
 
   def delete_videos
     ActiveRecord::Base.transaction do
@@ -10,11 +11,10 @@ class Cook < ApplicationRecord
     end
   end
 
-  def favorite?(user)
+    def favorite?(user)
     favorites.where(user: user).exists?
-  end
+   end
 end
-
 
 
   

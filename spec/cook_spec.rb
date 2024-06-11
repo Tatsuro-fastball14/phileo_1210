@@ -8,7 +8,7 @@ RSpec.describe Cook, type: :model do
 
   describe '#favorite?' do
     context 'ユーザーがその料理人をお気に入りに追加している場合' do
-      it 'trueを返す' do
+      it true do
         cook.favorites.create(user: user)
         expect(cook.favorite?(user)).to be_truthy
       end

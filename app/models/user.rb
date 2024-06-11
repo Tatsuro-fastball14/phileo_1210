@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :favorites
   has_many :umarepos
   has_many :sns_credentials
+  has_many :favorite_cooks, through: :favorites, source: :cook
 
   def subscriber?
     true
