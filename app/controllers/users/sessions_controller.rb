@@ -9,6 +9,16 @@ class Users::SessionsController < Devise::SessionsController
     super
   end
 
+
+  def facebook
+    authorization
+  end
+  
+ private
+
+ def authorization
+   @user = User.from_omniauth(request.env["omniauth.auth"])
+ end
   # POST /resource/sign_in
   # def create
   #   super
@@ -20,7 +30,9 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   def after_sign_in_path_for(resource)
+    binding.pry
       if  resource.subscriber?
+         binding.pry
 
           stored_location_for(resource)
       else
@@ -32,6 +44,7 @@ class Users::SessionsController < Devise::SessionsController
   protected
 
   def after_sign_in_path_for(resource_or_scope)
+     binding.pry
       stored_location_for(resource_or_scope) 
   end
   # If you have extra params to permit, append them to the sanitizer.
