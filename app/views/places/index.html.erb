@@ -2,57 +2,91 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <title>沖縄グルメ検索</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+    #top-search {
+      width: 100%;
+      height: 480px;
+      background: url('https://imgsv.nikon-image.com/products/mirrorless/lineup/z_50/img/sample/pic_01_l.jpg') no-repeat center;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 30px;
+    }
+    .search-container {
+      margin-top: 20px;
+    }
+    .search-form {
+      display: inline-block;
+      text-align: left;
+    }
+    .search-form label,
+    .search-form select,
+    .search-form input {
+      font-size: 20px;
+      margin: 5px 0;
+    }
+    .admin-actions,
+    .user-actions {
+      margin-top: 20px;
+    }
+    .admin-actions button,
+    .user-actions button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+  </style>
 </head>
-<h1>
-
-</h1>
-
-<style>
-  #top-search {
-    width: 100%;
-    height: 480px;
-    margin-bottom: 100px;
-    background: url('https://imgsv.nikon-image.com/products/mirrorless/lineup/z_50/img/sample/pic_01_l.jpg') no-repeat 50%;
-    background-size: cover;
-    font-size: 30px;
-    text-align:center;
-    padding-top:40px;
-
-  }
-</style>
-
-<div id="top-search">
- <p class="hoge">”絶対にハズさない'</p>
-  <p>'美味しいお店を検索できる </p>
-  <%= search_form_for @p, url: cooks_search_path do |f| %>
-  <div class="prefecture">
-    <%= f.label :place_name_eq, '沖縄県' %>
-    <%= f.collection_select :name_eq, @places, :name, :name, {include_blank: '那覇市'}, class:"test2" %>
-     <%= f.submit '検 索' %>
+<body>
+  <div id="top-search">
+    <p>"絶対にハズさない"</p>
+    <p>"美味しいお店を検索できる"</p>
+    <div class="search-container">
+      <%= form_with url: cooks_search_path, method: :get, local: true, class: "search-form" do |f| %>
+        <label for="place_name_eq">沖縄県</label>
+        <%= f.collection_select :name_eq, @places, :name, :name, { include_blank: '那覇市' }, class: "test2" %>
+        <%= f.submit '検索' %>
+      <% end %>
+    </div>
   </div>
-  </div>
-  <div class="search">
-  </div>
-  <% end %>
 
   <% if current_user.present? && current_user.admin? %>
-     <%= form_with url: new_cook_path, local: true do |f| %>
-       <%= f.submit "DBの登録", class: "sel-btn" %>
-
-      <% end %>
-  <% end %>
-  <% if current_user %>
-    <%= button_to 'アカウントを削除', destroy_account_user_path(current_user), method: :delete, data: { confirm: '本当にアカウントを削除しますか？' } %>
+    <div class="admin-actions">
+      <%= button_to 'DBの登録', new_cook_path, method: :get %>
+    </div>
   <% end %>
 
   <% if current_user %>
-    <%= button_to 'サブスクを退会', card_path(current_user), method: :delete, data: { confirm: '本当に退会致しますか？' } %>
+    <div class="user-actions">
+      <%= button_to 'アカウントを削除', destroy_account_user_path(current_user), method: :delete, data: { confirm: '本当にアカウントを削除しますか？' } %>
+      <%= button_to 'サブスクを退会', card_path(current_user), method: :delete, data: { confirm: '本当に退会致しますか？' } %>
+    </div>
   <% end %>
-</div>
-<%# 商品一覧 %>
-<% @places.each do |place| %>
-  <br>
-  <li>
-    <%= place.name %>
-  </li>
-<% end %>
+
+  <ul>
+    <% @places.each do |place| %>
+      <li><%= place.name %></li>
+    <% end %>
+  </ul>
+</body>
+</html>
