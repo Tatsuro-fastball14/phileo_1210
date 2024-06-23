@@ -17,7 +17,6 @@
       display: flex;
       align-items: center;
       color: white;
-      font-size: 30px;
       position: relative;
     }
     .image-container {
@@ -43,6 +42,14 @@
       color: white;
       z-index: 1;
     }
+    .text-container .emphasized {
+      font-size: 70px;
+      font-weight: bold;
+    }
+    .text-container p {
+      font-size: 50px;
+      margin: 5px 0;
+    }
     .search-container {
       position: absolute;
       bottom: 10px;
@@ -55,8 +62,8 @@
       text-align: left;
     }
     .search-form input[type="submit"] {
-      font-size: 20px;
-      padding: 10px 20px;
+      font-size: 40px;  /* Increased font size */
+      padding: 20px 40px;  /* Increased padding */
       cursor: pointer;
     }
     .admin-actions,
@@ -86,8 +93,8 @@
     <div class="image-container top-search2"></div>
     <div class="image-container top-search3"></div>
     <div class="text-container">
-      <p>"沖縄の絶対にハズさない"</p>
-      <p>"美味しいお店を検索できる"</p>
+      <p><span class="emphasized">"絶対</span>にハズさない"</p>
+      <p>美味しいお店を検索できる</p>
     </div>
     <div class="search-container">
       <%= form_with url: cooks_search_path, method: :get, local: true, class: "search-form" do |f| %>
