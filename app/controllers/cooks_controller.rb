@@ -9,6 +9,7 @@ class CooksController < ApplicationController
     @videos=  Cook.all
     render json: @cooks
   end
+  
 
   def new
     @cook = Cook.new
@@ -52,6 +53,7 @@ class CooksController < ApplicationController
   def search
     @p = Cook.ransack(params[:q])
     @cooks = @p.result
+    @cooks = Cook.all.page(params[:page])  
   end
 
   private
