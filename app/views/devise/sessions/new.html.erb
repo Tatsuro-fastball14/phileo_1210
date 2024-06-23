@@ -1,44 +1,126 @@
-<div class='mikaiinn'>
-   <h2>まだ会員登録されていない方</h2>
-</div>
-
-<div class='susumu'>
-  <%= link_to "会員登録にすすむ",new_user_registration_path%> 
-</div>
-
-<div class='sumi'>
-  <p><h3>会員登録済みの方</h3></P>
-
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div class='email'>
-      <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>沖縄グルメ検索 - ログイン</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    h2, h3 {
+      color: #333;
+    }
+    .mikaiinn, .susumu, .sumi {
+      margin-bottom: 20px;
+    }
+    
+    .email, .field, .login {
+      margin-bottom: 15px;
+    }
+    .email label, .field label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .login {
+      margin-top: 20px;
+    }
+    .login input[type="submit"] {
+      padding: 10px 20px;
+      font-size: 18px;
+      color: #ffffff;
+      background-color: #28a745;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .login input[type="submit"]:hover {
+      background-color: #218838;
+    }
+    .kiyaku {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    .kiyaku:hover {
+      text-decoration: underline;
+    }
+    .social-login a {
+      display: block;
+      margin: 10px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #ffffff;
+      border-radius: 5px;
+    }
+    .social-login .twitter {
+      background-color: #1DA1F2;
+    }
+    .social-login .facebook {
+      background-color: #3b5998;
+    }
+    .social-login .google {
+      background-color: #db4437;
+    }
+    .social-login a:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="mikaiinn">
+      <h2>まだ会員登録されていない方</h2>
     </div>
 
-    <div class="field">
-      <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "current-password" %>
+    <div class="susumu">
+      <%= link_to "会員登録にすすむ", new_user_registration_path %> 
     </div>
 
-    <% if devise_mapping.rememberable? %>
-      <div class="field">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
+    <div class="sumi">
+      <h3>会員登録済みの方</h3>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="email">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password %><br />
+          <%= f.password_field :password, autocomplete: "current-password" %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        <% end %>
+
+        <div class="login">
+          <p>※会員登録前に<%= link_to '利用規約', orders_kiyaku_path, class: "kiyaku" %>をご確認ください</p>
+          <%= f.submit 'ログイン' %>
+        </div>
+      <% end %>
+
+      <div class="social-login">
+        <%= link_to 'Twitterでログイン', user_twitter_omniauth_authorize_path, method: :post, class: "twitter" %>
+        <%= link_to 'Facebookでログイン', user_facebook_omniauth_authorize_path, method: :post, class: "facebook" %>
+        <%= link_to 'Googleでログイン', user_google_oauth2_omniauth_authorize_path, method: :post, class: "google" %>
       </div>
-    <% end %>
-  
-    <div class="login">
-    
-    ※会員登録時前に<%= link_to '利用規約', orders_kiyaku_path, class: "kiyaku" %>をご確認ください
-    <br>
-     <%= f.submit 'ログイン' %>
-    
     </div>
-  <%end%>
-
-  <%= link_to 'Twitterでログイン', user_twitter_omniauth_authorize_path, method: :post%>
-  <%= link_to 'Facebookでログイン', user_facebook_omniauth_authorize_path, method: :post%>
-  <%= link_to 'Googleでログイン', user_google_oauth2_omniauth_authorize_path, method: :post%>
-</div>
-
-
+  </div>
+</body>
+</html>
