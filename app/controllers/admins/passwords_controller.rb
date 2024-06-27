@@ -30,6 +30,7 @@ class Admins::PasswordsController < Devise::PasswordsController
      params[:user][:password_confirmation] = pass
    end
    super
+  end
   # def after_resetting_password_path_for(resource)
   #   super(resource)
   # end
