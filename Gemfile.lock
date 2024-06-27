@@ -159,6 +159,18 @@ GEM
     jmespath (1.6.2)
     jwt (2.8.1)
       base64
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     launchy (2.5.2)
       addressable (~> 2.8)
     letter_opener (1.10.0)
@@ -390,6 +402,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    will_paginate (3.1.8)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.11)
@@ -411,6 +424,7 @@ DEPENDENCIES
   http
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
+  kaminari
   letter_opener
   letter_opener_web
   listen
@@ -439,6 +453,7 @@ DEPENDENCIES
   web-console
   webdrivers
   webpacker (~> 4.3.0)
+  will_paginate (~> 3.1.0)
 
 RUBY VERSION
    ruby 3.1.4p223

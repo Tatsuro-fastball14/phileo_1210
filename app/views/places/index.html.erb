@@ -14,27 +14,59 @@
     #top-search {
       width: 100%;
       height: 480px;
-      background: url('https://imgsv.nikon-image.com/products/mirrorless/lineup/z_50/img/sample/pic_01_l.jpg') no-repeat center;
-      background-size: cover;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
       color: white;
-      font-size: 30px;
+      position: relative;
+    }
+    .image-container {
+      width: 33.33%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+    .top-search {
+      background-image: url("<%= asset_path('sample_image.png') %>");
+    }
+    .top-search2 {
+      background-image: url("<%= asset_path('maguro.jpg') %>");
+    }
+    .top-search3 {
+      background-image: url("<%= asset_path('unazyu.jpg') %>");
+    }
+    .text-container {
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      z-index: 1;
+    }
+    .text-container .emphasized {
+      font-size: 70px;
+      font-weight: bold;
+      color: white;
+    }
+    .text-container p {
+      font-size: 50px;
+      margin: 5px 0;
+      color: white;
     }
     .search-container {
-      margin-top: 20px;
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      z-index: 1;
     }
     .search-form {
       display: inline-block;
       text-align: left;
     }
-    .search-form label,
-    .search-form select,
-    .search-form input {
-      font-size: 20px;
-      margin: 5px 0;
+    .search-form input[type="submit"] {
+      font-size: 40px;  /* Increased font size */
+      padding: 20px 40px;  /* Increased padding */
+      cursor: pointer;
     }
     .admin-actions,
     .user-actions {
@@ -59,13 +91,16 @@
 </head>
 <body>
   <div id="top-search">
-    <p>"絶対にハズさない"</p>
-    <p>"美味しいお店を検索できる"</p>
+    <div class="image-container top-search"></div>
+    <div class="image-container top-search2"></div>
+    <div class="image-container top-search3"></div>
+    <div class="text-container">
+      <p><span class="emphasized">"絶対</span>にハズさない"</p>
+      <p>美味しいお店を検索できる</p>
+    </div>
     <div class="search-container">
       <%= form_with url: cooks_search_path, method: :get, local: true, class: "search-form" do |f| %>
-        <label for="place_name_eq">沖縄県</label>
-        <%= f.collection_select :name_eq, @places, :name, :name, { include_blank: '那覇市' }, class: "test2" %>
-        <%= f.submit '検索' %>
+        <%= f.submit 'next' %>
       <% end %>
     </div>
   </div>
