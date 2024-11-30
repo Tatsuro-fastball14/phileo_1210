@@ -13,13 +13,13 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password:
-  socket: /tmp/mysql.sock
 
 development:
   <<: *default
   database: phileo_development
+  username: root
+  password:
+  socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -27,7 +27,9 @@ development:
 test:
   <<: *default
   database: phileo_test
-
+  username: root
+  password:
+  socket: /tmp/mysql.sock
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.
@@ -49,7 +51,8 @@ test:
 #
 production:
   <<: *default
-  database: phileo_production
-  username: phileo
-  password: <%= ENV['PHILEO_DATABASE_PASSWORD'] %>
-  url: <%= ENV['DATABASE_URL'] %>
+  database: qabj5x8v2qm5l1u5
+  username: kx4w9d5965rz4sht
+  password: x8o22gfl4dh02rje
+  host: vhw3t8e71xdz9k14.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
+  port: 3306
