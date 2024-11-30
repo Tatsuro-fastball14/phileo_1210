@@ -52,3 +52,4 @@ production:
   database: phileo_production
   username: phileo
   password: <%= ENV['PHILEO_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
