@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
     )
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
-      plan: 'getugaku400',
+      plan: 'getugaku700',
       customer: customer.id
           )
         redirect_to stored_location_for(current_user) || 
