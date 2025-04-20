@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  # devise_for :users
+  devise_for :users
   devise_for :admins
   get 'places/index'
   get 'cooks/search'
@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   get 'users/edit'
   get 'cooks/show'
 
-   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  #  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+   
   
   
 
