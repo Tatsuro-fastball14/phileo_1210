@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  # devise_for :users
+  devise_for :users
   devise_for :admins
   get 'places/index'
   get 'cooks/search'
@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations:  'users/registrations'
   }
-
 
   root to: "places#index"
  
