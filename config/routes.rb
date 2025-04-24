@@ -15,10 +15,10 @@ Rails.application.routes.draw do
   get 'users/edit'
   get 'cooks/show'
 
-  #  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-   
-  
-  
+  # devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: {
+    registrations:  'users/registrations'
+  }
 
   root to: "places#index"
  
