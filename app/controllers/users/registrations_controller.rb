@@ -4,19 +4,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  def after_sign_up_path_for(resource)
-    binding.pry
+  # def after_sign_up_path_for(resource)
+  #   binding.pry
     
-    if  resource.subscriber?
-      binding.pry
+  #   if  resource.subscriber?
+  #     binding.pry
     
-        UserMailer.send_newsletter(resource).deliver_now
+  #       UserMailer.send_newsletter(resource).deliver_now
       
-        new_card_path
-    else       
-        super  
-    end  
-  end
+  #       new_card_path
+  #   else       
+  #       super  
+  #   end  
+  # end
 
 
   def send_newsletter(user)
@@ -65,8 +65,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # The path used after sign up.
-  def after_sign_up_path_for(resource)
+ def after_sign_up_path_for(resource)
+    binding.pry
+    
+    if  resource.subscriber?
+     
+    
+        UserMailer.send_newsletter(resource).deliver_now
+      
+        new_card_path
+    else       
+        super  
+    end  
+  end
+   # The path used after sign up for inactive accounts.
+  def after_inactive_sign_up_path_for(resource)
     super(resource)
   end
 
 end
+
+
