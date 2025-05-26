@@ -64,7 +64,7 @@ class CardsController < ApplicationController
   
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
-      plan: 'getugaku700',
+      plan: 'getugaku',
       customer: customer.id
     )
    
