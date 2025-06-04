@@ -67,7 +67,7 @@ class CardsController < ApplicationController
       plan: 'getugaku',
       customer: customer.id
     )
-   
+    redirect_to action: "show"
   end
 
   private
