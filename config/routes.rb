@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'users/show'
   get 'users/edit'
   get 'cooks/show'
+  get 'cards/show'
 
   #  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
    
