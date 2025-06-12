@@ -4,8 +4,9 @@ class CardsController < ApplicationController
 
   def new      
     card = Card.where(user_id: current_user.id)
+    
     if card.exists?
-      redirect_to cook_path(cook.id)
+      redirect_to cook_path(@cook.id)
     else
       card = Card.new(user_id: current_user.id)
     end
@@ -15,7 +16,7 @@ class CardsController < ApplicationController
     card = Card.find_by(user_id: current_user.id)
     if card.blank?
       #  binding.pry
-      # redirect_to action: "new" 
+    redirect_to cooks_path(cook)
     else
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       customer = Payjp::Customer.retrieve(card.customer_id)
