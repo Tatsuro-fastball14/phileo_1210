@@ -2,6 +2,7 @@ class Cook < ApplicationRecord
   has_many_attached :images
   has_many :umarepos
   has_many_attached :videos
+  # belongs_to :user
 
 
   def delete_videos
