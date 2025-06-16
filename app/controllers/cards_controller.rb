@@ -55,7 +55,7 @@ class CardsController < ApplicationController
     
 
   def create
-     @card = Card.new(card_params)
+    #  @card = Card.new(card_params)
     Payjp.api_key = ENV["SECRET_KEY_ENV"]
     customer = Payjp::Customer.create(
       description: '登録テスト',
@@ -77,8 +77,8 @@ class CardsController < ApplicationController
     card = Card.where(user_id: current_user.id).first if Card.where(user_id: current_user.id).present?
   end
 
-  def card_params
-    params.require(:card).permit(:user_id)
-  end
+  # def card_params
+  #   params.require(:card).permit(:user_id)
+  # end
 
 end
