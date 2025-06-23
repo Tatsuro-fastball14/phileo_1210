@@ -5,6 +5,6 @@
 <%= exp_month + " / " + exp_year %>
 
 <%= form_with url:delete_cards_path, method: :post, id: 'charge-form', name: "inputForm", local: true do %>
-  <input type="hidden" name="card_id" value="">
+  <input type="hidden" name="customer_id" value="">
   <button>削除する</button>
 <% end %>

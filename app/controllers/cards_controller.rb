@@ -15,7 +15,7 @@ class CardsController < ApplicationController
   def show
     card = Card.find_by(user_id: current_user.id)
     if card.blank?
-      #  binding.pry
+       binding.pry
     else
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       customer = Payjp::Customer.retrieve(card.customer_id)
@@ -77,8 +77,8 @@ class CardsController < ApplicationController
     card = Card.where(user_id: current_user.id).first if Card.where(user_id: current_user.id).present?
   end
 
-  # def card_params
-  #   params.require(:card).permit(:user_id)
-  # end
+ def card_params
+  params.require(:card).permit(:customer_id)
+end
 
 end
