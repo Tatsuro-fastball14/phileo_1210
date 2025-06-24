@@ -15,7 +15,7 @@ class CardsController < ApplicationController
   def show
     card = Card.find_by(user_id: current_user.id)
     if card.blank?
-       binding.pry
+      #  binding.pry
     else
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       customer = Payjp::Customer.retrieve(card.customer_id)
@@ -55,7 +55,8 @@ class CardsController < ApplicationController
     
 
   def create
-    #  @card = Card.new(card_params)
+    binding.pry
+     @card = Card.new(card_params)
     Payjp.api_key = ENV["SECRET_KEY_ENV"]
     customer = Payjp::Customer.create(
       description: '登録テスト',
