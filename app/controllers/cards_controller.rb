@@ -55,7 +55,7 @@ class CardsController < ApplicationController
     
 
   def create
-    binding.pry
+    # binding.pry
      @card = Card.new(card_params)
     Payjp.api_key = ENV["SECRET_KEY_ENV"]
     customer = Payjp::Customer.create(
