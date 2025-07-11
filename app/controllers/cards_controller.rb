@@ -70,7 +70,7 @@ class CardsController < ApplicationController
       plan: 'getugaku',
       customer: customer.id
     )
-    redirect_to action: "show"
+    redirect_to cooks_search_path
   end
 
   private
