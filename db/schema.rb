@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_25_225711) do
+ActiveRecord::Schema.define(version: 2025_07_07_213425) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2024_05_25_225711) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
+    t.string "customer_id"
   end
 
   create_table "cooks", charset: "utf8", force: :cascade do |t|

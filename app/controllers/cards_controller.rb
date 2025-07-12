@@ -2,10 +2,11 @@ class CardsController < ApplicationController
   require "payjp"
   before_action :set_card
 
-  def new      
+  def new 
     card = Card.where(user_id: current_user.id)
+    
     if card.exists?
-      redirect_to action: "show"
+      redirect_to cook_path(@cook.id)
     else
       card = Card.new(user_id: current_user.id)
     end
@@ -14,7 +15,7 @@ class CardsController < ApplicationController
   def show
     card = Card.find_by(user_id: current_user.id)
     if card.blank?
-      redirect_to action: "new" 
+      #  binding.pry
     else
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       customer = Payjp::Customer.retrieve(card.customer_id)
@@ -54,25 +55,31 @@ class CardsController < ApplicationController
     
 
   def create
+    # binding.pry
+     @card = Card.new(card_params)
     Payjp.api_key = ENV["SECRET_KEY_ENV"]
     customer = Payjp::Customer.create(
       description: '登録テスト',
       card: params['payjp_token'],
       metadata: {user_id: current_user.id}
     )
-    
+     
   
     current_user.update(customer_id: customer.id)
     Payjp::Subscription.create(
-      plan: 'getugaku700',
+      plan: 'getugaku',
       customer: customer.id
     )
-   
+    redirect_to cooks_search_path
   end
 
   private
   def set_card
     card = Card.where(user_id: current_user.id).first if Card.where(user_id: current_user.id).present?
   end
+
+ def card_params
+  params.require(:card).permit(:customer_id)
+end
 
 end
