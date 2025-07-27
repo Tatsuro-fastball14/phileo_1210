@@ -78,8 +78,8 @@ class CardsController < ApplicationController
     card = Card.where(user_id: current_user.id).first if Card.where(user_id: current_user.id).present?
   end
 
- def card_params
-  params.require(:card).permit(:customer_id)
-end
+#  def card_params
+#   params.require(:card).permit(:customer_id)
+# end
 
 end
