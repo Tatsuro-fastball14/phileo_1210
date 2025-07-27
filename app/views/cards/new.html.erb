@@ -8,6 +8,6 @@
    <%# id:'cvc-formにpay.jsにnumberElement.mount('#number-form')しているため %>
    <div id="cvc-form"></div>
    <div id="card_token"></div>
- <%# <%= f.text_area :customer_id, class: "items-text", id: "phileo-name", placeholder: "customer_id（必須 40文字まで)", maxlength: "40" %> 
+ <%= f.text_area :customer_id, class: "items-text", id: "phileo-name", placeholder: "記入は不要（必須 40文字まで)", maxlength: "40" 
   <%= f.submit '登録する', id: 'info_submit',class: 'content-bottom--add-btn' %>
 <% end %>
