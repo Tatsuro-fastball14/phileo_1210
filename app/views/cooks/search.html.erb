@@ -17,8 +17,9 @@
     <% @cooks.each do |cook| %>
       <div class='item'>
         <div class='item-img'>
-          <%# <%= image_tag cook.images[0], id: "shopimage", class: "star-icon" %> 
+          <%= image_tag cook.images[0], id: "shopimage", class: "star-icon" %>
         </div>
+         <% end %>
         <div class='item-price'>
           <div class="avatar">
             <%= link_to image_tag("えび.jpg"),   cook_path(cook.id), method: :get %>
