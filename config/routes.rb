@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'users/edit'
   get 'cooks/show'
   get 'cards/show'
+  get "/test-legal", to: "static_pages#test_legal"
 
   #  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
    
