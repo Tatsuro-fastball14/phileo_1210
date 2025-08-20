@@ -1,4 +1,6 @@
-<%# app/views/static_pages/test_legal.html.erb %>
+<% content_for :title, "特定商取引法に基づく表記（テスト） | Phileo" %>
+<meta name="robots" content="noindex, nofollow">
+
 <section id="legal">
   <h1>特定商取引法に基づく表記（テスト）</h1>
   <dl>
@@ -6,37 +8,38 @@
     <dd>https://phileo-1210.herokuapp.com/test-legal</dd>
 
     <dt>販売事業者名</dt>
-    <dd>テスト用事業者名</dd>
+    <dd><%= legal(:legal_seller_name, fallback: "テスト用事業者名") %></dd>
 
     <dt>運営責任者</dt>
-    <dd>島田 達郎</dd>
+    <dd><%= legal(:legal_responsible_name, fallback: "テスト 太郎") %></dd>
 
     <dt>問い合わせ窓口（メールアドレス）</dt>
-    <dd><a href="shimada.14@icloud.com">shimada.14@icloud.com</a></dd>
+    <dd>
+      <a href="mailto:<%= legal(:legal_email, fallback: "test@example.com") %>">
+        <%= legal(:legal_email, fallback: "test@example.com") %>
+      </a>
+    </dd>
 
     <dt>問い合わせ窓口（電話番号）</dt>
-    <dd>電話番号開示を希望される場合はメールでご連絡いただければ遅延なく開示いたします。</dd>
+    <dd><%= legal(:legal_phone, fallback: "電話番号開示を希望される場合はメールでご連絡ください。") %></dd>
 
     <dt>本社所在地</dt>
-    <dd>沖縄県那覇市久茂地1-1-1</dd>
+    <dd><%= legal(:legal_address, fallback: "テスト県テスト市テスト町1-1-1") %></dd>
 
     <dt>商品代金以外の必要料金</dt>
-    <dd>なし</dd>
+    <dd><%= legal(:legal_fees, fallback: "なし") %></dd>
 
     <dt>お支払い方法</dt>
-    <dd>クレジットカード決済</dd>
+    <dd><%= legal(:legal_payment_methods, fallback: "クレジットカード決済") %></dd>
 
     <dt>代金の支払い時期</dt>
-    <dd>クレジットカード決済：購入時</dd>
+    <dd><%= legal(:legal_charge_timing, fallback: "クレジットカード決済：購入時") %></dd>
 
     <dt>商品の引き渡し時期</dt>
-    <dd>決済完了後、直ちにご利用可能となります。</dd>
+    <dd><%= legal(:legal_delivery_timing, fallback: "決済完了後、直ちにご利用可能となります。") %></dd>
 
     <dt>返品・交換不良品・解約について</dt>
-    <dd>
-      ・デジタルサービスの特性上、返金・キャンセルはお受けできません。<br>
-      ・定期課金はいつでもマイページから解約可能です。<br>
-      ・主催者都合によりサービス提供が中止となった場合は全額返金いたします。
-    </dd>
+    <dd><%= simple_format(legal(:legal_cancellation, fallback:
+      "・デジタルサービスの特性上、返金・キャンセルはお受けできません。\n・定期課金はいつでもマイページから解約可能です。\n・主催者都合によりサービス提供が中止となった場合は全額返金いたします。")) %></dd>
   </dl>
 </section>
