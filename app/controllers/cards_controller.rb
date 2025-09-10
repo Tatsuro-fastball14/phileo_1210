@@ -1,85 +1,159 @@
+# app/controllers/cards_controller.rb
 class CardsController < ApplicationController
-  require "payjp"
+  before_action :authenticate_user!
   before_action :set_card
 
-  def new 
-    card = Card.where(user_id: current_user.id)
-    
-    if card.exists?
-      redirect_to cook_path(@cook.id)
-    else
-      card = Card.new(user_id: current_user.id)
+  # カード登録フォーム（Stripe Elementsを表示）
+  def new
+    if @card.present?
+      # 既に1枚登録済みならリダイレクト（用途に合わせて変更してください）
+      redirect_to cooks_search_path and return
     end
+
+    customer = ensure_stripe_customer!(current_user)
+    setup_intent = Stripe::SetupIntent.create(
+      customer: customer.id,
+      payment_method_types: ["card"]
+    )
+    @client_secret = setup_intent.client_secret
   end
 
+  # カードとサブスクの概要表示
   def show
-    card = Card.find_by(user_id: current_user.id)
-    if card.blank?
-      #  binding.pry
-    else
-      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-      customer = Payjp::Customer.retrieve(card.customer_id)
-      @default_card_information = customer.cards.retrieve(card.card_id)
+    if current_user.stripe_customer_id.blank?
+      @payment_method = nil
+      @active_subscription = nil
+      return
     end
+
+    customer = Stripe::Customer.retrieve(current_user.stripe_customer_id)
+
+    # 既定PM（なければ最初のPM）
+    pm_id = customer.dig(:invoice_settings, :default_payment_method)
+    @payment_method =
+      if pm_id.present?
+        Stripe::PaymentMethod.retrieve(pm_id)
+      else
+        pms = Stripe::PaymentMethod.list(customer: customer.id, type: "card")
+        pms.data.first
+      end
+
+    @active_subscription =
+      Stripe::Subscription.list(customer: customer.id, status: "active", limit: 1).data.first
   end
 
-  # def destroy   
-    # card = Card.find_by(user_id: current_user.id)
-    # binding.pry
-    # if card
-    #   Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-    #   binding.pry
-    #   customer = Payjp::Customer.retrieve(user.customer_id)
-    #   cus=Payjp::Customer.retrieve(user.customer_id)
-    #   cus.delete
-    #   binding.pry
-    #   redirect_to root_path, notice: 'カード情報を削除しました。'
-    # else
-    #   redirect_to root_path, alert: 'カード情報が見つかりませんでした。'
-    # end
-  # end
-
-  def destroy 
-    require 'payjp'
-    Payjp.api_key = 'sk_test_332f0eea67ba0eadf867b9b8'
-    cus = Payjp::Customer.retrieve(current_user.customer_id)
-   if cus.subscriptions.data.empty?
-       puts "定期課金情報がありません。" 
-      # 定期課金への対応には一時停止や削除など種類があるので確認してくださいね。
-    else
-      cus.subscriptions.data.last.pause
-
-   
-    end
-  end
-    
-
+  # カード保存 + サブスク開始
+  # フロントから { payment_method_id: "pm_xxx" } を受け取る想定
   def create
-    # binding.pry
-     @card = Card.new(card_params)
-    Payjp.api_key = ENV["SECRET_KEY_ENV"]
-    customer = Payjp::Customer.create(
-      description: '登録テスト',
-      card: params['payjp_token'],
-      metadata: {user_id: current_user.id}
+    payment_method_id = params[:payment_method_id]
+    price_id = ENV.fetch("STRIPE_PRICE_ID")
+
+    unless payment_method_id.present?
+      redirect_to new_card_path, alert: "カード情報が取得できませんでした。" and return
+    end
+
+    customer = ensure_stripe_customer!(current_user)
+
+    # PMを顧客に紐付け & 既定化
+    Stripe::PaymentMethod.attach(payment_method_id, { customer: customer.id })
+    Stripe::Customer.update(customer.id, {
+      invoice_settings: { default_payment_method: payment_method_id }
+    })
+
+    # 1ユーザー=1枚: 既存があれば更新、なければ作成
+    if @card.present?
+      @card.update!(
+        stripe_payment_method_id: payment_method_id,
+        stripe_customer_id: customer.id
+      )
+    else
+      @card = Card.create!(
+        user: current_user,
+        stripe_payment_method_id: payment_method_id,
+        stripe_customer_id: customer.id
+      )
+    end
+
+    # サブスク作成（SCA対応）
+    subscription = Stripe::Subscription.create(
+      customer: customer.id,
+      items: [{ price: price_id }],
+      payment_behavior: "default_incomplete",
+      expand: ["latest_invoice.payment_intent"]
     )
-     
-  
-    current_user.update(customer_id: customer.id)
-    Payjp::Subscription.create(
-      plan: 'getugaku',
-      customer: customer.id
-    )
-    redirect_to cooks_search_path
+
+    pi = subscription.latest_invoice.payment_intent
+
+    case pi.status
+    when "requires_action", "requires_confirmation"
+      # 追加認証が必要→client_secretを返してJSでconfirm
+      redirect_to cooks_search_path(client_secret: pi.client_secret, next: "confirm_subscription"),
+                  notice: "追加認証が必要です。画面の指示に従ってください。"
+    when "succeeded", "requires_capture", "processing"
+      redirect_to cooks_search_path, notice: "サブスクリプションを開始しました。"
+    else
+      redirect_to new_card_path, alert: "決済の確定に失敗しました（#{pi.status}）。もう一度お試しください。"
+    end
+  rescue Stripe::StripeError => e
+    redirect_to new_card_path, alert: "Stripeエラー: #{e.message}"
+  end
+
+  # サブスク解約 + カード解除（必要に応じて調整）
+  def destroy
+    if current_user.stripe_customer_id.blank?
+      redirect_to card_path, alert: "顧客情報が見つかりません。" and return
+    end
+
+    customer_id = current_user.stripe_customer_id
+    subs = Stripe::Subscription.list(customer: customer_id, status: "active", limit: 10).data
+
+    if subs.empty?
+      # サブスクが無ければカードだけ削除（任意）
+      detach_card_if_exists!
+      redirect_to card_path, notice: "有効なサブスクリプションはありません。カード情報を削除しました。" and return
+    end
+
+    # 最後の1件を解約
+    Stripe::Subscription.cancel(subs.last.id)
+
+    # 解約と同時にカードも外す（任意運用）
+    detach_card_if_exists!
+
+    redirect_to card_path, notice: "サブスクリプションを解約し、カード情報を削除しました。"
+  rescue Stripe::StripeError => e
+    redirect_to card_path, alert: "解約時にエラーが発生しました：#{e.message}"
   end
 
   private
+
   def set_card
-    card = Card.where(user_id: current_user.id).first if Card.where(user_id: current_user.id).present?
+    @card = Card.find_by(user_id: current_user.id)
   end
 
- def card_params
-  params.require(:card).permit(:customer_id)
-end
+  # UserにStripe Customerを作成・保存
+  def ensure_stripe_customer!(user)
+    if user.stripe_customer_id.present?
+      Stripe::Customer.retrieve(user.stripe_customer_id)
+    else
+      customer = Stripe::Customer.create(
+        email: user.try(:email),
+        metadata: { user_id: user.id }
+      )
+      user.update!(stripe_customer_id: customer.id)
+      customer
+    end
+  end
 
+  # PaymentMethodのデタッチ & Cardレコード削除
+  def detach_card_if_exists!
+    return unless @card.present?
+
+    pm_id = @card.stripe_payment_method_id
+    begin
+      Stripe::PaymentMethod.detach(pm_id) if pm_id.present?
+    rescue Stripe::InvalidRequestError
+      # 既にデタッチ済み等は無視
+    end
+    @card.destroy!
+  end
 end

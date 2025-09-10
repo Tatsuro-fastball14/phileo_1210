@@ -79,4 +79,7 @@ gem 'factory_bot_rails'
 gem 'kaminari'
 gem 'derailed_benchmarks'
 gem 'syntax_suggest' 
+gem "stripe"
+
+
 

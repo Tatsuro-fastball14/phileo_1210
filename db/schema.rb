@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_07_213425) do
+ActiveRecord::Schema.define(version: 2025_09_05_104604) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 2025_07_07_213425) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
     t.string "customer_id"
+    t.string "stripe_payment_method_id"
+    t.string "stripe_customer_id"
   end
 
   create_table "cooks", charset: "utf8", force: :cascade do |t|
@@ -138,8 +140,10 @@ ActiveRecord::Schema.define(version: 2025_07_07_213425) do
     t.string "name"
     t.text "profile"
     t.string "rank"
+    t.string "stripe_customer_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
   end
 
   create_table "videos", charset: "utf8", force: :cascade do |t|

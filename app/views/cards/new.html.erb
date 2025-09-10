@@ -1,13 +1,39 @@
-<%= form_with scope: :card,url: cards_path, id: 'card_form', method: :post, local: true do |f| %><!-- createアクションのパスを指定 -->
+<!-- app/views/cards/new.html.erb -->
+<h1>カード登録</h1>
+<form id="card-form">
+  <div id="card-element"></div>
+  <button id="submit-btn" type="submit">保存して購読開始</button>
+</form>
 
-  <%= f.label :カード番号, class: 'label',id:'number-form' %>
-  <%# id:'number-formにpay.jsにnumberElement.mount('#number-form')しているため %>
-  <div id="number-form"></div>
-   <%# id:'expiry-formにpay.jsにnumberElement.mount('#number-form')しているため %>
-  <div id="expiry-form"></div>
-   <%# id:'cvc-formにpay.jsにnumberElement.mount('#number-form')しているため %>
-   <div id="cvc-form"></div>
-   <div id="card_token"></div>
- <%= f.text_area :customer_id, class: "items-text", id: "phileo-name", placeholder: "記入は不要（記入しなくても新規登録できます)", maxlength: "40" %>
-  <%= f.submit '登録する', id: 'info_submit',class: 'content-bottom--add-btn' %>
-<% end %>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  (async () => {
+    const stripe = Stripe("<%= ENV.fetch('STRIPE_PUBLISHABLE_KEY') %>");
+    const elements = stripe.elements();
+    const card = elements.create('card');
+    card.mount('#card-element');
+
+    const form = document.getElementById('card-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // サーバで発行したSetupIntentのclient_secret
+      const clientSecret = "<%= @client_secret %>";
+
+      // 1) SetupIntentをconfirmしてPMを保存
+      const { setupIntent, error } = await stripe.confirmCardSetup(clientSecret, { payment_method: { card } });
+      if (error) return alert(error.message);
+
+      // 2) PM ID をサーバへ送ってサブスク作成
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+      const res = await fetch("<%= cards_path %>", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRF-Token": token },
+        body: JSON.stringify({ payment_method_id: setupIntent.payment_method })
+      });
+
+      if (res.redirected) window.location = res.url;
+      else alert("登録に失敗しました");
+    });
+  })();
+</script>
