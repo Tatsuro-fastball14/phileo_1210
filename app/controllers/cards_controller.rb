@@ -6,10 +6,10 @@ class CardsController < ApplicationController
   # カード登録フォーム（Stripe Elementsを表示）
   def new
     if @card.present?
-      # 既に1枚登録済みならリダイレクト（用途に合わせて変更してください）
       redirect_to cooks_search_path and return
     end
 
+    # フロント側で郵便番号UIを出さない（住所情報は送らない）前提
     customer = ensure_stripe_customer!(current_user)
     setup_intent = Stripe::SetupIntent.create(
       customer: customer.id,
@@ -28,7 +28,6 @@ class CardsController < ApplicationController
 
     customer = Stripe::Customer.retrieve(current_user.stripe_customer_id)
 
-    # 既定PM（なければ最初のPM）
     pm_id = customer.dig(:invoice_settings, :default_payment_method)
     @payment_method =
       if pm_id.present?
@@ -54,8 +53,12 @@ class CardsController < ApplicationController
 
     customer = ensure_stripe_customer!(current_user)
 
-    # PMを顧客に紐付け & 既定化
-    Stripe::PaymentMethod.attach(payment_method_id, { customer: customer.id })
+    # PMを顧客に紐付け & 既定化（既に紐付いている場合のエラーは握りつぶす）
+    begin
+      Stripe::PaymentMethod.attach(payment_method_id, { customer: customer.id })
+    rescue Stripe::InvalidRequestError
+      # already attached 等は無視
+    end
     Stripe::Customer.update(customer.id, {
       invoice_settings: { default_payment_method: payment_method_id }
     })
@@ -79,14 +82,34 @@ class CardsController < ApplicationController
       customer: customer.id,
       items: [{ price: price_id }],
       payment_behavior: "default_incomplete",
-      expand: ["latest_invoice.payment_intent"]
+      # PI/SetupIntent の両方を展開
+      expand: ["latest_invoice.payment_intent", "pending_setup_intent"]
     )
 
-    pi = subscription.latest_invoice.payment_intent
+    # --- Intent を安全に取得 ---
+    latest_invoice = subscription.respond_to?(:latest_invoice) ? subscription.latest_invoice : nil
+    pi = latest_invoice&.payment_intent
+    # 文字列IDで返るケース
+    pi = Stripe::PaymentIntent.retrieve(pi) if pi.is_a?(String)
+
+    if pi.nil?
+      # 無料トライアルなどで PaymentIntent が無い → SetupIntent で追加認証を促す
+      pending_si = subscription.try(:pending_setup_intent)
+      if pending_si.present?
+        si = pending_si.is_a?(String) ? Stripe::SetupIntent.retrieve(pending_si) : pending_si
+        redirect_to(
+          cooks_search_path(client_secret: si.client_secret, next: "confirm_subscription"),
+          notice: "追加認証が必要です。画面の指示に従ってください。"
+        ) and return
+      else
+        # どちらも無い＝請求処理待ち等
+        redirect_to cooks_search_path, notice: "サブスクリプションを作成しました（請求処理中）。" and return
+      end
+    end
+    # --- ここまで ---
 
     case pi.status
     when "requires_action", "requires_confirmation"
-      # 追加認証が必要→client_secretを返してJSでconfirm
       redirect_to cooks_search_path(client_secret: pi.client_secret, next: "confirm_subscription"),
                   notice: "追加認証が必要です。画面の指示に従ってください。"
     when "succeeded", "requires_capture", "processing"
@@ -108,15 +131,11 @@ class CardsController < ApplicationController
     subs = Stripe::Subscription.list(customer: customer_id, status: "active", limit: 10).data
 
     if subs.empty?
-      # サブスクが無ければカードだけ削除（任意）
       detach_card_if_exists!
       redirect_to card_path, notice: "有効なサブスクリプションはありません。カード情報を削除しました。" and return
     end
 
-    # 最後の1件を解約
     Stripe::Subscription.cancel(subs.last.id)
-
-    # 解約と同時にカードも外す（任意運用）
     detach_card_if_exists!
 
     redirect_to card_path, notice: "サブスクリプションを解約し、カード情報を削除しました。"
