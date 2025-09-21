@@ -19,15 +19,15 @@ class CardsController < ApplicationController
 
   # カードとサブスクの概要
   def show
-    if current_user.stripe_customer_id.blank?
+    if current_user.customer_id.blank?
       @payment_method = nil
       @active_subscription = nil
       return
     end
 
-    customer = Stripe::Customer.retrieve(current_user.stripe_customer_id)
+    customer = Stripe::Customer.retrieve(current_user.customer_id)
 
-    pm_id = customer.dig(:invoice_settings, :default_payment_method)
+    pm_id = customer.invoice_settings&.default_payment_method
     @payment_method =
       if pm_id.present?
         Stripe::PaymentMethod.retrieve(pm_id)
@@ -42,10 +42,14 @@ class CardsController < ApplicationController
   # カード保存 + サブスク開始（JSONを返す）
   def create
     payment_method_id = params[:payment_method_id]
-    price_id = ENV.fetch("STRIPE_PRICE_ID")
+    price_id = ENV["STRIPE_PRICE_ID"]
 
     unless payment_method_id.present?
       render json: { error: "カード情報が取得できませんでした。" }, status: :unprocessable_entity and return
+    end
+
+    unless price_id.present?
+      render json: { error: "料金プラン（STRIPE_PRICE_ID）が未設定です。" }, status: :unprocessable_entity and return
     end
 
     customer = ensure_stripe_customer!(current_user)
@@ -56,13 +60,18 @@ class CardsController < ApplicationController
     rescue Stripe::InvalidRequestError
       # 既に紐付け済みなら無視
     end
-    Stripe::Customer.update(customer.id, invoice_settings: { default_payment_method: payment_method_id })
+    Stripe::Customer.update(
+      customer.id,
+      invoice_settings: { default_payment_method: payment_method_id }
+    )
 
     # DB上のCardを更新/作成
     if @card.present?
       @card.update!(stripe_payment_method_id: payment_method_id, stripe_customer_id: customer.id)
     else
-      @card = Card.create!(user: current_user, stripe_payment_method_id: payment_method_id, stripe_customer_id: customer.id)
+      @card = Card.create!(user: current_user,
+                           stripe_payment_method_id: payment_method_id,
+                           stripe_customer_id: customer.id)
     end
 
     # サブスク作成 → 必ず PaymentIntent を展開
@@ -73,14 +82,19 @@ class CardsController < ApplicationController
       expand: ["latest_invoice.payment_intent"]
     )
 
-    pi = subscription.latest_invoice.payment_intent
+    pi = subscription.latest_invoice&.payment_intent
     pi = Stripe::PaymentIntent.retrieve(pi) if pi.is_a?(String)
+
+    # nil 安全：何らかの理由で PI が付かないケース
+    unless pi
+      render json: { ok: true, redirect_to: cooks_search_path } and return
+    end
 
     case pi.status
     when "requires_action", "requires_confirmation"
       render json: {
         requires_action: true,
-        client_secret: pi.client_secret,   # ← PaymentIntent の client_secret
+        client_secret: pi.client_secret,   # PaymentIntent の client_secret
         subscription_id: subscription.id
       }
     when "succeeded", "requires_capture", "processing"
@@ -94,11 +108,11 @@ class CardsController < ApplicationController
 
   # サブスク解約 + カード解除
   def destroy
-    if current_user.stripe_customer_id.blank?
+    if current_user.customer_id.blank?
       redirect_to card_path, alert: "顧客情報が見つかりません。" and return
     end
 
-    customer_id = current_user.stripe_customer_id
+    customer_id = current_user.customer_id
     subs = Stripe::Subscription.list(customer: customer_id, status: "active", limit: 10).data
 
     if subs.empty?
@@ -119,16 +133,17 @@ class CardsController < ApplicationController
     @card = Card.find_by(user_id: current_user.id)
   end
 
+  # user.customer_id を使う（無ければ作る）
   def ensure_stripe_customer!(user)
-    if user.stripe_customer_id.present?
-      Stripe::Customer.retrieve(user.stripe_customer_id)
+    if user.customer_id.present?
+      Stripe::Customer.retrieve(user.customer_id)
     else
       customer = Stripe::Customer.create(
         email: user.try(:email),
         name:  user.try(:name),
         metadata: { user_id: user.id }
       )
-      user.update!(stripe_customer_id: customer.id)
+      user.update!(customer_id: customer.id)
       customer
     end
   end
