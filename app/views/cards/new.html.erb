@@ -2,7 +2,8 @@
 <%= csrf_meta_tags %>
 
 <h1>カード登録</h1>
-<form id="card-form" novalidate>
+
+<form id="card-form" novalidate data-turbo="false">
   <div id="card-element" style="padding:12px;border:1px solid #ddd;border-radius:6px;"></div>
   <div id="card-errors" role="alert" style="color:#c00;margin-top:8px;"></div>
   <button id="submit-btn" type="submit" style="margin-top:12px;">保存して購読開始</button>
@@ -10,97 +11,138 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-  (async () => {
-    const stripe = Stripe("<%= ENV.fetch('STRIPE_PUBLISHABLE_KEY') %>");
-    const elements = stripe.elements({ locale: 'ja' });
+  (() => {
+    let stripe, elements, card;
+    let inFlight = false;              // 二重送信防止
+    const INIT_FLAG = "__card_init_done";
 
-    // 郵便番号UIを非表示（Linkの保存UIも出ません）
-    const card = elements.create('card', { hidePostalCode: true });
-    card.mount('#card-element');
+    function init() {
+      // Turbo/DOM で二重に呼ばれないようガード
+      if (window[INIT_FLAG]) return;
+      window[INIT_FLAG] = true;
 
-    const form = document.getElementById('card-form');
-    const errorEl = document.getElementById('card-errors');
-    const submitBtn = document.getElementById('submit-btn');
-    const clientSecret = "<%= @client_secret %>";
+      const form       = document.getElementById('card-form');
+      const errorEl    = document.getElementById('card-errors');
+      const submitBtn  = document.getElementById('submit-btn');
+      const mountEl    = document.getElementById('card-element');
+      const clientSecret = "<%= @client_secret.to_s %>";
+      const pk = "<%= ENV.fetch('STRIPE_PUBLISHABLE_KEY') %>";
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorEl.textContent = '';
-      submitBtn.disabled = true;
+      if (!form || !mountEl) return;
 
-      // 1) SetupIntent を確定（住所／郵便番号は送らない）
-      const { setupIntent, error } = await stripe.confirmCardSetup(clientSecret, {
-        payment_method: {
-          card,
-          billing_details: {
-            name: "<%= current_user.try(:name) || 'Customer' %>",
-            email: "<%= current_user.try(:email) %>"
+      // 必須値チェック（未設定だと「押しても反応しない」体感になりやすい）
+      if (!pk || pk.match(/YOUR_|pk_live_/)) {
+        errorEl.textContent = '公開鍵(Publishable Key)が正しく設定されていません。';
+        submitBtn.disabled = true;
+        return;
+      }
+      if (!clientSecret) {
+        errorEl.textContent = 'クライアントシークレットが生成できていません。ページを更新してください。';
+        submitBtn.disabled = true;
+        return;
+      }
+
+      try {
+        stripe   = Stripe(pk);
+        elements = stripe.elements({ locale: 'ja' });
+        card     = elements.create('card', { hidePostalCode: true });
+        card.mount('#card-element');
+      } catch (e) {
+        errorEl.textContent = 'Stripe初期化に失敗しました: ' + (e?.message || e);
+        submitBtn.disabled = true;
+        return;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (inFlight) return; // 多重送信ガード
+        inFlight = true;
+        submitBtn.disabled = true;
+        errorEl.textContent = '';
+
+        // 1) SetupIntent 確定
+        const { setupIntent, error } = await stripe.confirmCardSetup(clientSecret, {
+          payment_method: {
+            card,
+            billing_details: {
+              name: "<%= current_user&.name || 'Customer' %>",
+              email: "<%= current_user&.email %>"
+            }
           }
+        });
+
+        if (error) {
+          errorEl.textContent = error.message || 'カード登録に失敗しました。';
+          submitBtn.disabled = false;
+          inFlight = false;
+          return;
+        }
+
+        // 2) サーバへ PM を渡してサブスク作成
+        const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+        try {
+          const res = await fetch("<%= cards_path %>", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "X-CSRF-Token": csrfToken
+            },
+            body: JSON.stringify({ payment_method_id: setupIntent.payment_method })
+          });
+
+          const json = await res.json();
+
+          // 3) 3Dセキュアが必要
+          if (json?.requires_action && json.client_secret) {
+            const { error: confirmErr } = await stripe.confirmCardPayment(json.client_secret);
+            if (confirmErr) {
+              throw new Error(confirmErr.message || '追加認証に失敗しました。');
+            }
+            // 追加認証成功後の最終確定
+            const res2 = await fetch("/subscriptions/confirm", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken, "Accept": "application/json" },
+              body: JSON.stringify({ subscription_id: json.subscription_id })
+            });
+            const json2 = await res2.json().catch(() => ({}));
+            if (json2?.ok) {
+              location.assign(json2.redirect_to || "<%= root_path %>");
+              return;
+            } else {
+              throw new Error((json2 && json2.error) ? json2.error : '購読の確定に失敗しました。');
+            }
+          }
+
+          // 4) 認証不要パス
+          if (json?.ok) {
+            location.assign(json.redirect_to || "<%= root_path %>");
+            return;
+          }
+
+          throw new Error((json && json.error) ? json.error : '登録に失敗しました。');
+        } catch (err) {
+          errorEl.textContent = err?.message || 'ネットワークまたはサーバーエラーが発生しました。';
+          submitBtn.disabled = false;
+          inFlight = false;
         }
       });
+    }
 
-      if (error) {
-        errorEl.textContent = error.message || 'カード登録に失敗しました。';
-        submitBtn.disabled = false;
-        return;
-      }
-
-      // 2) PM をサーバへ渡してサブスク作成
-      const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
-      let res, json;
-      try {
-        res = await fetch("<%= cards_path %>", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
-          body: JSON.stringify({ payment_method_id: setupIntent.payment_method })
-        });
-        json = await res.json();
-      } catch(_) {
-        errorEl.textContent = 'ネットワークエラーが発生しました。';
-        submitBtn.disabled = false;
-        return;
-      }
-
-      // 3) 初回請求で3Dセキュアが必要なケース
-      if (json && json.requires_action && json.client_secret) {
-        const { error: confirmErr } = await stripe.confirmCardPayment(json.client_secret);
-        if (confirmErr) {
-          errorEl.textContent = confirmErr.message || '追加認証に失敗しました。';
-          submitBtn.disabled = false;
-          return;
-        }
-        // 決済成功 → サブスク最終確定コール
-        const res2 = await fetch("/subscriptions/confirm", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
-          body: JSON.stringify({ subscription_id: json.subscription_id })
-        });
-        const json2 = await res2.json().catch(() => ({}));
-        if (json2 && json2.ok) {
-          window.location = json2.redirect_to || "<%= root_path %>";
-          return;
-        } else {
-          errorEl.textContent = (json2 && json2.error) ? json2.error : '購読の確定に失敗しました。';
-          submitBtn.disabled = false;
-          return;
-        }
-      }
-
-      // 4) 追加認証不要 → 成功
-      if (json && json.ok) {
-        window.location = json.redirect_to || "<%= root_path %>";
-        return;
-      }
-
-      errorEl.textContent = (json && json.error) ? json.error : '登録に失敗しました。';
-      submitBtn.disabled = false;
+    // Turbo対応：初期化とキャッシュ前unmount
+    document.addEventListener('turbo:load', init);
+    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('turbo:before-cache', () => {
+      if (card) { try { card.unmount(); } catch(_){} }
+      window["__card_init_done"] = false; // 次回表示時に再初期化できるように
     });
   })();
 </script>
 
 <!--
-ポイント:
-- 「checkout.link.com〜」のURLも、Linkの「保存」UIも一切使いません。
-- Card Element に { hidePostalCode: true } を指定しているため郵便番号入力UIは出ません。
-- 3Dセキュア画面内の項目はカード発行会社のUIであり制御不可です。
+変更点:
+- 二重初期化ガード(__card_init_done)、多重送信ガード(inFlight)を追加
+- client_secret / Publishable Key 未設定時にボタン無効化＋明示メッセージ
+- エラー時は常に文言を表示して submit を再度有効化
+- Turboキャッシュ復帰時に unmount & フラグ解除
 -->
