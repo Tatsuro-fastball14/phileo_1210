@@ -160,4 +160,3 @@ class CardsController < ApplicationController
     @card.destroy!
   end
 end
-aa
