@@ -5,18 +5,39 @@ class CardsController < ApplicationController
 
   # カード登録フォーム（Stripe Elementsを表示）
   def new
+    # すでにカードがある場合は検索画面へ
     if @card.present?
       redirect_to cooks_search_path and return
     end
 
+    # StripeのCustomerを確保（実装済みのヘルパーを利用）
     customer = ensure_stripe_customer!(current_user)
+
+    # カード保存用のSetupIntentを作成
     setup_intent = Stripe::SetupIntent.create(
       customer: customer.id,
-      payment_method_types: ["card"]
+      payment_method_types: ["card"] # 3Dセキュア等はクライアント側confirmで対応
+      # usage: "on_session" # 必要に応じて
     )
-    @client_secret = setup_intent.client_secret
-  end
 
+    # Viewで使う値をインスタンス変数にセット
+    @client_secret = setup_intent.client_secret
+    @stripe_pk = if Rails.configuration.respond_to?(:stripe_publishable_key)
+                   Rails.configuration.stripe_publishable_key
+                 else
+                   ENV["STRIPE_PUBLISHABLE_KEY"] # フォールバック
+                 end
+
+  rescue Stripe::StripeError => e
+    Rails.logger.error("[Stripe] SetupIntent error: #{e.message}")
+    flash[:alert] = "決済の初期化に失敗しました。時間をおいて再度お試しください。"
+    redirect_to cooks_search_path
+  rescue => e
+    Rails.logger.error("Cards#new error: #{e.class} #{e.message}")
+    flash[:alert] = "ページの表示に失敗しました。時間をおいて再度お試しください。"
+    redirect_to cooks_search_path
+  end
+end
   # カードとサブスクの概要
   def show
     if current_user.customer_id.blank?

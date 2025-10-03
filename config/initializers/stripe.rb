@@ -1,2 +1,2 @@
-Stripe.api_key = ENV.fetch("STRIPE_SECRET_KEY")
-Stripe.api_version = "2024-06-20" # 例：固定しておくと安定
+Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY') # ← SECRET はサーバ側だけで使用
+Rails.configuration.stripe_publishable_key = ENV.fetch('STRIPE_PUBLISHABLE_KEY')
