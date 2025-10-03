@@ -31,6 +31,8 @@
 
       if (!form || !mountEl) return;
 
+      // ★ チェックを "pk_" 形式で厳密に
+      if (!/^pk_(test|live)_[a-zA-Z0-9]+/.test(pk)) {
         errorEl.textContent = '公開鍵(Publishable Key)が正しく設定されていません。';
         submitBtn.disabled = true;
         return;
