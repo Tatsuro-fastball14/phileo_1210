@@ -1,5 +1,6 @@
 <!-- app/views/cards/new.html.erb -->
 <%= csrf_meta_tags %>
+<meta name="stripe-pk" content="<%= @stripe_pk %>"><!-- ← これを追加 -->
 
 <h1>カード登録</h1>
 
@@ -13,7 +14,7 @@
 <script>
   (() => {
     let stripe, elements, card;
-    let inFlight = false;              // 二重送信防止
+    let inFlight = false;
     const INIT_FLAG = "__card_init_done";
 
     function init() {
@@ -25,12 +26,13 @@
       const submitBtn    = document.getElementById('submit-btn');
       const mountEl      = document.getElementById('card-element');
       const clientSecret = "<%= @client_secret.to_s %>";
-      const pk           = "<%= ENV.fetch('STRIPE_PUBLISHABLE_KEY', '') %>";
+      // ★ ENV直読みを廃止し、meta から取得
+      const pk           = (document.querySelector('meta[name="stripe-pk"]') || {}).content || '';
 
       if (!form || !mountEl) return;
 
-      // 公開鍵チェック（YOUR_のダミー値だけ弾く）
-      if (!pk || /YOUR_/.test(pk)) {
+      // ★ チェックを "pk_" 形式で厳密に
+      if (!/^pk_(test|live)_[a-zA-Z0-9]+/.test(pk)) {
         errorEl.textContent = '公開鍵(Publishable Key)が正しく設定されていません。';
         submitBtn.disabled = true;
         return;
@@ -59,7 +61,6 @@
         submitBtn.disabled = true;
         errorEl.textContent = '';
 
-        // SetupIntent 確定
         const { setupIntent, error } = await stripe.confirmCardSetup(clientSecret, {
           payment_method: {
             card,
@@ -77,7 +78,6 @@
           return;
         }
 
-        // サーバーへ送信
         const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
         try {
           const res = await fetch("<%= cards_path %>", {
@@ -92,7 +92,6 @@
 
           const json = await res.json();
 
-          // 3Dセキュア対応
           if (json?.requires_action && json.client_secret) {
             const { error: confirmErr } = await stripe.confirmCardPayment(json.client_secret);
             if (confirmErr) throw new Error(confirmErr.message || '追加認証に失敗しました。');
