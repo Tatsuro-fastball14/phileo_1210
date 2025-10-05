@@ -1,12 +1,21 @@
 # app/controllers/cards_controller.rb
 class CardsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_card, only: [:new, :show, :create, :destroy]
+  before_action :set_card, only: [:index, :new, :show, :create, :destroy]
+
+  # /cards → カードがあればマイページ(show)、なければ登録(new)
+  def index
+    if @card.present?
+      redirect_to card_path(@card)
+    else
+      redirect_to new_card_path
+    end
+  end
 
   def new
     begin
-      # すでにカード登録済みなら戻す（任意）
-      return redirect_to cooks_search_path if @card.present?
+      # すでにカード登録済みならマイページへ
+      return redirect_to card_path(@card) if @card.present?
 
       # 公開鍵の取得（credentials優先 → ENV フォールバック）
       @stripe_pk =
@@ -37,6 +46,18 @@ class CardsController < ApplicationController
     end
   end
 
+  # カードのマイページ表示（下4桁・期限を出せるように PM を取得）
+  def show
+    @default_card_information = nil
+    if @card&.stripe_payment_method_id.present?
+      pm = Stripe::PaymentMethod.retrieve(@card.stripe_payment_method_id)
+      @default_card_information = pm.card if pm&.card
+    end
+  rescue Stripe::StripeError => e
+    Rails.logger.error("[Stripe] Cards#show PaymentMethod retrieve error: #{e.message}")
+    @default_card_information = nil
+  end
+
   # カード保存 + サブスク開始（JSONを返す）
   def create
     payment_method_id = params[:payment_method_id]
@@ -45,7 +66,6 @@ class CardsController < ApplicationController
     unless payment_method_id.present?
       render json: { error: "カード情報が取得できませんでした。" }, status: :unprocessable_entity and return
     end
-
     unless price_id.present?
       render json: { error: "料金プラン（STRIPE_PRICE_ID）が未設定です。" }, status: :unprocessable_entity and return
     end
@@ -58,7 +78,6 @@ class CardsController < ApplicationController
     rescue Stripe::InvalidRequestError
       # 既に紐付け済みなら無視
     end
-
     Stripe::Customer.update(
       customer.id,
       invoice_settings: { default_payment_method: payment_method_id }
@@ -110,7 +129,7 @@ class CardsController < ApplicationController
   # サブスク解約 + カード解除
   def destroy
     if current_user.customer_id.blank?
-      redirect_to card_path, alert: "顧客情報が見つかりません。" and return
+      redirect_to cards_path, alert: "顧客情報が見つかりません。" and return
     end
 
     customer_id = current_user.customer_id
@@ -118,14 +137,14 @@ class CardsController < ApplicationController
 
     if subs.empty?
       detach_card_if_exists!
-      redirect_to card_path, notice: "有効なサブスクリプションはありません。カード情報を削除しました。" and return
+      redirect_to cards_path, notice: "有効なサブスクリプションはありません。カード情報を削除しました。" and return
     end
 
     Stripe::Subscription.cancel(subs.last.id)
     detach_card_if_exists!
-    redirect_to card_path, notice: "サブスクリプションを解約し、カード情報を削除しました。"
+    redirect_to cards_path, notice: "サブスクリプションを解約し、カード情報を削除しました。"
   rescue Stripe::StripeError => e
-    redirect_to card_path, alert: "解約時にエラーが発生しました：#{e.message}"
+    redirect_to cards_path, alert: "解約時にエラーが発生しました：#{e.message}"
   end
 
   private
