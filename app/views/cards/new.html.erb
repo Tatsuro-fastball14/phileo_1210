@@ -1,10 +1,12 @@
-<!-- app/views/cards/new.html.erb -->
 <%= csrf_meta_tags %>
-<meta name="stripe-pk" content="<%= @stripe_pk %>"><!-- ← これを追加 -->
 
 <h1>カード登録</h1>
 
-<form id="card-form" novalidate data-turbo="false">
+<form id="card-form"
+      novalidate
+      data-turbo="false"
+      data-publishable-key="<%= @stripe_pk %>"
+      data-client-secret ="<%= @client_secret %>">
   <div id="card-element" style="padding:12px;border:1px solid #ddd;border-radius:6px;"></div>
   <div id="card-errors" role="alert" style="color:#c00;margin-top:8px;"></div>
   <button id="submit-btn" type="submit" style="margin-top:12px;">保存して購読開始</button>
@@ -12,110 +14,66 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-  (() => {
-    let stripe, elements, card;
-    let inFlight = false;
-    const INIT_FLAG = "__card_init_done";
+(() => {
+  const form = document.getElementById("card-form");
+  const pk = form?.dataset.publishableKey;
+  const clientSecret = form?.dataset.clientSecret;
 
-    function init() {
-      if (window[INIT_FLAG]) return;
-      window[INIT_FLAG] = true;
+  if (!pk) {
+    alert("公開鍵が設定されていません（STRIPE_PUBLISHABLE_KEY）。");
+    return;
+  }
+  if (!clientSecret) {
+    alert("クライアントシークレットが生成できていません。ページを更新してください。");
+    return;
+  }
 
-      const form         = document.getElementById('card-form');
-      const errorEl      = document.getElementById('card-errors');
-      const submitBtn    = document.getElementById('submit-btn');
-      const mountEl      = document.getElementById('card-element');
-      const clientSecret = "<%= @client_secret.to_s %>";
-      // ★ ENV直読みを廃止し、meta から取得
-      const pk           = (document.querySelector('meta[name="stripe-pk"]') || {}).content || '';
+  const stripe   = Stripe(pk);
+  const elements = stripe.elements();
+  const card     = elements.create("card");
+  card.mount("#card-element");
 
-      if (!form || !mountEl) return;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      // ★ チェックを "pk_" 形式で厳密に
-      if (!/^pk_(test|live)_[a-zA-Z0-9]+/.test(pk)) {
-        errorEl.textContent = '公開鍵(Publishable Key)が正しく設定されていません。';
-        submitBtn.disabled = true;
-        return;
-      }
-      if (!clientSecret) {
-        errorEl.textContent = 'クライアントシークレットが生成できていません。ページを更新してください。';
-        submitBtn.disabled = true;
-        return;
-      }
+    // 1) SetupIntent を確定し、PaymentMethod を取得
+    const { error, setupIntent } = await stripe.confirmCardSetup(clientSecret, {
+      payment_method: { card }
+    });
 
-      try {
-        stripe   = Stripe(pk);
-        elements = stripe.elements({ locale: 'ja' });
-        card     = elements.create('card', { hidePostalCode: true });
-        card.mount('#card-element');
-      } catch (e) {
-        errorEl.textContent = 'Stripe初期化に失敗しました: ' + (e?.message || e);
-        submitBtn.disabled = true;
-        return;
-      }
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (inFlight) return;
-        inFlight = true;
-        submitBtn.disabled = true;
-        errorEl.textContent = '';
-
-        const { setupIntent, error } = await stripe.confirmCardSetup(clientSecret, {
-          payment_method: {
-            card,
-            billing_details: {
-              name: "<%= current_user&.name || 'Customer' %>",
-              email: "<%= current_user&.email %>"
-            }
-          }
-        });
-
-        if (error) {
-          errorEl.textContent = error.message || 'カード登録に失敗しました。';
-          submitBtn.disabled = false;
-          inFlight = false;
-          return;
-        }
-
-        const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
-        try {
-          const res = await fetch("<%= cards_path %>", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-              "X-CSRF-Token": csrfToken
-            },
-            body: JSON.stringify({ payment_method_id: setupIntent.payment_method })
-          });
-
-          const json = await res.json();
-
-          if (json?.requires_action && json.client_secret) {
-            const { error: confirmErr } = await stripe.confirmCardPayment(json.client_secret);
-            if (confirmErr) throw new Error(confirmErr.message || '追加認証に失敗しました。');
-          }
-
-          if (json?.ok) {
-            location.assign(json.redirect_to || "<%= root_path %>");
-            return;
-          }
-
-          throw new Error((json && json.error) ? json.error : '登録に失敗しました。');
-        } catch (err) {
-          errorEl.textContent = err?.message || 'ネットワークまたはサーバーエラーが発生しました。';
-          submitBtn.disabled = false;
-          inFlight = false;
-        }
-      });
+    if (error) {
+      document.getElementById("card-errors").textContent = error.message;
+      return;
     }
 
-    document.addEventListener('turbo:load', init);
-    document.addEventListener('DOMContentLoaded', init);
-    document.addEventListener('turbo:before-cache', () => {
-      if (card) { try { card.unmount(); } catch(_){} }
-      window["__card_init_done"] = false;
+    // 2) PM をサーバへ送信してサブスク作成
+    const res = await fetch("/cards", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify({ payment_method_id: setupIntent.payment_method })
     });
-  })();
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      document.getElementById("card-errors").textContent = json.error || "エラーが発生しました。";
+      return;
+    }
+
+    // 3) 追加の 3DS 認証が必要なら実行
+    if (json.requires_action && json.client_secret) {
+      const { error: error2 } = await stripe.confirmCardPayment(json.client_secret);
+      if (error2) {
+        document.getElementById("card-errors").textContent = error2.message;
+        return;
+      }
+    }
+
+    // 4) 完了時リダイレクト
+    window.location.href = json.redirect_to || "<%= cooks_search_path %>";
+  });
+})();
 </script>

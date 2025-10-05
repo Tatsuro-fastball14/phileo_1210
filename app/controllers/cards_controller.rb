@@ -5,11 +5,27 @@ class CardsController < ApplicationController
 
   def new
     begin
-      @stripe_pk = if Rails.configuration.respond_to?(:stripe_publishable_key)
-                     Rails.configuration.stripe_publishable_key
-                   else
-                     nil
-                   end
+      # すでにカード登録済みなら戻す（任意）
+      return redirect_to cooks_search_path if @card.present?
+
+      # 公開鍵の取得（credentials優先 → ENV フォールバック）
+      @stripe_pk =
+        if Rails.configuration.respond_to?(:stripe_publishable_key)
+          Rails.configuration.stripe_publishable_key
+        else
+          ENV["STRIPE_PUBLISHABLE_KEY"]
+        end
+
+      # 顧客を必ず用意
+      customer = ensure_stripe_customer!(current_user)
+
+      # SetupIntent 生成 → client_secret をビューへ
+      setup_intent = Stripe::SetupIntent.create(
+        customer: customer.id,
+        payment_method_types: ["card"]
+      )
+      @client_secret = setup_intent.client_secret
+
     rescue Stripe::StripeError => e
       Rails.logger.error("[Stripe] SetupIntent error: #{e.message}")
       flash[:alert] = "事業者の初期化に失敗しました。時間をおいて再度お試しください。"
@@ -20,6 +36,7 @@ class CardsController < ApplicationController
       redirect_to cooks_search_path
     end
   end
+
   # カード保存 + サブスク開始（JSONを返す）
   def create
     payment_method_id = params[:payment_method_id]
@@ -41,6 +58,7 @@ class CardsController < ApplicationController
     rescue Stripe::InvalidRequestError
       # 既に紐付け済みなら無視
     end
+
     Stripe::Customer.update(
       customer.id,
       invoice_settings: { default_payment_method: payment_method_id }
@@ -50,9 +68,11 @@ class CardsController < ApplicationController
     if @card.present?
       @card.update!(stripe_payment_method_id: payment_method_id, stripe_customer_id: customer.id)
     else
-      @card = Card.create!(user: current_user,
-                           stripe_payment_method_id: payment_method_id,
-                           stripe_customer_id: customer.id)
+      @card = Card.create!(
+        user: current_user,
+        stripe_payment_method_id: payment_method_id,
+        stripe_customer_id: customer.id
+      )
     end
 
     # サブスク作成 → 必ず PaymentIntent を展開
