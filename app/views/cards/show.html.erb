@@ -1,4 +1,4 @@
-<%# app/views/cards/show.html.erb の一部（カード表示＋解約ボタン） %>
+<%# app/views/cards/show.html.erb %>
 
 <% if defined?(@default_card_information) && @default_card_information.present? %>
   <div style="max-width:520px;margin:16px auto;">
@@ -17,7 +17,9 @@
 <% else %>
   <div style="max-width:520px;margin:16px auto;color:#555;">
     登録済みのカードはありません。
-    <%= link_to "カードを登録する", new_card_path, style: "margin-left:8px;color:#0a66c2;text-decoration:underline;" %>
+    <%= link_to "カードを登録する",
+                new_card_path,
+                style: "margin-left:8px;color:#0a66c2;text-decoration:underline;" %>
   </div>
 <% end %>
 
@@ -25,12 +27,15 @@
 <% if defined?(@card) && @card.present? %>
   <div style="max-width:520px;margin:8px auto;">
     <%= button_to "購読を解約する",
-                  card_path(@card),
+                  card_path(@card),                      # => DELETE /cards/:id
                   method: :delete,
-                  data: { turbo_confirm: "本当に解約しますか？" },
+                  form: { data: { turbo_confirm: "本当に解約しますか？" } }, # Turboの確認
+                  params: {},                             # 不要だが明示しておく
                   style: "padding:10px 18px;font-size:1rem;border:0;border-radius:8px;background:#c00;color:#fff;cursor:pointer;" %>
+
     <p style="font-size:0.9rem;color:#666;margin-top:8px;">
       解約は即時に反映され、次回請求は発生しません（契約期間内は利用可）。
     </p>
   </div>
 <% end %>
+
