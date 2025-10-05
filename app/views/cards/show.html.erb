@@ -1,10 +1,36 @@
-<%# <%= "**** **** **** " + @default_card_information.last4 %>
-<%# <br />
-<% exp_month = @default_card_information.exp_month.to_s %>
-<%# <% exp_year = @default_card_information.exp_year.to_s.slice(2,3) %>
-<%# <%= exp_month + " / " + exp_year %> 
+<%# app/views/cards/show.html.erb の一部（カード表示＋解約ボタン） %>
 
-<%# <%= form_with url:delete_cards_path, method: :post, id: 'charge-form', name: "inputForm", local: true do %>
-  <%# <input type="hidden" name="customer_id" value=""> %>
-  <%# <button>削除する</button> %>
-<%# <% end %> 
+<% if defined?(@default_card_information) && @default_card_information.present? %>
+  <div style="max-width:520px;margin:16px auto;">
+    <p style="margin:0 0 4px;color:#555;">登録カード</p>
+    <p style="font-size:1.1rem;font-weight:600;margin:0 0 6px;">
+      <%= "**** **** **** #{@default_card_information.last4}" %>
+    </p>
+
+    <%# 有効期限 MM / YY を整形 %>
+    <% exp_month = @default_card_information.exp_month.to_i %>
+    <% exp_year  = @default_card_information.exp_year.to_i %>
+    <% exp_label = "%02d / %02d" % [exp_month, exp_year % 100] %>
+
+    <p style="color:#555;margin:0 0 12px;">有効期限 <%= exp_label %></p>
+  </div>
+<% else %>
+  <div style="max-width:520px;margin:16px auto;color:#555;">
+    登録済みのカードはありません。
+    <%= link_to "カードを登録する", new_card_path, style: "margin-left:8px;color:#0a66c2;text-decoration:underline;" %>
+  </div>
+<% end %>
+
+<%# 購読の解約ボタン（@card が存在する場合のみ表示） %>
+<% if defined?(@card) && @card.present? %>
+  <div style="max-width:520px;margin:8px auto;">
+    <%= button_to "購読を解約する",
+                  card_path(@card),
+                  method: :delete,
+                  data: { turbo_confirm: "本当に解約しますか？" },
+                  style: "padding:10px 18px;font-size:1rem;border:0;border-radius:8px;background:#c00;color:#fff;cursor:pointer;" %>
+    <p style="font-size:0.9rem;color:#666;margin-top:8px;">
+      解約は即時に反映され、次回請求は発生しません（契約期間内は利用可）。
+    </p>
+  </div>
+<% end %>
