@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   get  'users/show'
   get  'users/edit'
   get  'cooks/show'
+  post '/cards/cancel', to: 'cards#cancel', as: :cancel_subscription
+  # config/routes.rb
+  post '/cards/confirm', to: 'cards#confirm', as: :confirm_subscription
+
   # ▼ 重複・競合の元になるので削除（resources :cards で賄う）
   # get 'cards/show'
 
@@ -57,6 +61,9 @@ Rails.application.routes.draw do
   #   show  : /cards/:id
   #   destroy: /cards/:id
   resources :cards, only: [:index, :new, :create, :show, :destroy]
+
+  # ✅ 解約API（マイページの解約ボタンが叩く先）
+  post "cards/cancel", to: "cards#cancel"
 
   resources :videos
 

@@ -1,7 +1,7 @@
 # app/controllers/cards_controller.rb
 class CardsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_card, only: [:index, :new, :show, :create, :destroy]
+  before_action :set_card, only: [:index, :new, :show, :create, :destroy, :cancel]
 
   # /cards → カードがあればマイページ(show)、なければ登録(new)
   def index
@@ -12,41 +12,36 @@ class CardsController < ApplicationController
     end
   end
 
+  # カード登録フォーム表示（SetupIntent を作成）
   def new
-    begin
-      # すでにカード登録済みならマイページへ
-      return redirect_to card_path(@card) if @card.present?
+    # すでにカード登録済みならマイページへ
+    return redirect_to card_path(@card) if @card.present?
 
-      # 公開鍵の取得（credentials優先 → ENV フォールバック）
-      @stripe_pk =
-        if Rails.configuration.respond_to?(:stripe_publishable_key)
-          Rails.configuration.stripe_publishable_key
-        else
-          ENV["STRIPE_PUBLISHABLE_KEY"]
-        end
+    # 公開鍵（credentials 優先 → ENV フォールバック）
+    @stripe_pk =
+      if Rails.configuration.respond_to?(:stripe_publishable_key)
+        Rails.configuration.stripe_publishable_key
+      else
+        ENV["STRIPE_PUBLISHABLE_KEY"]
+      end
 
-      # 顧客を必ず用意
-      customer = ensure_stripe_customer!(current_user)
+    # 顧客を必ず用意
+    customer = ensure_stripe_customer!(current_user)
 
-      # SetupIntent 生成 → client_secret をビューへ
-      setup_intent = Stripe::SetupIntent.create(
-        customer: customer.id,
-        payment_method_types: ["card"]
-      )
-      @client_secret = setup_intent.client_secret
+    # SetupIntent 生成 → client_secret をビューへ
+    setup_intent = Stripe::SetupIntent.create(
+      customer: customer.id,
+      payment_method_types: ["card"]
+    )
+    @client_secret = setup_intent.client_secret
 
-    rescue Stripe::StripeError => e
-      Rails.logger.error("[Stripe] SetupIntent error: #{e.message}")
-      flash[:alert] = "事業者の初期化に失敗しました。時間をおいて再度お試しください。"
-      redirect_to cooks_search_path
-    rescue => e
-      Rails.logger.error("Cards#new error: #{e.class} #{e.message}")
-      flash[:alert] = "ページの表示に失敗しました。時間をおいて再度お試しください。"
-      redirect_to cooks_search_path
-    end
+  rescue Stripe::StripeError => e
+    Rails.logger.error("[Stripe] SetupIntent error: #{e.message}")
+    flash[:alert] = "初期化に失敗しました。時間をおいて再度お試しください。"
+    redirect_to cooks_search_path
   end
 
-  # カードのマイページ表示（下4桁・期限）
+  # マイページ（カードの下4桁等を表示する場合）
   def show
     @default_card_information = nil
     if @card&.stripe_payment_method_id.present?
@@ -58,26 +53,23 @@ class CardsController < ApplicationController
     @default_card_information = nil
   end
 
-  # カード保存 + サブスク開始（JSON）
+  # カード保存 + サブスク作成（未確定: default_incomplete）
   def create
     payment_method_id = params[:payment_method_id]
     price_id = ENV["STRIPE_PRICE_ID"]
 
-    unless payment_method_id.present?
-      render json: { error: "カード情報が取得できませんでした。" }, status: :unprocessable_entity and return
-    end
-    unless price_id.present?
-      render json: { error: "料金プラン（STRIPE_PRICE_ID）が未設定です。" }, status: :unprocessable_entity and return
-    end
+    return render json: { error: "カード情報が取得できませんでした。" }, status: :unprocessable_entity unless payment_method_id.present?
+    return render json: { error: "料金プラン（STRIPE_PRICE_ID）が未設定です。" }, status: :unprocessable_entity unless price_id.present?
 
     customer = ensure_stripe_customer!(current_user)
 
-    # PMを顧客に紐付け & デフォルトに設定
+    # PM を顧客に付与（既に付与済みなら無視）
     begin
       Stripe::PaymentMethod.attach(payment_method_id, { customer: customer.id })
     rescue Stripe::InvalidRequestError
-      # 既に紐付け済みなら無視
     end
+
+    # 顧客のデフォルト支払い方法を更新
     Stripe::Customer.update(
       customer.id,
       invoice_settings: { default_payment_method: payment_method_id }
@@ -94,7 +86,7 @@ class CardsController < ApplicationController
       )
     end
 
-    # サブスク作成 → PaymentIntent を展開
+    # サブスク作成（未確定 → フロントで3DSが必要な場合あり）
     subscription = Stripe::Subscription.create(
       customer: customer.id,
       items: [{ price: price_id }],
@@ -102,66 +94,90 @@ class CardsController < ApplicationController
       expand: ["latest_invoice.payment_intent"]
     )
 
-    pi = subscription.latest_invoice&.payment_intent
-    pi = Stripe::PaymentIntent.retrieve(pi) if pi.is_a?(String)
-
-    # nil 安全
-    unless pi
-      render json: { ok: true, redirect_to: cooks_search_path } and return
+    # 3DS不要で即アクティブになる場合
+    if subscription.status == "active"
+      current_user.update!(subscription_status: "active") rescue nil
+      return render json: { ok: true, redirect_to: cooks_search_path }
     end
 
-    case pi.status
-    when "requires_action", "requires_confirmation"
-      render json: {
-        requires_action: true,
+    # 通常：支払い未確定。フロントで confirmCardPayment を実行させる
+    pi = subscription.latest_invoice&.payment_intent
+    if pi.present?
+      pi = Stripe::PaymentIntent.retrieve(pi) if pi.is_a?(String)
+      return render json: {
+        requires_action: %w[requires_action requires_confirmation].include?(pi.status),
         client_secret: pi.client_secret,
         subscription_id: subscription.id
       }
-    when "succeeded", "requires_capture", "processing"
-      render json: { ok: true, redirect_to: cooks_search_path }
     else
-      render json: { error: "決済の確定に失敗しました（#{pi.status}）。" }, status: :unprocessable_entity
+      return render json: { error: "決済の確定が必要ですが、PaymentIntent が取得できませんでした。" }, status: :unprocessable_entity
     end
+
   rescue Stripe::StripeError => e
+    Rails.logger.error("[StripeError create] #{e.message}")
     render json: { error: "Stripeエラー: #{e.message}" }, status: :unprocessable_entity
   end
 
-  # サブスク解約 + カード解除（全件解約＆ログ付き）
-  def destroy
-    Rails.logger.info("[CANCEL] user_id=#{current_user.id} start")
+  # 3DS 実行後：サブスクが active になったか最終確認
+  def confirm
+    sub_id = params[:subscription_id]
+    return render json: { error: "subscription_id がありません。" }, status: :unprocessable_entity if sub_id.blank?
 
-    if current_user.customer_id.blank?
-      Rails.logger.warn("[CANCEL] no customer_id")
+    subscription = Stripe::Subscription.retrieve(sub_id)
+    if subscription.status == "active"
+      current_user.update!(subscription_status: "active") rescue nil
+      return render json: { ok: true, redirect_to: cooks_search_path }
+    end
+
+    render json: { error: "サブスクリプションが未確定です（status: #{subscription.status}）。" }, status: :unprocessable_entity
+
+  rescue Stripe::StripeError => e
+    Rails.logger.error("[StripeError confirm] #{e.message}")
+    render json: { error: "Stripeエラー: #{e.message}" }, status: :unprocessable_entity
+  end
+
+  # フロントの「購読を解約する」ボタン（/cards/cancel → POST）
+  def cancel
+    customer_id = current_user.customer_id
+    return render json: { error: "顧客情報が見つかりません。" }, status: :unprocessable_entity if customer_id.blank?
+
+    subs = Stripe::Subscription.list(customer: customer_id, status: "active", limit: 20).data
+    if subs.blank?
+      detach_card_if_exists!
+      return render json: { ok: true, redirect_to: cards_path }
+    end
+
+    subs.each do |sub|
+      # 期末で解約（即時停止は Stripe::Subscription.cancel(sub.id)）
+      Stripe::Subscription.update(sub.id, cancel_at_period_end: true)
+    end
+
+    detach_card_if_exists!
+    current_user.update!(subscription_status: "canceled") rescue nil
+    render json: { ok: true, redirect_to: cards_path }
+
+  rescue Stripe::StripeError => e
+    Rails.logger.error("[CANCEL_API][StripeError] #{e.class}: #{e.message}")
+    render json: { error: "解約時にエラーが発生しました：#{e.message}" }, status: :unprocessable_entity
+  end
+
+  # 画面遷移用（リンクで destroy を叩く導線がある場合用。未使用なら残さなくてOK）
+  def destroy
+    customer_id = current_user.customer_id
+    if customer_id.blank?
       redirect_to cards_path, alert: "顧客情報が見つかりません。" and return
     end
 
-    customer_id = current_user.customer_id
     subs = Stripe::Subscription.list(customer: customer_id, status: "active", limit: 20).data
-    Rails.logger.info("[CANCEL] before subs=#{subs.map { |s| "#{s.id}:#{s.status}" }.join(', ')}")
-
-    if subs.empty?
-      detach_card_if_exists!
-      Rails.logger.info("[CANCEL] no active subs -> detach card only")
-      redirect_to cards_path, notice: "有効なサブスクリプションはありません。カード情報を削除しました。" and return
+    if subs.present?
+      subs.each { |sub| Stripe::Subscription.cancel(sub.id) } # 即時解約
     end
-
-    # すべてのアクティブsubを解約（即時停止）
-    subs.each do |sub|
-      canceled = Stripe::Subscription.cancel(sub.id)
-      Rails.logger.info("[CANCEL] canceled sub=#{canceled.id} status=#{canceled.status} cancel_at_period_end=#{canceled.cancel_at_period_end}")
-    end
-
-    # 支払い方法デタッチ & ローカルCard削除
     detach_card_if_exists!
-    Rails.logger.info("[CANCEL] detached pm and destroyed local card")
-
-    # 裏取り
-    after = Stripe::Subscription.list(customer: customer_id, status: "active", limit: 5).data
-    Rails.logger.info("[CANCEL] after active subs=#{after.map(&:id)}")
-
+    current_user.update!(subscription_status: "canceled") rescue nil
     redirect_to cards_path, notice: "サブスクリプションを解約し、カード情報を削除しました。"
+
   rescue Stripe::StripeError => e
-    Rails.logger.error("[CANCEL][StripeError] #{e.class}: #{e.message}")
+    Rails.logger.error("[CANCEL destroy][StripeError] #{e.class}: #{e.message}")
     redirect_to cards_path, alert: "解約時にエラーが発生しました：#{e.message}"
   end
 
@@ -171,7 +187,7 @@ class CardsController < ApplicationController
     @card = Card.find_by(user_id: current_user.id)
   end
 
-  # user.customer_id を使う（無ければ作る）
+  # Stripe 顧客を必ず返す
   def ensure_stripe_customer!(user)
     if user.customer_id.present?
       Stripe::Customer.retrieve(user.customer_id)
@@ -186,9 +202,9 @@ class CardsController < ApplicationController
     end
   end
 
+  # DB上のカードとStripe PMの切り離し
   def detach_card_if_exists!
     return unless @card.present?
-
     pm_id = @card.stripe_payment_method_id
     begin
       Stripe::PaymentMethod.detach(pm_id) if pm_id.present?
