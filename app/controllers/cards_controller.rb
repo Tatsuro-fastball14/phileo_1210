@@ -3,57 +3,26 @@ class CardsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_card, only: [:index, :new, :show, :create, :destroy, :cancel]
 
-  # /cards → カードがあればマイページ(show)、なければ登録(new)
-  def index
-    if @card.present?
-      redirect_to card_path(@card)
-    else
-      redirect_to new_card_path
-    end
-  end
 
-  # カード登録フォーム表示（SetupIntent を作成）
   def new
-    # すでにカード登録済みならマイページへ
-    return redirect_to card_path(@card) if @card.present?
-
-    # 公開鍵（credentials 優先 → ENV フォールバック）
-    @stripe_pk =
-      if Rails.configuration.respond_to?(:stripe_publishable_key)
-        Rails.configuration.stripe_publishable_key
-      else
-        ENV["STRIPE_PUBLISHABLE_KEY"]
-      end
-
-    # 顧客を必ず用意
-    customer = ensure_stripe_customer!(current_user)
-
-    # SetupIntent 生成 → client_secret をビューへ
-    setup_intent = Stripe::SetupIntent.create(
-      customer: customer.id,
-      payment_method_types: ["card"]
-    )
-    @client_secret = setup_intent.client_secret
-
-  rescue Stripe::StripeError => e
-    Rails.logger.error("[Stripe] SetupIntent error: #{e.message}")
-    flash[:alert] = "初期化に失敗しました。時間をおいて再度お試しください。"
-    redirect_to cooks_search_path
-  end
-
-  # マイページ（カードの下4桁等を表示する場合）
-  def show
-    @default_card_information = nil
-    if @card&.stripe_payment_method_id.present?
-      pm = Stripe::PaymentMethod.retrieve(@card.stripe_payment_method_id)
-      @default_card_information = pm.card if pm&.card
+    begin
+      @stripe_pk = if Rails.configuration.respond_to?(:stripe_publishable_key)
+                     Rails.configuration.stripe_publishable_key
+                   else
+                     nil
+                   end
+    rescue Stripe::StripeError => e
+      Rails.logger.error("[Stripe] SetupIntent error: #{e.message}")
+      flash[:alert] = "事業者の初期化に失敗しました。時間をおいて再度お試しください。"
+      redirect_to cooks_search_path
+    rescue => e
+      Rails.logger.error("Cards#new error: #{e.class} #{e.message}")
+      flash[:alert] = "ページの表示に失敗しました。時間をおいて再度お試しください。"
+      redirect_to cooks_search_path
     end
-  rescue Stripe::StripeError => e
-    Rails.logger.error("[Stripe] Cards#show PaymentMethod retrieve error: #{e.message}")
-    @default_card_information = nil
   end
+  # カード保存 + サブスク開始（JSONを返す）
 
-  # カード保存 + サブスク作成（未確定: default_incomplete）
   def create
     payment_method_id = params[:payment_method_id]
     price_id = ENV["STRIPE_PRICE_ID"]
