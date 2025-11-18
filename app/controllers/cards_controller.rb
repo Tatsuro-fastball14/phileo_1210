@@ -1,4 +1,3 @@
-# app/controllers/cards_controller.rb
 class CardsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_card, only: [:index, :new, :show, :create, :destroy, :cancel]
@@ -53,9 +52,8 @@ class CardsController < ApplicationController
 
   # カード保存 + サブスク作成（未確定: default_incomplete）
   def create
-    binding.pry
     payment_method_id = params[:payment_method_id]
-    price_id = ENV["STRIPE_PRICE_ID"]
+    price_id          = ENV["STRIPE_PRICE_ID"]
 
     return render json: { error: "カード情報が取得できませんでした。" }, status: :unprocessable_entity unless payment_method_id.present?
     return render json: { error: "料金プラン（STRIPE_PRICE_ID）が未設定です。" }, status: :unprocessable_entity unless price_id.present?
@@ -78,29 +76,32 @@ class CardsController < ApplicationController
 
     # DB上のCardを更新/作成
     if @card.present?
-      @card.update!(stripe_payment_method_id: payment_method_id, stripe_customer_id: customer.id)
+      @card.update!(
+        stripe_payment_method_id: payment_method_id,
+        stripe_customer_id:      customer.id
+      )
     else
       @card = Card.create!(
-        user: current_user,
+        user:                    current_user,
         stripe_payment_method_id: payment_method_id,
-        stripe_customer_id: customer.id
+        stripe_customer_id:      customer.id
       )
     end
 
     # サブスク作成（未確定 → フロントで3DSが必要な場合あり）
     subscription = Stripe::Subscription.create(
       {
-        customer: customer.id,
-        items: [{ price: price_id }],
+        customer:         customer.id,
+        items:            [{ price: price_id }],
         payment_behavior: "default_incomplete",
-        expand: ["latest_invoice.payment_intent"]
+        expand:           ["latest_invoice.payment_intent"]
       },
       { api_version: API_VER }
     )
 
     # 3DS不要で即アクティブになる場合
     if subscription.status == "active"
-      current_user.update!(subscription_status: "active") rescue nil
+      current_user.update!(status: "active")
       return render json: { ok: true, redirect_to: cooks_search_path }
     end
 
@@ -114,8 +115,8 @@ class CardsController < ApplicationController
       if hosted_url.present?
         return render json: {
           fallback_hosted_invoice: true,
-          hosted_invoice_url: hosted_url,
-          subscription_id: subscription.id
+          hosted_invoice_url:      hosted_url,
+          subscription_id:         subscription.id
         }, status: :unprocessable_entity
       end
       return render json: { error: "決済の確定が必要ですが、PaymentIntent が取得できませんでした。" }, status: :unprocessable_entity
@@ -126,7 +127,7 @@ class CardsController < ApplicationController
 
     render json: {
       requires_action: %w[requires_action requires_confirmation].include?(pi.status),
-      client_secret: pi.client_secret,
+      client_secret:   pi.client_secret,
       subscription_id: subscription.id
     }
 
@@ -144,8 +145,9 @@ class CardsController < ApplicationController
       { id: sub_id, expand: ["latest_invoice.payment_intent"] },
       { api_version: API_VER }
     )
+
     if subscription.status == "active"
-      current_user.update!(subscription_status: "active") rescue nil
+      current_user.update!(status: "active")
       return render json: { ok: true, redirect_to: cooks_search_path }
     end
 
@@ -156,9 +158,9 @@ class CardsController < ApplicationController
       pi = Stripe::PaymentIntent.retrieve(pi, { api_version: API_VER }) if pi.is_a?(String)
       return render json: {
         requires_action: %w[requires_action requires_confirmation].include?(pi.status),
-        client_secret: pi.client_secret,
+        client_secret:   pi.client_secret,
         subscription_id: subscription.id,
-        status: subscription.status
+        status:          subscription.status
       }, status: :unprocessable_entity
     end
 
@@ -166,9 +168,9 @@ class CardsController < ApplicationController
     if invoice&.hosted_invoice_url.present?
       return render json: {
         fallback_hosted_invoice: true,
-        hosted_invoice_url: invoice.hosted_invoice_url,
-        subscription_id: subscription.id,
-        status: subscription.status
+        hosted_invoice_url:      invoice.hosted_invoice_url,
+        subscription_id:         subscription.id,
+        status:                  subscription.status
       }, status: :unprocessable_entity
     end
 
@@ -179,12 +181,16 @@ class CardsController < ApplicationController
     render json: { error: "Stripeエラー: #{e.message}" }, status: :unprocessable_entity
   end
 
-  # フロントの「購読を解約する」ボタン（/cards/cancel → POST）
+  # 「購読を解約する」ボタン（/cards/cancel → POST）
   def cancel
     customer_id = current_user.customer_id
     return render json: { error: "顧客情報が見つかりません。" }, status: :unprocessable_entity if customer_id.blank?
 
-    subs = Stripe::Subscription.list({ customer: customer_id, status: "active", limit: 20 }, { api_version: API_VER }).data
+    subs = Stripe::Subscription.list(
+      { customer: customer_id, status: "active", limit: 20 },
+      { api_version: API_VER }
+    ).data
+
     if subs.blank?
       detach_card_if_exists!
       return render json: { ok: true, redirect_to: cards_path }
@@ -195,7 +201,7 @@ class CardsController < ApplicationController
     end
 
     detach_card_if_exists!
-    current_user.update!(subscription_status: "canceled") rescue nil
+    current_user.update!(status: "canceled")
     render json: { ok: true, redirect_to: cards_path }
 
   rescue Stripe::StripeError => e
@@ -210,12 +216,19 @@ class CardsController < ApplicationController
       redirect_to cards_path, alert: "顧客情報が見つかりません。" and return
     end
 
-    subs = Stripe::Subscription.list({ customer: customer_id, status: "active", limit: 20 }, { api_version: API_VER }).data
+    subs = Stripe::Subscription.list(
+      { customer: customer_id, status: "active", limit: 20 },
+      { api_version: API_VER }
+    ).data
+
     if subs.present?
-      subs.each { |sub| Stripe::Subscription.cancel(sub.id, {}, { api_version: API_VER }) } # 即時解約
+      subs.each do |sub|
+        Stripe::Subscription.cancel(sub.id, {}, { api_version: API_VER }) # 即時解約
+      end
     end
+
     detach_card_if_exists!
-    current_user.update!(subscription_status: "canceled") rescue nil
+    current_user.update!(status: "canceled")
     redirect_to cards_path, notice: "サブスクリプションを解約し、カード情報を削除しました。"
 
   rescue Stripe::StripeError => e
@@ -278,6 +291,7 @@ class CardsController < ApplicationController
   # DB上のカードとStripe PMの切り離し
   def detach_card_if_exists!
     return unless @card.present?
+
     pm_id = @card.stripe_payment_method_id
     begin
       Stripe::PaymentMethod.detach(pm_id, {}, { api_version: API_VER }) if pm_id.present?

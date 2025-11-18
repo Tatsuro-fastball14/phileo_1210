@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_09_05_104604) do
+ActiveRecord::Schema.define(version: 2025_11_18_220448) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 2025_09_05_104604) do
     t.text "profile"
     t.string "rank"
     t.string "stripe_customer_id"
+    t.string "subscription_status"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
