@@ -44,7 +44,10 @@ class CooksController < ApplicationController
   
 
   def show
-    redirect_to orders_path unless current_user.subscriber?
+    unless current_user&.subscriber?
+      redirect_to orders_path, alert: "有料会員のみ閲覧できます。"
+      return
+    end
     @cook = Cook.find(params[:id])
     @umarepos = @cook.umarepos
     @umarepo =Umarepo.new

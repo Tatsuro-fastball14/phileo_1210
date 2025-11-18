@@ -14,7 +14,7 @@ class User < ApplicationRecord
   
 
   def subscriber?
-    true
+     subscription_status == "active"
   end
 
   def self.from_omniauth(access_token)
