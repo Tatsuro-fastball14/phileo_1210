@@ -101,7 +101,7 @@ class CardsController < ApplicationController
 
     # 3DS不要で即アクティブになる場合
     if subscription.status == "active"
-      current_user.update!(status: "active")
+      current_user.update!(subscription_status: "active")
       return render json: { ok: true, redirect_to: cooks_search_path }
     end
 
@@ -147,7 +147,7 @@ class CardsController < ApplicationController
     )
 
     if subscription.status == "active"
-      current_user.update!(status: "active")
+      current_user.update!(subscription_status: "active")
       return render json: { ok: true, redirect_to: cooks_search_path }
     end
 
@@ -193,6 +193,7 @@ class CardsController < ApplicationController
 
     if subs.blank?
       detach_card_if_exists!
+      current_user.update!(subscription_status: "canceled")
       return render json: { ok: true, redirect_to: cards_path }
     end
 
@@ -201,7 +202,7 @@ class CardsController < ApplicationController
     end
 
     detach_card_if_exists!
-    current_user.update!(status: "canceled")
+    current_user.update!(subscription_status: "canceled")
     render json: { ok: true, redirect_to: cards_path }
 
   rescue Stripe::StripeError => e
@@ -228,7 +229,7 @@ class CardsController < ApplicationController
     end
 
     detach_card_if_exists!
-    current_user.update!(status: "canceled")
+    current_user.update!(subscription_status: "canceled") 
     redirect_to cards_path, notice: "サブスクリプションを解約し、カード情報を削除しました。"
 
   rescue Stripe::StripeError => e
