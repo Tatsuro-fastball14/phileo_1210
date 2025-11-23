@@ -52,6 +52,7 @@ class CardsController < ApplicationController
 
   # カード保存 + サブスク作成（未確定: default_incomplete）
   def create
+     binding.pry
     payment_method_id = params[:payment_method_id]
     price_id          = ENV["STRIPE_PRICE_ID"]
 
@@ -89,7 +90,9 @@ class CardsController < ApplicationController
     end
 
     # サブスク作成（未確定 → フロントで3DSが必要な場合あり）
+   
     subscription = Stripe::Subscription.create(
+     
       {
         customer:         customer.id,
         items:            [{ price: price_id }],
