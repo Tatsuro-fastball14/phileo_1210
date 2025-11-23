@@ -1,83 +1,114 @@
 class OrdersController < ApplicationController
-
   def index
   end
 
   def new
     @order = Order.new
-    card = Card.where(user_id: current_user.id)
+    @card  = Card.find_by(user_id: current_user.id)
   end
 
   def create
-  # シークレットキー設定
-  Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
+    binding.pry
+    # Stripeシークレットキー設定
+    Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
 
-  # ===== 1. 顧客（Customer）作成 or 更新 =====
-  # フロント側で Stripe.js から受け取ったトークンを想定
-  # 例：params[:stripe_token]
-  token = params[:stripe_token]
+    # ===== 1. トークン取得確認 =====
+    token = params[:stripe_token]
+    if token.blank?
+      flash[:alert] = "カード情報の取得に失敗しました。もう一度お試しください。"
+      return redirect_to new_card_path
+    end
 
-  if current_user.customer_id.present?
-    # すでにCustomerがある場合は、カード情報だけ更新
-    customer = Stripe::Customer.update(
-      current_user.customer_id,
-      { source: token }
-    )
-  else
-    # Customerがまだない場合は新規作成
-    customer = Stripe::Customer.create(
+    # ===== 2. 顧客（Customer）作成 or 更新 =====
+    if current_user.customer_id.present?
+      # すでにCustomerがある場合は、カード情報だけ更新
+      customer = Stripe::Customer.update(
+        current_user.customer_id,
+        { source: token }
+      )
+    else
+      # Customerがまだない場合は新規作成
+      customer = Stripe::Customer.create(
+        {
+          email:       current_user.email,
+          description: "登録テスト",
+          source:      token,                    # ← ここでカードを紐づける
+          metadata:    { user_id: current_user.id }
+        }
+      )
+      current_user.update!(customer_id: customer.id)
+    end
+
+    # ===== 3. サブスクリプション作成 =====
+    subscription = Stripe::Subscription.create(
       {
-        email:       current_user.email,
-        description: "登録テスト",
-        source:      token,
-        metadata:    { user_id: current_user.id }
+        customer: customer.id,
+        items: [
+          { price: ENV["STRIPE_PRICE_ID"] } # 例: price_xxx を環境変数に
+        ]
       }
     )
-    current_user.update!(customer_id: customer.id)
+
+    # ===== 4. サブスク情報をUserに保存（カラムがあれば） =====
+    if current_user.respond_to?(:subscription_id)
+      current_user.update!(subscription_id: subscription.id)
+    end
+
+    if current_user.respond_to?(:subscription_status)
+      current_user.update!(subscription_status: subscription.status) # "active" など
+    end
+
+    # ===== 5. リダイレクト =====
+    redirect_to(
+      stored_location_for(current_user) || places_index_path,
+      notice: "カード登録とサブスクリプションの作成が完了しました。"
+    )
+
+  rescue Stripe::StripeError => e
+    # 何かあったときはエラーメッセージを表示して戻す
+    flash[:alert] = e.message
+    Rails.logger.error "Stripeエラー: #{e.full_message}"
+    redirect_to new_card_path
   end
 
-  # ===== 2. サブスクリプション作成 =====
-  subscription = Stripe::Subscription.create(
-    {
-      customer: customer.id,
-      items: [
-        { price: ENV["STRIPE_PRICE_ID"] } # 例: 月額¥880のprice_xxx
-      ]
-    }
-  )
-
-  # 必要ならサブスクIDやステータスも保存
-  current_user.update!(
-    subscription_id:     subscription.id,    # カラムがあれば
-    subscription_status: subscription.status # カラムがあれば
-  ) if current_user.respond_to?(:subscription_id)
-
-  # ===== 3. リダイレクト =====
-  redirect_to(
-    stored_location_for(current_user) || places_index_path,
-    notice: "カード登録とサブスクリプションの作成が完了しました。"
-  )
-
-rescue Stripe::StripeError => e
-  # 何かあったときはエラーメッセージを表示して戻す
-  flash[:alert] = e.message
-  redirect_to new_card_path
-end
-
-
+  # サブスク解約（Payjp はもう使わない前提で Stripe に統一）
   def destroy
-      Payjp.api_key = ENV["SECRET_KEY_ENV"]
-      customer = Payjp::Customer.retrieve(current_user.customer_id)
-      subscription = customer.subscriptions.last # lastが使えるかは不明
-      subscription.pause
+   
+    Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
+
+    if current_user.customer_id.blank?
+      flash[:alert] = "顧客情報が見つかりません。"
+      return redirect_to places_index_path
+    end
+
+    customer = Stripe::Customer.retrieve(current_user.customer_id)
+
+    # 該当Customerのサブスクを1件取得（基本1つだけ運用想定）
+    subscription = Stripe::Subscription.list(customer: customer.id, limit: 1).data.first
+
+    if subscription.present?
+      # すぐ解約したくなければ cancel_at_period_end: true でもOK
+      Stripe::Subscription.update(
+        subscription.id,
+        { cancel_at_period_end: true }
+      )
+
+      if current_user.respond_to?(:subscription_status)
+        current_user.update!(subscription_status: "canceled")
+      end
+
+      flash[:notice] = "サブスクリプションの解約手続きを行いました。"
+    else
+      flash[:alert] = "サブスクリプションが見つかりませんでした。"
+    end
+
+    redirect_to places_index_path
   end
-  
-  
-  
+
   private
 
   def order_params
-    params.require(:order).permit(:price, :customer.id)
+    # Order で使うなら適宜修正。最低でもシンタックスエラーを直す
+    params.require(:order).permit(:price, :customer_id)
   end
 end
-  

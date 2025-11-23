@@ -82,9 +82,9 @@ class CardsController < ApplicationController
       )
     else
       @card = Card.create!(
-        user:                    current_user,
+        user:                     current_user,
         stripe_payment_method_id: payment_method_id,
-        stripe_customer_id:      customer.id
+        stripe_customer_id:       customer.id
       )
     end
 
@@ -186,8 +186,9 @@ class CardsController < ApplicationController
     customer_id = current_user.customer_id
     return render json: { error: "顧客情報が見つかりません。" }, status: :unprocessable_entity if customer_id.blank?
 
+    # ★ active だけでなく、該当顧客のサブスクを全て取得
     subs = Stripe::Subscription.list(
-      { customer: customer_id, status: "active", limit: 20 },
+      { customer: customer_id, limit: 20 },
       { api_version: API_VER }
     ).data
 
@@ -198,7 +199,10 @@ class CardsController < ApplicationController
     end
 
     subs.each do |sub|
-      Stripe::Subscription.update(sub.id, { cancel_at_period_end: true }, { api_version: API_VER })
+      next if sub.status == "canceled"
+
+      # 即時解約（period_end まで待たない）
+      Stripe::Subscription.cancel(sub.id, {}, { api_version: API_VER })
     end
 
     detach_card_if_exists!
@@ -217,19 +221,21 @@ class CardsController < ApplicationController
       redirect_to cards_path, alert: "顧客情報が見つかりません。" and return
     end
 
+    # ★ active 指定を外し、全てのサブスクを対象
     subs = Stripe::Subscription.list(
-      { customer: customer_id, status: "active", limit: 20 },
+      { customer: customer_id, limit: 20 },
       { api_version: API_VER }
     ).data
 
-    if subs.present?
-      subs.each do |sub|
-        Stripe::Subscription.cancel(sub.id, {}, { api_version: API_VER }) # 即時解約
-      end
+    subs.each do |sub|
+      next if sub.status == "canceled"
+
+      # 即時解約
+      Stripe::Subscription.cancel(sub.id, {}, { api_version: API_VER })
     end
 
     detach_card_if_exists!
-    current_user.update!(subscription_status: "canceled") 
+    current_user.update!(subscription_status: "canceled")
     redirect_to cards_path, notice: "サブスクリプションを解約し、カード情報を削除しました。"
 
   rescue Stripe::StripeError => e
