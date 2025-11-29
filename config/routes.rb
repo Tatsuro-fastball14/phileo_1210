@@ -5,22 +5,17 @@ Rails.application.routes.draw do
   get 'places/index'
   get 'cooks/search'
   get 'members/new'
-  post 'orders/index'
-  post 'orders/pay'
-  post 'orders/destroy'
-  get  'orders/kiyaku'
+  get  'orders/kiyaku'        # 利用規約ページはそのまま GET で残す
   get  'umarepos/new'
   post 'cooks/new'
   get  'users/mypage'
   get  'users/show'
   get  'users/edit'
   get  'cooks/show'
-  post '/cards/cancel', to: 'cards#cancel', as: :cancel_subscription
-  # config/routes.rb
-  post '/cards/confirm', to: 'cards#confirm', as: :confirm_subscription
 
-  # ▼ 重複・競合の元になるので削除（resources :cards で賄う）
-  # get 'cards/show'
+  # 解約関連
+  post '/cards/cancel',  to: 'cards#cancel',  as: :cancel_subscription
+  post '/cards/confirm', to: 'cards#confirm', as: :confirm_subscription
 
   get "/test-legal", to: "static_pages#test_legal"
   get "/privacy",    to: "static_pages#privacy"
@@ -47,23 +42,22 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :orders, only: [:show, :create, :index, :destroy] do
+  # ▼ ここを Stripe Checkout 用に整理
+  # 以前の:
+  #   post 'orders/index'
+  #   post 'orders/pay'
+  #   post 'orders/destroy'
+  # は削除して OK（resources :orders にまとめる）
+  resources :orders, only: [:index, :new, :create, :show, :destroy] do
     collection do
-      get :order
-      get :pay
+      get :order     # 既存で使っているなら残す
+      get :pay       # 既存で使っているなら残す
+      get :success   # ← Stripe Checkout 成功時の遷移先
     end
   end
 
   # ▼ カード（解約導線のため /cards を有効化）
-  #   index: /cards （カードあり→show、なければnew へリダイレクト）
-  #   new   : /cards/new
-  #   create: /cards
-  #   show  : /cards/:id
-  #   destroy: /cards/:id
   resources :cards, only: [:index, :new, :create, :show, :destroy]
-
-  # ✅ 解約API（マイページの解約ボタンが叩く先）
-  post "cards/cancel", to: "cards#cancel"
 
   resources :videos
 

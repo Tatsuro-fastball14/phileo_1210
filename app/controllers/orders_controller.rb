@@ -1,14 +1,18 @@
 class OrdersController < ApplicationController
+  # 必要ならログイン必須
+  # before_action :authenticate_user!
+
+  # /orders に来たら必ず /cards/new に飛ばす
   def index
+    redirect_to new_card_path
   end
 
+  # /orders/new に来ても /cards/new に飛ばす
   def new
-    @order = Order.new
-    @card  = Card.find_by(user_id: current_user.id)
+    redirect_to new_card_path
   end
 
   def create
-    binding.pry
     # Stripeシークレットキー設定
     Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
 
@@ -71,9 +75,8 @@ class OrdersController < ApplicationController
     redirect_to new_card_path
   end
 
-  # サブスク解約（Payjp はもう使わない前提で Stripe に統一）
+  # サブスク解約
   def destroy
-   
     Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
 
     if current_user.customer_id.blank?
@@ -108,7 +111,7 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    # Order で使うなら適宜修正。最低でもシンタックスエラーを直す
+    # Order で使うなら適宜修正
     params.require(:order).permit(:price, :customer_id)
   end
 end

@@ -1,8 +1,7 @@
-<p id="number-form" class="payjs-outer></p>
-<p id="expiry-form" class="payjs-outer"></p>
-<p id="cvc-form" class="payjs-outer></p>
+<!-- app/views/orders/new.html.erb -->
+<h1>サブスク登録</h1>
 
-<%= form_with url: pay_cards_path, method: :post, id: "card_form" do |f| %>
-  <div id="card_token"></div>
-  <%= f.submit "登録する", class:"btn", id: "info_submit" %>
+<%= form_with url: orders_path, method: :post do %>
+  <p>月額 800円 のサブスクリプションに登録します。</p>
+  <%= submit_tag "サブスクに申し込む" %>
 <% end %>
