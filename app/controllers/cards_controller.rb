@@ -1,11 +1,12 @@
 class CardsController < ApplicationController
   before_action :authenticate_user!
 
-  # カード一覧（カードがあれば show に、なければ new にリダイレクト）
+  # カード一覧（カードがあれば cooks/shows に、なければ new にリダイレクト）
   def index
     @card = Card.find_by(user_id: current_user.id)
     if @card
-      redirect_to card_path(@card)
+      # ✅ カードあり → そのまま利用開始ページへ
+      redirect_to cooks_shows_path
     else
       redirect_to new_card_path
     end
@@ -13,7 +14,34 @@ class CardsController < ApplicationController
 
   # カード登録フォーム
   def new
+    # すでにカードがあれば cooks/shows へ
+    @card = Card.find_by(user_id: current_user.id)
+    return redirect_to cooks_shows_path if @card.present?
+
+    # 新規登録用インスタンス
     @card = Card.new
+
+    # ▼ Stripe 初期化
+    @stripe_pk =
+      if Rails.configuration.respond_to?(:stripe_publishable_key)
+        Rails.configuration.stripe_publishable_key
+      else
+        ENV["STRIPE_PUBLISHABLE_KEY"]
+      end
+
+    # current_user に紐づく Customer を用意
+    customer = ensure_stripe_customer_for(current_user)
+
+    # SetupIntent を作成
+    setup_intent = Stripe::SetupIntent.create(
+      { customer: customer.id, payment_method_types: ["card"] }
+    )
+    @client_secret = setup_intent.client_secret
+
+  rescue Stripe::StripeError => e
+    Rails.logger.error("[Stripe] SetupIntent error: #{e.message}")
+    flash[:alert] = "初期化に失敗しました。時間をおいて再度お試しください。"
+    redirect_to cooks_search_path
   end
 
   # カード登録
@@ -38,22 +66,23 @@ class CardsController < ApplicationController
 
     # Card モデルにも保存
     @card = Card.new(
-      user_id: current_user.id,
+      user_id:     current_user.id,
       customer_id: customer.id,
-      last4: params[:last4],
-      exp_month: params[:exp_month],
-      exp_year: params[:exp_year]
+      last4:       params[:last4],
+      exp_month:   params[:exp_month],
+      exp_year:    params[:exp_year]
     )
 
     if @card.save
-      redirect_to card_path(@card), notice: "カードが登録されました。"
+      # ✅ 登録完了後は cooks/shows に遷移
+      redirect_to cooks_shows_path, notice: "カードが登録されました。"
     else
       flash[:alert] = "カードの保存に失敗しました。"
       render :new
     end
   end
 
-  # カードの詳細
+  # カードの詳細（必要なら残す）
   def show
     @card = Card.find(params[:id])
   end

@@ -5,14 +5,14 @@
   <p style="font-size:1.6rem;font-weight:700;color:#111;margin:0;">月額 880円（税込）</p>
   <p style="margin:8px 0 16px;color:#444;">毎月自動更新／<strong>いつでも解約可能</strong>です。</p>
 
-  <!-- ✅ ステータス表示（エラー/成功メッセージ） -->
+  <!-- ステータス表示（エラー/成功メッセージ） -->
   <div id="status" aria-live="polite" style="margin:0 auto 12px;max-width:520px;text-align:left;"></div>
 
   <form id="card-form"
         novalidate
         data-turbo="false"
         data-publishable-key="<%= @stripe_pk %>"
-        data-client-secret ="<%= @client_secret %>"
+        data-client-secret="<%= @client_secret %>"
         style="text-align:left;margin:0 auto;max-width:520px;position:relative;">
     <label for="card-element" style="display:block;margin:0 0 6px;color:#333;">クレジットカード</label>
     <div id="card-element" style="padding:12px;border:1px solid #ddd;border-radius:8px;background:#fff;"></div>
@@ -24,7 +24,7 @@
       保存して購読開始
     </button>
 
-    <!-- ✅ ローディングオーバーレイ（インジケーター＆バー） -->
+    <!-- ローディングオーバーレイ -->
     <div id="loading-overlay" aria-hidden="true" style="display:none;position:absolute;inset:0;background:rgba(255,255,255,0.8);backdrop-filter:saturate(120%) blur(1px);border-radius:8px;">
       <div role="status" aria-live="assertive" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:80%;max-width:360px;text-align:center;">
         <div class="spinner" style="width:28px;height:28px;border:3px solid #999;border-top-color:transparent;border-radius:50%;margin:0 auto 10px;animation:spin 0.8s linear infinite;"></div>
@@ -64,7 +64,7 @@
   const btn       = document.getElementById("submit-btn");
   const errorBox  = document.getElementById("card-errors");
 
-  const pk = form.dataset.publishableKey;
+  const pk           = form.dataset.publishableKey;
   const clientSecret = form.dataset.clientSecret;
 
   const showStatus = (msg, type="info") => {
@@ -151,7 +151,6 @@
 
       // 4) 完了表示 → リダイレクト
       showStatus("登録が完了しました。ありがとうございます！", "ok");
-      // 成功メッセージを短時間表示してから遷移
       setTimeout(() => {
         window.location.href = (json && json.redirect_to) ? json.redirect_to : "<%= cooks_search_path %>";
       }, 1200);
