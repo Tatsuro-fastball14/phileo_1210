@@ -46,40 +46,49 @@ class CardsController < ApplicationController
 
   # カード登録
   def create
+    binding.pry
     Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
 
-    # Stripe Customer 作成（なければ）
+    # current_user に紐づく Customer を用意
     customer = ensure_stripe_customer_for(current_user)
 
-    # 受け取った stripe_token を使って Customer にカードを紐づけ
-    token = params[:stripe_token]
-    if token.blank?
+    # ▼ フロントから来るのは stripe_token ではなく payment_method_id
+    payment_method_id = params[:payment_method_id]
+
+    if payment_method_id.blank?
       flash[:alert] = "カード情報の取得に失敗しました。もう一度お試しください。"
       return redirect_to new_card_path
     end
 
-    # Stripe Customer にカード登録
+    # ▼ PaymentMethod を Customer に紐づけ
+    Stripe::PaymentMethod.attach(
+      payment_method_id,
+      { customer: customer.id }
+    )
+
+    # ▼ デフォルト決済手段として設定
     Stripe::Customer.update(
       customer.id,
-      { source: token }
+      invoice_settings: {
+        default_payment_method: payment_method_id
+      }
     )
 
-    # Card モデルにも保存
-    @card = Card.new(
-      user_id:     current_user.id,
-      customer_id: customer.id,
-      last4:       params[:last4],
-      exp_month:   params[:exp_month],
-      exp_year:    params[:exp_year]
-    )
+    # ▼ Card レコードを user_id と customer_id だけで保存（シンプル版）
+    @card = Card.find_or_initialize_by(user_id: current_user.id)
+    @card.customer_id = customer.id if @card.respond_to?(:customer_id=)
 
     if @card.save
-      # ✅ 登録完了後は cooks/shows に遷移
       redirect_to cooks_shows_path, notice: "カードが登録されました。"
     else
       flash[:alert] = "カードの保存に失敗しました。"
       render :new
     end
+
+  rescue Stripe::StripeError => e
+    Rails.logger.error("[Stripe] Card create error: #{e.message}")
+    flash[:alert] = "カード登録でエラーが発生しました。時間をおいて再度お試しください。"
+    redirect_to new_card_path
   end
 
   # カードの詳細（必要なら残す）
