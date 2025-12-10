@@ -5,7 +5,6 @@ class CardsController < ApplicationController
   def index
     @card = Card.find_by(user_id: current_user.id)
     if @card
-      # ✅ カードあり → そのまま利用開始ページへ
       redirect_to cooks_shows_path
     else
       redirect_to new_card_path
@@ -14,14 +13,11 @@ class CardsController < ApplicationController
 
   # カード登録フォーム
   def new
-    # すでにカードがあれば cooks/shows へ
     @card = Card.find_by(user_id: current_user.id)
     return redirect_to cooks_shows_path if @card.present?
 
-    # 新規登録用インスタンス
     @card = Card.new
 
-    # ▼ Stripe 初期化
     @stripe_pk =
       if Rails.configuration.respond_to?(:stripe_publishable_key)
         Rails.configuration.stripe_publishable_key
@@ -29,10 +25,8 @@ class CardsController < ApplicationController
         ENV["STRIPE_PUBLISHABLE_KEY"]
       end
 
-    # current_user に紐づく Customer を用意
     customer = ensure_stripe_customer_for(current_user)
 
-    # SetupIntent を作成
     setup_intent = Stripe::SetupIntent.create(
       { customer: customer.id, payment_method_types: ["card"] }
     )
@@ -46,7 +40,6 @@ class CardsController < ApplicationController
 
   # カード登録
   def create
-    binding.pry
     Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
 
     # current_user に紐づく Customer を用意
@@ -74,9 +67,11 @@ class CardsController < ApplicationController
       }
     )
 
-    # ▼ Card レコードを user_id と customer_id だけで保存（シンプル版）
+    # ▼ Card レコードを作成 / 更新
     @card = Card.find_or_initialize_by(user_id: current_user.id)
     @card.customer_id = customer.id if @card.respond_to?(:customer_id=)
+    # ★ ここで Stripe の payment_method_id を保存
+    @card.stripe_payment_method_id = payment_method_id if @card.respond_to?(:stripe_payment_method_id=)
 
     if @card.save
       redirect_to cooks_shows_path, notice: "カードが登録されました。"
@@ -91,19 +86,16 @@ class CardsController < ApplicationController
     redirect_to new_card_path
   end
 
-  # カードの詳細（必要なら残す）
   def show
     @card = Card.find(params[:id])
   end
 
-  # カード削除
   def destroy
     @card = Card.find(params[:id])
     @card.destroy
     redirect_to cards_path, notice: "カードを削除しました。"
   end
 
-  # ▼ サブスク解約（マイページから呼ばれる）
   def cancel
     Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
 
@@ -125,7 +117,6 @@ class CardsController < ApplicationController
     redirect_to users_mypage_path
   end
 
-  # ▼ Stripe Checkout に必要な確認（必要に応じて使用）
   def confirm
     flash[:notice] = "サブスク登録が確認できました。"
     redirect_to users_mypage_path
@@ -133,7 +124,6 @@ class CardsController < ApplicationController
 
   private
 
-  # current_user に Stripe Customer を作る or 取得
   def ensure_stripe_customer_for(user)
     if user.customer_id.present?
       Stripe::Customer.retrieve(user.customer_id)
